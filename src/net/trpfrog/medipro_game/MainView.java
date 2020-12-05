@@ -7,6 +7,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ゲームのメインのウィンドウ。
+ * @author つまみ
+ */
 public class MainView extends JFrame {
     private List<GameView> activeViews = new ArrayList<>();
 
@@ -18,15 +22,27 @@ public class MainView extends JFrame {
 
     private static MainView mainView = new MainView();
 
+    /**
+     * 唯一のMainViewのインスタンスを返します。
+     * @return 唯一のMainViewのインスタンス
+     */
     public static MainView getView() {
         return mainView;
     }
 
+    /**
+     * 描画用のGameViewを追加します。
+     * @param view paintComponentから呼び出される描画用のGameView
+     */
     public void addGameView(GameView view) {
         activeViews.add(view);
 
     }
 
+    /**
+     * 最後に追加されたGameViewを削除し、返します。
+     * @return popされたGameView
+     */
     public GameView popGameView() {
         if(activeViews.isEmpty()) return null;
         GameView view = activeViews.get(activeViews.size() - 1);
