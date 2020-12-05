@@ -1,1 +1,0 @@
-memberSearchIndex = [{"p":"net.trpfrog.SpaceUdon","c":"SpaceUdon","l":"main(String[])","u":"main(java.lang.String[])"},{"p":"net.trpfrog.SpaceUdon","c":"SpaceUdon","l":"SpaceUdon()","u":"%3Cinit%3E()"}];updateSearchResults();

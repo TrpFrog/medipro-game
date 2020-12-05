@@ -1,1 +1,0 @@
-typeSearchIndex = [{"p":"net.trpfrog.SpaceUdon","l":"SpaceUdon"},{"l":"すべてのクラス","u":"allclasses-index.html"}];updateSearchResults();
