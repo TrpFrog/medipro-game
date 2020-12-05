@@ -10,34 +10,52 @@ import java.util.*;
  */
 public class SceneManager {
     private Stack<GameScene> stack = new Stack<>();
+    private final MainView mainView = MainView.getInstance();
+
+    private void activateScene(GameScene scene) {
+        mainView.addGameController(scene.getController());
+        mainView.addGameView(scene.getView());
+        scene.resume();
+    }
+
+    private void inactivateScene(GameScene scene) {
+        scene.suspend();
+        mainView.removeGameController(scene.getController());
+        mainView.removeGameView(scene.getView());
+    }
 
     /**
-     * 新たなゲームシーンを登録します。
-     * 登録されたゲームシーンはresume()が呼び出され、動作を再開、ウィンドウ最上部に描画されます。
-     * また、1つ前に追加されたシーンはsuspend()が呼び出され動作を停止します。
+     * 新たなゲームシーンをスタックに登録します。
+     * また、登録されたゲームシーンにこれに加えて次の3つの処理を行います。<br>
+     *  1. Viewにコントローラを登録。<br>
+     *  2. Viewに描画処理を登録。<br>
+     *  3. resume()を呼び出し、動作を再開させる。<br>
+     * また、1つ前に追加されたシーンには上と真逆の処理を行います。
      * @param scene 新しく追加されるシーン
      */
     public void push(GameScene scene) {
-        stack.peek().suspend();
-        scene.resume();
-        MainView.getView().addGameView(scene.getView());
+        inactivateScene(stack.peek());
+        activateScene(scene);
         stack.push(scene);
     }
 
     /**
      * 最後に追加されたゲームシーンを取り出します。
-     * このとき、取り出すシーンはsuspend()が呼び出され動作を停止、
-     * 1つ前のシーンはresume()が呼び出され動作を再開します。
+     * また、これに加えて次の3つの処理を行います。<br>
+     *  1. suspend()を呼び出し、動作を停止させる。<br>
+     *  2. Viewからコントローラを削除。<br>
+     *  3. Viewから描画処理を削除。<br>
+     * また、スタックが空になった場合、ソフトウェアを終了します。
+     * 空でなかった場合は上の3つと真逆の処理をスタックの先頭に適用します。
      * @return 取り出されたゲームシーン
      */
     public GameScene pop() {
-        stack.peek().suspend();
+        inactivateScene(stack.peek());
         GameScene ret = stack.pop();
         if(stack.isEmpty()) {
             System.exit(0);
         }
-        MainView.getView().popGameView();
-        stack.peek().resume();
+        activateScene(stack.peek());
         return ret;
     }
 }
