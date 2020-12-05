@@ -6,6 +6,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class SpaceController implements GameController {
+
+    private SpaceModel model;
+    private SpaceView view;
+
+    public SpaceController(SpaceModel model, SpaceView view) {
+        this.model = model;
+        this.view = view;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 

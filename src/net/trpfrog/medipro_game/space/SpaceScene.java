@@ -2,29 +2,30 @@ package net.trpfrog.medipro_game.space;
 
 import net.trpfrog.medipro_game.scene.*;
 
-public class SpaceScene implements GameScene {
+public class SpaceScene extends GameScene {
+
+    private SpaceModel model;
+    private SpaceView view;
+    private SpaceController controller;
+
+    public SpaceScene() {
+        model = new SpaceModel();
+        view = new SpaceView(model);
+        controller = new SpaceController(model, view);
+    }
+
     @Override
     public GameModel getModel() {
-        return null;
+        return model;
     }
 
     @Override
     public GameView getView() {
-        return null;
+        return view;
     }
 
     @Override
     public GameController getController() {
-        return null;
-    }
-
-    @Override
-    public void suspend() {
-
-    }
-
-    @Override
-    public void resume() {
-
+        return controller;
     }
 }
