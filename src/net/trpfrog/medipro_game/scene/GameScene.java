@@ -8,31 +8,31 @@ import net.trpfrog.medipro_game.Suspendable;
  * シーンマネージャにシーンとして登録することができます。
  * @author つまみ
  */
-public interface GameScene extends Suspendable {
+public abstract class GameScene implements Suspendable {
 
     /**
      * このゲームシーンのModelを返します。
      * @return このゲームシーンのModel
      */
-    GameModel getModel();
+    public abstract GameModel getModel();
 
     /**
      * このゲームシーンのViewを返します。
      * @return このゲームシーンのView
      */
-    GameView getView();
+    public abstract GameView getView();
 
     /**
      * このゲームシーンのControllerを返します。
      * @return このゲームシーンのController
      */
-    GameController getController();
+    public abstract GameController getController();
 
     /**
      * MVCの全ての動作を一時停止します。
      */
     @Override
-    default void suspend() {
+    public void suspend() {
         getModel().suspend();
         getView().suspend();
         getController().suspend();
@@ -42,7 +42,7 @@ public interface GameScene extends Suspendable {
      * MVCの全ての動作を再開します。
      */
     @Override
-    default void resume() {
+    public void resume() {
         getModel().resume();
         getView().resume();
         getController().resume();
