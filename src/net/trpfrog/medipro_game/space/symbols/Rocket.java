@@ -1,6 +1,7 @@
 package net.trpfrog.medipro_game.space.symbols;
 
 import net.trpfrog.medipro_game.Drawable;
+import net.trpfrog.medipro_game.symbol.MovableSymbol;
 
 import java.awt.*;
 
