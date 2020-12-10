@@ -2,7 +2,7 @@ package net.trpfrog.medipro_game.space.map;
 
 import net.trpfrog.medipro_game.data_structures.FastGridTree;
 import net.trpfrog.medipro_game.space.symbols.Star;
-import net.trpfrog.medipro_game.space.symbols.Symbol;
+import net.trpfrog.medipro_game.symbol.Symbol;
 
 import java.awt.*;
 import java.util.stream.Stream;

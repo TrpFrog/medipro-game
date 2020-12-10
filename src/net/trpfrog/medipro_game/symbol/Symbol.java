@@ -1,4 +1,4 @@
-package net.trpfrog.medipro_game.space.symbols;
+package net.trpfrog.medipro_game.symbol;
 
 import net.trpfrog.medipro_game.Drawable;
 

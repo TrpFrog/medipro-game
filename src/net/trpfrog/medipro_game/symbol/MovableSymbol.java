@@ -1,4 +1,4 @@
-package net.trpfrog.medipro_game.space.symbols;
+package net.trpfrog.medipro_game.symbol;
 
 /**
  * 速度を持つSymbolのクラス。
