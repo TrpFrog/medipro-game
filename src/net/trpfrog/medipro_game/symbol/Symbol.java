@@ -118,22 +118,42 @@ public class Symbol {
      * @param other 接触しているかの判定対象のオブジェクト
      * @return otherと接触しているかどうか
      */
-    boolean isTouched(Symbol other) {
-        Rectangle myRect     = this .getHitJudgeRectangle();
-        Rectangle otherRect  = other.getHitJudgeRectangle();
-        Point     myPoint    = this .getPoint();
-        Point     otherPoint = other.getPoint();
+    public boolean isTouched(Symbol other) {
+        Rectangle otherRect = other.getHitJudgeRectangle();
+        if(otherRect == null) {
+            return isTouched(other.getPoint());
+        } else {
+            return isTouched(otherRect);
+        }
+    }
 
-        if(myRect == null && otherRect == null)
-            return myPoint.equals(otherPoint);
+    /**
+     * 指定した点が自身と接触しているかどうかを返します。
+     * 当たり判定が設定されていない場合は座標が重なっているかで判断します。
+     * @param p 接触しているかの判定対象の座標
+     * @return pと接触しているかどうか
+     */
+    public boolean isTouched(Point p) {
+        Rectangle myRect = this.getHitJudgeRectangle();
+        if(myRect == null) {
+            return getPoint().equals(p);
+        } else {
+            return myRect.contains(p);
+        }
+    }
 
-        else if(myRect == null)
-            return otherRect.contains(myPoint);
-
-        else if(otherRect == null)
-            return myRect.contains(otherPoint);
-
-        else
-            return myRect.intersects(otherRect);
+    /**
+     * 指定した長方形範囲が自身と接触しているかどうかを返します。
+     * 自身に当たり判定が設定されていない場合は座標が重なっているかで判断します。
+     * @param r 接触しているかの判定対象の長方形
+     * @return rと接触しているかどうか
+     */
+    public boolean isTouched(Rectangle r) {
+        Rectangle myRect = this.getHitJudgeRectangle();
+        if(myRect == null) {
+            return r.contains(this.getPoint());
+        } else {
+            return r.intersects(myRect);
+        }
     }
 }
