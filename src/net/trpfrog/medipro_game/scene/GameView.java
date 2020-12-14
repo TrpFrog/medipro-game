@@ -10,4 +10,11 @@ import java.awt.*;
  * @author つまみ
  */
 public interface GameView extends GameMVC, Drawable {
+    /**
+     * Viewが透明性を持つかを返します
+     * @return Viewが透明性を持つか
+     */
+    default boolean hasTransparency() {
+        return false;
+    }
 }
