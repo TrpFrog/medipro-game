@@ -13,4 +13,12 @@ public interface GameView extends GameMVC {
      * @param g MainViewのpaintComponentから渡されるGraphics2D
      */
     void draw(Graphics2D g);
+
+    /**
+     * Viewが透明性を持つかを返します
+     * @return Viewが透明性を持つか
+     */
+    default boolean hasTransparency() {
+        return false;
+    }
 }
