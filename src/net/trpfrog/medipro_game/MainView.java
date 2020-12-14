@@ -11,10 +11,15 @@ import java.awt.*;
  * @author つまみ
  */
 public class MainView extends JFrame {
-    private SceneManager sceneManager;
+    private final SceneManager sceneManager = SceneManager.getInstance();
 
-    public MainView(SceneManager manager) {
-        sceneManager = manager;
+    private static final MainView view = new MainView();
+
+    public static MainView getInstance() {
+        return view;
+    }
+
+    private MainView() {
         setSize(800, 600);
         add(new MainPanel());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
