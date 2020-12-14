@@ -15,6 +15,10 @@ public class MainView extends JFrame {
 
     private static final MainView view = new MainView();
 
+    /**
+     * MainViewの唯一のインスタンスを返します。
+     * @return MainViewの唯一のインスタンス
+     */
     public static MainView getInstance() {
         return view;
     }
@@ -44,6 +48,12 @@ public class MainView extends JFrame {
     }
 
     class MainPanel extends JPanel {
+        /**
+         * SceneManagerのDequeを上から見て、シーンのViewのdraw()を順に呼び出します。
+         * hasTransparency()がfalseであれば描画を終了します。
+         * @see GameView#hasTransparency
+         * @param g 描画に使うGraphics
+         */
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
