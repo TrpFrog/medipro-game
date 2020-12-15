@@ -86,8 +86,8 @@ public class Symbol {
      */
     public void createHitJudgementRectangle(int w, int h) {
         hitJudgeRectangle = new Rectangle(
-                (int)(getPoint().getX() - w/2.0),
-                (int)(getPoint().getY() - h/2.0), w, h);
+                (int)(-w/2.0),
+                (int)(-h/2.0), w, h);
     }
 
     /**
