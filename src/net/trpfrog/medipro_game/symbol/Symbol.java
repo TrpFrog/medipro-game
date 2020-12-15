@@ -108,7 +108,7 @@ public class Symbol {
                 (int)(hitJudgeRectangle.getX() + this.getPoint().getX()),
                 (int)(hitJudgeRectangle.getY() + this.getPoint().getY()),
                 (int) hitJudgeRectangle.getWidth(),
-                (int) hitJudgeRectangle.getWidth()
+                (int) hitJudgeRectangle.getHeight()
         );
     }
 
