@@ -1,5 +1,7 @@
 package net.trpfrog.medipro_game.symbol;
 
+import java.awt.*;
+
 /**
  * 速度を持つSymbolのクラス。
  * @author つまみ
@@ -7,6 +9,14 @@ package net.trpfrog.medipro_game.symbol;
 public class MovableSymbol extends Symbol {
 
     private double speed = 0;
+
+    public MovableSymbol(Point point) {
+        super(point);
+    }
+
+    public MovableSymbol(int x, int y) {
+        super(x, y);
+    }
 
     /**
      * シンボルのx軸方向の速度を取得します。

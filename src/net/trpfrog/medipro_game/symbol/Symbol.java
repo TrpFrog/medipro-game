@@ -15,6 +15,14 @@ public class Symbol {
     private Rectangle hitJudgeRectangle;
     private double angleDegrees;
 
+    public Symbol(Point point) {
+        this.point = point;
+    }
+
+    public Symbol(int x, int y) {
+        this(new Point(x, y));
+    }
+
     /**
      * 描画用クラスを取得します。
      * @return Drawableを実装した描画用クラス
