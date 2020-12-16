@@ -27,13 +27,4 @@ public abstract class GameView extends JPanel implements GameMVC {
     public boolean hasTransparency() {
         return getBackground().getAlpha() < 255;
     }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if(model != null) {
-            Graphics2D g2 = (Graphics2D) g;
-            model.getSymbolsList().forEach(e -> e.getDrawer().draw(g2));
-        }
-    }
 }
