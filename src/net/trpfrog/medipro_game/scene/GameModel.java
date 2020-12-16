@@ -17,7 +17,7 @@ public abstract class GameModel implements GameMVC {
     private List<Symbol> symbolsList = new LinkedList<>();
 
     /**
-     * Modelに存在するシンボルのリストを返します
+     * Modelに存在するシンボルのリストを返します。
      * @return Modelに存在するSymbolのリスト
      */
     public List<Symbol> getSymbolsList() {
@@ -25,7 +25,7 @@ public abstract class GameModel implements GameMVC {
     }
 
     /**
-     * ModelにSymbolを追加します。ここに追加されたSymbolはViewにより描画されます。
+     * ModelにSymbolを追加します。
      * @param symbol Modelに追加するSymbol
      */
     public void addSymbol(Symbol symbol) {
