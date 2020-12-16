@@ -10,23 +10,39 @@ import net.trpfrog.medipro_game.Suspendable;
  */
 public abstract class GameScene implements Suspendable {
 
+    private GameModel model;
+    private GameView view;
+    private GameController controller;
+
+    public GameScene(GameModel model, GameView view, GameController controller) {
+        this.model = model;
+        this.view = view;
+        this.controller = controller;
+    }
+
     /**
      * このゲームシーンのModelを返します。
      * @return このゲームシーンのModel
      */
-    public abstract GameModel getModel();
+    public GameModel getModel() {
+        return model;
+    }
 
     /**
      * このゲームシーンのViewを返します。
      * @return このゲームシーンのView
      */
-    public abstract GameView getView();
+    public GameView getView() {
+        return view;
+    }
 
     /**
      * このゲームシーンのControllerを返します。
      * @return このゲームシーンのController
      */
-    public abstract GameController getController();
+    public GameController getController() {
+        return controller;
+    }
 
     /**
      * MVCの全ての動作を一時停止します。
