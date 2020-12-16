@@ -2,19 +2,38 @@ package net.trpfrog.medipro_game.scene;
 
 import net.trpfrog.medipro_game.Drawable;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
- * ゲームシーンのViewを定義するインタフェース。
- * ゲームシーンのViewは必ずこのインタフェースを実装してください。
+ * ゲームシーンのViewを定義する抽象クラス。
+ * ゲームシーンのViewは必ずこの抽象クラスを継承してください。
  * @author つまみ
  */
-public interface GameView extends GameMVC, Drawable {
+public abstract class GameView extends JPanel implements GameMVC {
+
+    private final GameModel model;
+
+    public GameView(GameModel model) {
+        this.model = model;
+    }
+
     /**
-     * Viewが透明性を持つかを返します
+     * Viewが透明性を持つかを返します。
+     * デフォルトでは背景のアルファ値が255未満であることで判定します。
+     * これがtrueであると、SceneManagerのスタックで下にあるもののViewも一緒に描画されます。
      * @return Viewが透明性を持つか
      */
-    default boolean hasTransparency() {
-        return false;
+    public boolean hasTransparency() {
+        return getBackground().getAlpha() < 255;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if(model != null) {
+            Graphics2D g2 = (Graphics2D) g;
+            model.getSymbolsList().forEach(e -> e.getDrawer().draw(g2));
+        }
     }
 }

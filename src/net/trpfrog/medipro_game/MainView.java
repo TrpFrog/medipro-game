@@ -1,16 +1,17 @@
 package net.trpfrog.medipro_game;
 
-import net.trpfrog.medipro_game.scene.GameController;
+import net.trpfrog.medipro_game.scene.GameScene;
 import net.trpfrog.medipro_game.scene.GameView;
 
 import javax.swing.*;
-import java.awt.*;
+import java.util.Deque;
+import java.util.Stack;
 
 /**
  * ゲームのメインのウィンドウ。
  * @author つまみ
  */
-public class MainView extends JFrame {
+public class MainView extends JFrame implements SceneDequeListener {
     private final SceneManager sceneManager = SceneManager.getInstance();
 
     private static final MainView view = new MainView();
@@ -25,43 +26,33 @@ public class MainView extends JFrame {
 
     private MainView() {
         setSize(800, 600);
-        add(new MainPanel());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
     /**
-     * 指定したGameControllerをMainViewに登録します。
-     * @param controller 登録するコントローラ
+     * シーンが追加/削除されたとき、PanelをDequeを元に再追加します。
+     * @param changedDeque SceneManagerのdeque
      */
-    public void addGameController(GameController controller) {
-        addMouseListener(controller);
-        addKeyListener(controller);
-    }
+    private void reAddPanels(Deque<GameScene> changedDeque) {
+        getContentPane().removeAll();
 
-    /**
-     * 指定したGameControllerをMainViewから削除します
-     * @param controller 削除するコントローラ
-     */
-    public void removeGameController(GameController controller) {
-        removeMouseListener(controller);
-        removeKeyListener(controller);
-    }
+        // a stack for reverse panels
+        Stack<JPanel> panels = new Stack<>();
 
-    class MainPanel extends JPanel {
-        /**
-         * SceneManagerのDequeを上から見て、シーンのViewのdraw()を順に呼び出します。
-         * hasTransparency()がfalseであれば描画を終了します。
-         * @see GameView#hasTransparency
-         * @param g 描画に使うGraphics
-         */
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            for(var scene : sceneManager.getDeque()) {
-                GameView view = scene.getView();
-                view.draw((Graphics2D) g);
-                if(!view.hasTransparency()) break;
-            }
+        for(var scene : changedDeque) {
+            GameView view = scene.getView();
+            panels.push(view);
+            if(!view.hasTransparency()) break;
         }
+
+        while(panels.empty()){
+            add(panels.pop());
+        }
+    }
+
+    @Override
+    public void sceneDequeChanged(Deque<GameScene> changedDeque) {
+        reAddPanels(changedDeque);
     }
 }
