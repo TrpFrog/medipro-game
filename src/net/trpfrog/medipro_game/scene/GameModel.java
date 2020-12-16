@@ -16,10 +16,18 @@ public abstract class GameModel implements GameMVC {
 
     private List<Symbol> symbolsList = new LinkedList<>();
 
+    /**
+     * Modelに存在するシンボルのリストを返します
+     * @return Modelに存在するSymbolのリスト
+     */
     public List<Symbol> getSymbolsList() {
         return symbolsList;
     }
 
+    /**
+     * ModelにSymbolを追加します。ここに追加されたSymbolはViewにより描画されます。
+     * @param symbol Modelに追加するSymbol
+     */
     public void addSymbol(Symbol symbol) {
         symbolsList.add(symbol);
     }
