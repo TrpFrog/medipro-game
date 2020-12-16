@@ -9,4 +9,11 @@ import java.awt.event.MouseListener;
  * @author つまみ
  */
 public abstract class GameController implements GameMVC {
+    private GameModel model;
+    private GameView view;
+
+    public GameController(GameModel model, GameView view) {
+        this.model = model;
+        this.view = view;
+    }
 }

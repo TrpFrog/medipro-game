@@ -4,17 +4,13 @@ import net.trpfrog.medipro_game.scene.GameView;
 
 import java.awt.*;
 
-public class SpaceView implements GameView {
+public class SpaceView extends GameView {
 
     private SpaceModel model;
 
     public SpaceView(SpaceModel model) {
+        super(model);
         this.model = model;
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-
     }
 
     @Override
