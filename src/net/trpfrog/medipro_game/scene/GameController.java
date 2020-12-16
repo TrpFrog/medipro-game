@@ -4,9 +4,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
 /**
- * ゲームシーンの操作に使うメソッドを定義するインタフェース。
- * ゲームシーンのControllerは必ずこのインタフェースを実装してください。
+ * ゲームシーンの操作に使うメソッドを定義する抽象クラス。
+ * ゲームシーンのControllerは必ずこの抽象クラスを継承してください。
  * @author つまみ
  */
-public interface GameController extends GameMVC, KeyListener, MouseListener {
+public abstract class GameController implements GameMVC {
 }
