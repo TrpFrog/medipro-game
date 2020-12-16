@@ -20,6 +20,32 @@ public abstract class GameScene implements Suspendable {
         this.controller = controller;
     }
 
+    public GameScene() {}
+
+    /**
+     * このゲームシーンのModelを設定します。
+     * @param model ゲームシーンのModel
+     */
+    protected void setModel(GameModel model) {
+        this.model = model;
+    }
+
+    /**
+     * このゲームシーンのViewを設定します。
+     * @param view ゲームシーンのView
+     */
+    protected void setView(GameView view) {
+        this.view = view;
+    }
+
+    /**
+     * このゲームシーンのControllerを設定します。
+     * @param controller ゲームシーンのController
+     */
+    protected void setController(GameController controller) {
+        this.controller = controller;
+    }
+
     /**
      * このゲームシーンのModelを返します。
      * @return このゲームシーンのModel
