@@ -5,7 +5,7 @@ import net.trpfrog.medipro_game.space.map.SpaceMap2D;
 import net.trpfrog.medipro_game.space.map.SpaceMap3D;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
 
-public class SpaceModel implements GameModel {
+public class SpaceModel extends GameModel {
 
     private SpaceMap3D map = new SpaceMap3D(128, 128, 16, 10);
     private Rocket rocket = new Rocket();
