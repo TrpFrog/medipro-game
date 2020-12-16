@@ -25,6 +25,7 @@ public class MainView extends JFrame implements SceneDequeListener {
     }
 
     private MainView() {
+        sceneManager.addSceneDequeListener(this);
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -46,7 +47,7 @@ public class MainView extends JFrame implements SceneDequeListener {
             if(!view.hasTransparency()) break;
         }
 
-        while(panels.empty()){
+        while(!panels.empty()){
             add(panels.pop());
         }
     }
