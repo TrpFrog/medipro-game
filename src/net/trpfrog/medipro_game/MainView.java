@@ -4,6 +4,7 @@ import net.trpfrog.medipro_game.scene.GameScene;
 import net.trpfrog.medipro_game.scene.GameView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Deque;
 import java.util.Stack;
 
@@ -24,10 +25,13 @@ public class MainView extends JFrame implements SceneDequeListener {
         return view;
     }
 
+    private JLayeredPane pane = new JLayeredPane();
+
     private MainView() {
         sceneManager.addSceneDequeListener(this);
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        add(pane);
         setVisible(true);
     }
 
@@ -36,20 +40,19 @@ public class MainView extends JFrame implements SceneDequeListener {
      * @param changedDeque SceneManagerのdeque
      */
     private void reAddPanels(Deque<GameScene> changedDeque) {
-        getContentPane().removeAll();
+        pane.removeAll();
 
-        // a stack for reverse panels
-        Stack<JPanel> panels = new Stack<>();
+        Rectangle bound = new Rectangle(0, 0, getWidth(), getHeight());
 
         for(var scene : changedDeque) {
             GameView view = scene.getView();
-            panels.push(view);
+            view.setBounds(bound);
+            pane.add(view);
+            pane.moveToBack(view);
             if(!view.hasTransparency()) break;
         }
 
-        while(!panels.empty()){
-            add(panels.pop());
-        }
+        setVisible(true);
     }
 
     @Override
