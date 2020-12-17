@@ -1,3 +1,8 @@
 net.trpfrog.medipro_game
+net.trpfrog.medipro_game.data_structures
+net.trpfrog.medipro_game.pause
 net.trpfrog.medipro_game.scene
 net.trpfrog.medipro_game.space
+net.trpfrog.medipro_game.space.map
+net.trpfrog.medipro_game.space.symbols
+net.trpfrog.medipro_game.symbol
