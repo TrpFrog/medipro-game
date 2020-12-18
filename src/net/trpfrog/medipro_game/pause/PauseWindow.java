@@ -10,14 +10,20 @@ public class PauseWindow extends JPanel {
         setSize(300, 200);
         setOpaque(false);
 
-        JButton quitButton   = new JButton("Quit");
-        JButton resumeButton = new JButton("Resume");
+        JButton backToMainMenuButton = new JButton("Back to Main Menu");
+        JButton resumeButton         = new JButton("Resume");
 
-        quitButton.addActionListener(e -> System.exit(0));
+        backToMainMenuButton.addActionListener(e -> {
+            SceneManager sm = SceneManager.getInstance();
+            int size = sm.size();
+            for (int i = 0; i < size - 1; i++) {
+                sm.pop();
+            }
+        });
         resumeButton.addActionListener(e -> SceneManager.getInstance().pop());
 
         setLayout(new BorderLayout());
-        add(quitButton, BorderLayout.NORTH);
+        add(backToMainMenuButton, BorderLayout.NORTH);
         add(resumeButton, BorderLayout.SOUTH);
     }
 
