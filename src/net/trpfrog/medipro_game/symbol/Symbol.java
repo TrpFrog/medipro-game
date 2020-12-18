@@ -3,6 +3,7 @@ package net.trpfrog.medipro_game.symbol;
 import net.trpfrog.medipro_game.Drawable;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * 宇宙空間に描画するモノのクラス。
@@ -11,18 +12,20 @@ import java.awt.*;
 public class Symbol {
 
     private Drawable drawer;
-    private Point point;
+    private Point2D point;
     private Rectangle hitJudgeRectangle;
     private double angleDegrees;
 
-    public Symbol() {}
+    public Symbol() {
+        point = new Point2D.Double();
+    }
 
-    public Symbol(Point point) {
-        this.point = point;
+    public Symbol(double x, double y) {
+        point = new Point2D.Double(x, y);
     }
 
     public Symbol(int x, int y) {
-        this(new Point(x, y));
+        this(x, (double)y);
     }
 
     /**
@@ -44,17 +47,103 @@ public class Symbol {
     /**
      * オブジェクトの座標を取得します。
      * @return オブジェクトの座標
+     * @deprecated 座標管理をPoint2Dクラスへ移行するため、このメソッドは意図しない挙動を起こす可能性があります。
      */
+    @Deprecated
     public Point getPoint() {
-        return point;
+        return new Point((int)point.getX(), (int)point.getY());
     }
 
     /**
      * オブジェクトの座標を設定します。
      * @param point 新しく設定するオブジェクトの座標
+     * @deprecated 座標管理をPoint2Dクラスへ移行するため、このメソッドは意図しない挙動を起こす可能性があります。
      */
+    @Deprecated
     public void setPoint(Point point) {
-        this.point = point;
+        this.point.setLocation(point.x, point.y);
+    }
+
+    /**
+     * オブジェクトの座標を表すPointクラスを作成します。
+     * @return オブジェクトの座標
+     */
+    public Point createPoint() {
+        return new Point((int)point.getX(), (int)point.getY());
+    }
+
+    /**
+     * オブジェクトの座標をPoint2Dクラスで取得します。
+     * @return オブジェクトの座標
+     */
+    public Point2D getPoint2D() {
+        return point;
+    }
+
+    /**
+     * オブジェクトの座標を設定します。
+     * @param x x座標
+     * @param y y座標
+     */
+    public void setLocation(double x, double y) {
+        point.setLocation(x, y);
+    }
+
+    /**
+     * オブジェクトの座標を設定した分だけ移動させます。
+     * @param dx x軸方向への変位
+     * @param dy y軸方向への変位
+     */
+    public void translate(double dx, double dy) {
+        this.setLocation(point.getX() + dx, point.getY() + dy);
+    }
+
+    /**
+     * オブジェクトのx座標を返します。
+     * @return x座標
+     */
+    public double getX() {
+        return point.getX();
+    }
+
+    /**
+     * オブジェクトのy座標を返します。
+     * @return y座標
+     */
+    public double getY() {
+        return point.getY();
+    }
+
+    /**
+     * オブジェクトのx座標を設定します。
+     * @param x x座標
+     */
+    public void setX(double x) {
+        this.setLocation(x, getY());
+    }
+
+    /**
+     * オブジェクトのy座標を設定します。
+     * @param y y座標
+     */
+    public void setY(double y) {
+        this.setLocation(getX(), y);
+    }
+
+    /**
+     * 大きさ1の視線方向のベクトルに対し、そのx軸成分を返します。
+     * @return 大きさ1の視線方向ベクトルのx成分
+     */
+    public double calcSightLineX() {
+        return Math.cos(Math.toRadians(getAngleDegrees()));
+    }
+
+    /**
+     * 大きさ1の視線方向のベクトルに対し、そのy軸成分を返します。
+     * @return 大きさ1の視線方向ベクトルのy成分
+     */
+    public double calcSightLineY() {
+        return Math.sin(Math.toRadians(getAngleDegrees()));
     }
 
     /**
@@ -115,8 +204,8 @@ public class Symbol {
     public Rectangle getHitJudgeRectangle() {
         if(hitJudgeRectangle == null) return null;
         return new Rectangle(
-                (int)(hitJudgeRectangle.getX() + this.getPoint().getX()),
-                (int)(hitJudgeRectangle.getY() + this.getPoint().getY()),
+                (int)(hitJudgeRectangle.getX() + this.getX()),
+                (int)(hitJudgeRectangle.getY() + this.getY()),
                 (int) hitJudgeRectangle.getWidth(),
                 (int) hitJudgeRectangle.getHeight()
         );
@@ -131,7 +220,7 @@ public class Symbol {
     public boolean isTouched(Symbol other) {
         Rectangle otherRect = other.getHitJudgeRectangle();
         if(otherRect == null) {
-            return isTouched(other.getPoint());
+            return isTouched(other.createPoint());
         } else {
             return isTouched(otherRect);
         }
@@ -146,7 +235,7 @@ public class Symbol {
     public boolean isTouched(Point p) {
         Rectangle myRect = this.getHitJudgeRectangle();
         if(myRect == null) {
-            return getPoint().equals(p);
+            return createPoint().equals(p);
         } else {
             return myRect.contains(p);
         }
@@ -161,7 +250,7 @@ public class Symbol {
     public boolean isTouched(Rectangle r) {
         Rectangle myRect = this.getHitJudgeRectangle();
         if(myRect == null) {
-            return r.contains(this.getPoint());
+            return r.contains(this.createPoint());
         } else {
             return r.intersects(myRect);
         }
