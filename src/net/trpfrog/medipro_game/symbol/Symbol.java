@@ -4,6 +4,7 @@ import net.trpfrog.medipro_game.Drawable;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Objects;
 
 /**
  * 宇宙空間に描画するモノのクラス。
@@ -254,5 +255,21 @@ public class Symbol {
         } else {
             return r.intersects(myRect);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Symbol symbol = (Symbol) o;
+        return Double.compare(symbol.angleDegrees, angleDegrees) == 0 &&
+                Objects.equals(drawer, symbol.drawer) &&
+                Objects.equals(point, symbol.point) &&
+                Objects.equals(hitJudgeRectangle, symbol.hitJudgeRectangle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(drawer, hitJudgeRectangle);
     }
 }
