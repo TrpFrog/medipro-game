@@ -5,6 +5,7 @@ import net.trpfrog.medipro_game.symbol.MovableSymbol;
 
 import java.awt.*;
 import java.io.File;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -12,11 +13,11 @@ import java.nio.file.Paths;
  */
 public class Meteorite extends MovableSymbol {
 
-    public static final Image ROCK_IMG = getImage("rock.png");
+    public static final Image ROCK_IMG =
+            getImage(Paths.get(".","resource","mini_game","moons_work","rock.png"));
 
-    private static String imagePath = String.valueOf(Paths.get(".","resource","mini_game","moons_work"));
-    private static Image getImage(String path) {
-        return Toolkit.getDefaultToolkit().getImage(imagePath + File.separator + path);
+    private static Image getImage(Path path) {
+        return Toolkit.getDefaultToolkit().getImage(path.toString());
     }
 
     /**
