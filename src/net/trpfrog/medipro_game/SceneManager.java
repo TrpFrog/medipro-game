@@ -75,4 +75,8 @@ public class SceneManager {
         notifyDequeChanged();
         return ret;
     }
+
+    public int size() {
+        return deque.size();
+    }
 }
