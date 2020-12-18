@@ -18,7 +18,7 @@ public class MovableSymbol extends Symbol {
      */
     public MovableSymbol(double x, double y) {
         super(x, y);
-        timer = new Timer(10, e -> move(timer.getDelay()));
+        timer = new Timer(10, e -> moveMilliseconds(timer.getDelay()));
     }
 
     /**
@@ -34,7 +34,7 @@ public class MovableSymbol extends Symbol {
      * 座標を指定せずMovableSymbolを生成します。
      */
     public MovableSymbol() {
-        timer = new Timer(10, e -> move(timer.getDelay()));
+        timer = new Timer(10, e -> moveMilliseconds(timer.getDelay()));
     }
 
     /**
@@ -81,7 +81,7 @@ public class MovableSymbol extends Symbol {
      * 速度 [px/s] にミリ秒数をかけた距離移動します。
      * @param milliseconds 移動する分の秒数
      */
-    public void move(int milliseconds) {
+    public void moveMilliseconds(int milliseconds) {
         move(milliseconds/1000.0);
     }
 
