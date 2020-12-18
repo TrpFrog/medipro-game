@@ -15,6 +15,8 @@ public class Symbol {
     private Rectangle hitJudgeRectangle;
     private double angleDegrees;
 
+    public Symbol() {}
+
     public Symbol(Point point) {
         this.point = point;
     }
