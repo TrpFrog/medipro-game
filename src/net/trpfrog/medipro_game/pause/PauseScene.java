@@ -1,19 +1,9 @@
 package net.trpfrog.medipro_game.pause;
 
-import net.trpfrog.medipro_game.scene.GameController;
-import net.trpfrog.medipro_game.scene.GameModel;
-import net.trpfrog.medipro_game.scene.GameScene;
-import net.trpfrog.medipro_game.scene.GameView;
+import net.trpfrog.medipro_game.dialog_background.DialogBackgroundScene;
 
-public class PauseScene extends GameScene {
-
-    private PauseModel model = new PauseModel();
-    private PauseView view = new PauseView(model);
-    private PauseController controller = new PauseController(model, view);
-
+public class PauseScene extends DialogBackgroundScene {
     public PauseScene() {
-        setModel(model);
-        setView(view);
-        setController(controller);
+        super(new PauseWindow(), true);
     }
 }
