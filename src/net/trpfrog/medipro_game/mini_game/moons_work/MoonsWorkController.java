@@ -35,11 +35,7 @@ public class MoonsWorkController extends GameController implements MouseMotionLi
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        Point p = (Point) model.getCenterPoint().clone();
-        double angle = Math.atan2(e.getPoint().y - p.y, e.getPoint().x - p.x);
-        double r = model.getCircleDrawArea().getWidth() / 2;
-        p.translate((int)(r * Math.cos(angle)), (int)(r * Math.sin(angle)));
-        model.getMoon().setLocation(p.x, p.y);
+        model.getMoon().setLocation(e.getX(), e.getY());
     }
 
     @Override
