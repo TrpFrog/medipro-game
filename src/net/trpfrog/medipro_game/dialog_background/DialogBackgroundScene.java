@@ -1,5 +1,6 @@
 package net.trpfrog.medipro_game.dialog_background;
 
+import net.trpfrog.medipro_game.scene.GameController;
 import net.trpfrog.medipro_game.scene.GameScene;
 
 import javax.swing.*;
@@ -25,8 +26,16 @@ public class DialogBackgroundScene extends GameScene {
         setModel(model);
         view  = new DialogBackgroundView(model, dialogPanel);
         setView(view);
+
         if(clickToClose) {
             setController(new DialogBackgroundController(model, view));
+        } else {
+            setController(new GameController(model, view) {
+                @Override
+                public void suspend() {}
+                @Override
+                public void resume() {}
+            });
         }
     }
 

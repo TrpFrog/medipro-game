@@ -4,7 +4,9 @@ import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.Suspendable;
 import net.trpfrog.medipro_game.mini_game.moons_work.symbols.ExplosionAnimation;
 import net.trpfrog.medipro_game.mini_game.moons_work.symbols.Meteorite;
+import net.trpfrog.medipro_game.mini_game.moons_work.symbols.Rocket;
 import net.trpfrog.medipro_game.symbol.ImageAnimationSymbol;
+import net.trpfrog.medipro_game.symbol.MovableSymbol;
 import net.trpfrog.medipro_game.symbol.Symbol;
 
 import javax.swing.*;
@@ -19,7 +21,8 @@ import java.util.List;
  */
 public class MeteoriteManager extends Symbol implements Suspendable {
 
-    private List<Meteorite> obstacles = Collections.synchronizedList(new LinkedList<>());
+    private List<MovableSymbol> obstacles = Collections.synchronizedList(new LinkedList<>());
+    private List<Rocket> rockets = Collections.synchronizedList(new LinkedList<>());
     private List<ExplosionAnimation> explosionAnimations = Collections.synchronizedList(new LinkedList<>());
 
     private Rectangle mainViewRect = new Rectangle(0, 0,
@@ -34,14 +37,21 @@ public class MeteoriteManager extends Symbol implements Suspendable {
      */
     public MeteoriteManager(MoonsWorkModel model) {
         this.model = model;
-        setDrawer(g -> obstacles.forEach(e -> e.getDrawer().draw(g)));
+        setDrawer(g -> {
+            obstacles.forEach(e -> e.getDrawer().draw(g));
+            rockets.forEach(e -> e.getDrawer().draw(g));
+        });
 
         // 隕石の移動Timer
-        moveObstaclesTimer = new Timer(40, e -> moveEachObstacles(40));
+        moveObstaclesTimer = new Timer(40, e -> {
+            moveEachObstacles(40);
+            moveEachRockets(40);
+        });
 
         // 隕石の追加・再生済みの爆発アニメーションの回収
         slowTimer = new Timer(100, e -> {
             addRocksRandomly();
+            addRocketsRandomly();
             removeObsoleteObjects();
         });
     }
@@ -50,8 +60,12 @@ public class MeteoriteManager extends Symbol implements Suspendable {
      * 障害物リストを返します。
      * @return 障害物のリスト
      */
-    public List<Meteorite> getObstacles() {
+    public List<MovableSymbol> getObstacles() {
         return obstacles;
+    }
+
+    public List<Rocket> getRockets() {
+        return rockets;
     }
 
     /**
@@ -71,7 +85,30 @@ public class MeteoriteManager extends Symbol implements Suspendable {
         while(it.hasNext()) {
             var obj = it.next();
             if(model.getMoon().isTouched(obj.getHitJudgeRectangle())) {
-                // 爆破アニメーションを登録
+                if(obj instanceof Meteorite) {
+                    model.getCounter().increment();
+                } else if (obj instanceof Rocket) {
+                    model.getRocketLiveCount().decrement();
+                }
+                registerExplodedObstacle(obj.getHitJudgeRectangle());
+                it.remove();
+
+            } else if(model.getEarth().getHitJudgeRectangle()
+                     .contains(obj.getHitJudgeRectangle())) {
+                it.remove();
+
+            } else {
+                obj.moveMilliseconds(milliseconds);
+            }
+        }
+    }
+
+    public void moveEachRockets(int milliseconds) {
+        var it = rockets.iterator();
+        while(it.hasNext()) {
+            var obj = it.next();
+            if(model.getMoon().isTouched(obj.getHitJudgeRectangle())) {
+                model.getRocketLiveCount().decrement();
                 registerExplodedObstacle(obj.getHitJudgeRectangle());
                 it.remove();
             } else {
@@ -88,8 +125,8 @@ public class MeteoriteManager extends Symbol implements Suspendable {
     private double cy = mainViewRect.getCenterY();
 
     private void removeObsoleteObjects() {
-        // 地球から離れすぎた隕石をリストから削除
-        obstacles.removeIf(e -> {
+        // 地球から離れすぎたロケットをリストから削除
+        rockets.removeIf(e -> {
             double dist = e.getPoint2D().distance(cx, cy);
             return dist > SPAWN_RADIUS + 10;
         });
@@ -120,9 +157,16 @@ public class MeteoriteManager extends Symbol implements Suspendable {
 
     // 岩(障害物)をランダムに生成する
     private void addRocksRandomly() {
-        if(Math.random() < 0.1) {
+        if(Math.random() < 0.05) {
             var p = selectOutOfBoundsPoint();
-            var obj = new Meteorite(model, Meteorite.ROCK_IMG, p.x, p.y);
+            MovableSymbol obj;
+            if(Math.random() < 0.9) {
+                obj = new Meteorite(p.x, p.y);
+                obj.createHitJudgementRectangle(50, 50);
+            } else {
+                obj = new Rocket(p.x, p.y);
+                obj.createHitJudgementRectangle(80, 50);
+            }
 
             // 円状にスポーン
             obj.setAngleDegrees(Math.toDegrees(Math.atan2(
@@ -130,11 +174,27 @@ public class MeteoriteManager extends Symbol implements Suspendable {
                     mainViewRect.getWidth()/2 - p.x
             )));
 
-            obj.createHitJudgementRectangle(50, 50);
-
             // 移動速度を設定
             obj.setSpeedPxPerSecond(100);
             obstacles.add(obj);
+        }
+    }
+
+    // 岩(障害物)をランダムに生成する
+    private void addRocketsRandomly() {
+        if(Math.random() < 0.1) {
+            var p = new Point((int)mainViewRect.getWidth() /2,
+                              (int)mainViewRect.getHeight()/2);
+            var obj = new Rocket(p.x, p.y);
+
+            // 円状にスポーン
+            obj.setAngleDegrees(Math.random() * 360);
+
+            obj.createHitJudgementRectangle(80, 50);
+
+            // 移動速度を設定
+            obj.setSpeedPxPerSecond(100);
+            rockets.add(obj);
         }
     }
 

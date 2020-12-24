@@ -9,12 +9,19 @@ import java.awt.*;
 public class MoonsWorkView extends GameView {
 
     private MoonsWorkModel model;
-    private final Timer drawTimer = new Timer(10, e -> repaint());
+    private final Timer drawTimer = new Timer(10, e -> {
+        if(model.isPlaying()) repaint();
+    });
 
     public MoonsWorkView(MoonsWorkModel model) {
         super(model);
         this.model = model;
         setBackground(new Color(0, 34, 82));
+
+        PointerInfo pi = MouseInfo.getPointerInfo();
+        Point p = pi.getLocation();
+        SwingUtilities.convertPointFromScreen(p, this);
+        model.getMoon().setLocation(p.x, p.y);
 
         // 初回の処理が重いので先に static initializer を動かしておく必要がある
         new ExplosionAnimation();
@@ -35,16 +42,25 @@ public class MoonsWorkView extends GameView {
         // アンチエイリアス
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        model.getBackground().getDrawer().draw(g2);
+
         drawCircleOrbital(g2);
 
-        // シンボルリストにあるシンボルを全て描画
-        model.getSymbolsList().forEach(e -> e.getDrawer().draw(g2));
+        // ロケットを描画
+        model.getMeteoriteManager().getRockets().forEach(e -> e.getDrawer().draw(g2));
 
         // 隕石を描画
         model.getMeteoriteManager().getObstacles().forEach(e -> e.getDrawer().draw(g2));
 
+        // シンボルリストにあるシンボルを全て描画
+        model.getSymbolsList().forEach(e -> e.getDrawer().draw(g2));
+
+
+
         // 爆発アニメーションを描画
         model.getMeteoriteManager().getExplosionAnimations().forEach(e -> e.getDrawer().draw(g2));
+
+        model.getEarth().getExplosionAnimation().draw(g2);
     }
 
     @Override
