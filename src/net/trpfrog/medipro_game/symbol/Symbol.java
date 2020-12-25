@@ -296,17 +296,6 @@ public class Symbol {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Symbol symbol = (Symbol) o;
-        return Double.compare(symbol.angleDegrees, angleDegrees) == 0 &&
-                Objects.equals(drawer, symbol.drawer) &&
-                Objects.equals(point, symbol.point) &&
-                Objects.equals(hitJudgeRectangle, symbol.hitJudgeRectangle);
-    }
-
     /**
      * 相対座標で管理された当たり判定の範囲を返します。
      * @return 相対座標で管理された当たり判定の範囲
@@ -324,6 +313,14 @@ public class Symbol {
     }
 
     /**
+     * 現在の座標と角度を元に生成された当たり判定の領域を返します。
+     * @return 現在の座標と角度を元に生成された当たり判定の領域
+     */
+    public Area getAbsoluteHitBox() {
+        return relativeHitBox.createAbsoluteHitBoxArea(this);
+    }
+
+    /**
      * 他のSymbolと触れているかどうかを返します。
      * @param other 相手のSymbol
      * @return 他のSymbolと触れているかどうか
@@ -333,6 +330,17 @@ public class Symbol {
         Area otherHitBox = other.getRelativeHitBox().createAbsoluteHitBoxArea(other);
         myHitBox.intersect(otherHitBox);
         return !myHitBox.isEmpty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Symbol symbol = (Symbol) o;
+        return Double.compare(symbol.angleDegrees, angleDegrees) == 0 &&
+                Objects.equals(drawer, symbol.drawer) &&
+                Objects.equals(point, symbol.point) &&
+                Objects.equals(hitJudgeRectangle, symbol.hitJudgeRectangle);
     }
 
     @Override
