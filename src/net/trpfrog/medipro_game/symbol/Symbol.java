@@ -19,6 +19,8 @@ public class Symbol {
     private RelativeHitBox relativeHitBox;
     private double angleDegrees;
 
+    private static final boolean DEBUG = false;
+
     public Symbol() {
         point = new Point2D.Double();
         relativeHitBox = RelativeHitBox.EMPTY;
@@ -46,6 +48,32 @@ public class Symbol {
      */
     public final void setDrawer(Drawable drawer) {
         this.drawer = drawer;
+    }
+
+    /**
+     * 描画用クラスを取得します。
+     * @return Drawableを実装した描画用クラス
+     */
+    public final Drawable getDrawer() {
+        if(!DEBUG) {
+            return drawer;
+        } else {
+            return createDrawerWithCollisionShape();
+        }
+    }
+
+    private Drawable createDrawerWithCollisionShape() {
+        return g -> {
+            drawer.draw(g);
+            Area area = relativeHitBox.createAbsoluteHitBoxArea(this);
+
+            if(!relativeHitBox.equals(RelativeHitBox.EMPTY)) {
+                var color = g.getColor();
+                g.setColor(Color.GREEN);
+                g.draw(area);
+                g.setColor(color);
+            }
+        };
     }
 
     /**
