@@ -41,9 +41,11 @@ public class MainView extends JFrame implements SceneDequeListener {
      */
     private void reAddPanels(Deque<GameScene> changedDeque) {
         pane.removeAll();
-
         Rectangle bound = new Rectangle(0, 0, getWidth(), getHeight());
 
+        // continue adding panels until
+        //  - an opaque panel appears, or
+        //  - be all panels added
         for(var scene : changedDeque) {
             GameView view = scene.getView();
             view.setBounds(bound);
@@ -52,7 +54,10 @@ public class MainView extends JFrame implements SceneDequeListener {
             if(!view.hasTransparency()) break;
         }
 
-        setVisible(true);
+        // Request focus to accept keystrokes
+        if(!changedDeque.isEmpty()) {
+            changedDeque.peekFirst().getView().requestFocus();
+        }
     }
 
     @Override
