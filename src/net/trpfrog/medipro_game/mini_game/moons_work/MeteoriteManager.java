@@ -7,10 +7,12 @@ import net.trpfrog.medipro_game.mini_game.moons_work.symbols.Meteorite;
 import net.trpfrog.medipro_game.mini_game.moons_work.symbols.Rocket;
 import net.trpfrog.medipro_game.symbol.ImageAnimationSymbol;
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
+import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Area;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,6 +55,7 @@ public class MeteoriteManager extends Symbol implements Suspendable {
             addRocksRandomly();
             addRocketsRandomly();
             removeObsoleteObjects();
+            model.getAlert().setAlertEnabled(model.getEarth().isDangerous());
         });
     }
 
@@ -82,22 +85,40 @@ public class MeteoriteManager extends Symbol implements Suspendable {
      */
     public void moveEachObstacles(int milliseconds) {
         var it = obstacles.iterator();
+
         while(it.hasNext()) {
             var obj = it.next();
-            if(model.getMoon().isTouched(obj.getHitJudgeRectangle())) {
+            Area hitBox = obj.getAbsoluteHitBox();
+
+            // Collision to the moon
+            if(model.getMoon().touches(obj)) {
+
                 if(obj instanceof Meteorite) {
                     model.getCounter().increment();
                 } else if (obj instanceof Rocket) {
                     model.getRocketLiveCount().decrement();
                 }
-                registerExplodedObstacle(obj.getHitJudgeRectangle());
+
+                registerExplodedObstacle(hitBox.getBounds());
                 it.remove();
 
-            } else if(model.getEarth().getHitJudgeRectangle()
-                     .contains(obj.getHitJudgeRectangle())) {
-                it.remove();
+            }
 
-            } else {
+            // Meteorite collision to the earth
+            else if(obj instanceof Meteorite && model.getEarth().touches(obj)) {
+                model.getEarth().explode(true);
+                it.remove();
+            }
+
+            // Landed rocket on the earth
+            else if(obj instanceof Rocket &&
+                    model.getEarth().getAbsoluteHitBox().contains(hitBox.getBounds())) {
+
+                model.getRocketLiveCount().increment((Rocket) obj);
+                it.remove();
+            }
+
+            else {
                 obj.moveMilliseconds(milliseconds);
             }
         }
@@ -107,9 +128,9 @@ public class MeteoriteManager extends Symbol implements Suspendable {
         var it = rockets.iterator();
         while(it.hasNext()) {
             var obj = it.next();
-            if(model.getMoon().isTouched(obj.getHitJudgeRectangle())) {
+            if(model.getMoon().touches(obj)) {
                 model.getRocketLiveCount().decrement();
-                registerExplodedObstacle(obj.getHitJudgeRectangle());
+                registerExplodedObstacle(obj.getAbsoluteHitBox().getBounds());
                 it.remove();
             } else {
                 obj.moveMilliseconds(milliseconds);
@@ -123,6 +144,7 @@ public class MeteoriteManager extends Symbol implements Suspendable {
 
     private double cx = mainViewRect.getCenterX();
     private double cy = mainViewRect.getCenterY();
+
 
     private void removeObsoleteObjects() {
         // 地球から離れすぎたロケットをリストから削除
@@ -141,7 +163,7 @@ public class MeteoriteManager extends Symbol implements Suspendable {
         var expAnime = new ExplosionAnimation();
         expAnime.setLocation(r.x, r.y);
         expAnime.setFps(40);
-        expAnime.createHitJudgementRectangle(r.width, r.height);
+        expAnime.setRelativeHitBox(RelativeHitBox.makeRectangle(r.width, r.height));
         expAnime.start();
         explosionAnimations.add(expAnime);
     }
@@ -162,10 +184,10 @@ public class MeteoriteManager extends Symbol implements Suspendable {
             MovableSymbol obj;
             if(Math.random() < 0.9) {
                 obj = new Meteorite(p.x, p.y);
-                obj.createHitJudgementRectangle(50, 50);
+                obj.setRelativeHitBox(RelativeHitBox.makeCircle(26));
             } else {
                 obj = new Rocket(p.x, p.y);
-                obj.createHitJudgementRectangle(80, 50);
+                obj.setRelativeHitBox(RelativeHitBox.makeRectangle(80, 50));
             }
 
             // 円状にスポーン
@@ -190,7 +212,7 @@ public class MeteoriteManager extends Symbol implements Suspendable {
             // 円状にスポーン
             obj.setAngleDegrees(Math.random() * 360);
 
-            obj.createHitJudgementRectangle(80, 50);
+            obj.setRelativeHitBox(RelativeHitBox.makeRectangle(80, 50));
 
             // 移動速度を設定
             obj.setSpeedPxPerSecond(100);

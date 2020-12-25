@@ -4,6 +4,7 @@ import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.Suspendable;
 import net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkModel;
 import net.trpfrog.medipro_game.symbol.ImageAnimationSymbol;
+import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
 import net.trpfrog.medipro_game.util.GifConverter;
 
@@ -26,7 +27,6 @@ public class Earth extends Symbol implements Suspendable {
     private ImageAnimationSymbol finalEarthExplosion;
     private boolean exploded = false;
     private MoonsWorkModel model;
-    private Timer stateChecker;
 
     public Earth(MoonsWorkModel model) {
         this.model = model;
@@ -36,13 +36,15 @@ public class Earth extends Symbol implements Suspendable {
 
         Point p = model.getCenterPoint();
         setLocation(p.x, p.y);
-        createHitJudgementRectangle(100, 100);
 
-        Rectangle rect = getHitJudgeRectangle();
+        int radius = 50;
+        setRelativeHitBox(RelativeHitBox.makeCircle(radius));
+
+        Rectangle rect = new Rectangle((int)getX(), (int)getY(), 0, 0);
+        rect.grow(radius, radius);
         setDrawer(g -> g.drawImage(image, rect.x, rect.y, rect.width, rect.height, null));
 
         initExplosionAnimation();
-        stateChecker = new Timer(100, e -> checkPeaceOfEarth());
     }
 
     private void initExplosionAnimation() {
@@ -50,42 +52,30 @@ public class Earth extends Symbol implements Suspendable {
         finalEarthExplosion = new ImageAnimationSymbol(earthExplosionFrame);
         finalEarthExplosion.setFps(20);
         finalEarthExplosion.setLocation(mv.getWidth()/2.0, mv.getHeight()/2.0);
-        finalEarthExplosion.createHitJudgementRectangle(mv.getWidth(), mv.getHeight());
-    }
-
-    // 地球に隕石が当たっていないかを確認し、当たっていたら爆破します
-    private void checkPeaceOfEarth() {
-        boolean earthCollapsed = model
-                .getMeteoriteManager()
-                .getObstacles()
-                .stream()
-                .filter(e -> e instanceof Meteorite)
-                .anyMatch(e -> model.getEarth().isTouched(e));
-
-        if(earthCollapsed){
-            model.getEarth().explode(true);
-        }
-
-        model.getMeteoriteManager()
-                .getObstacles()
-                .stream()
-                .filter(e -> e instanceof Rocket)
-                .filter(e -> model.getEarth().isTouched(e))
-                .forEach(e -> model.getRocketLiveCount().increment((Rocket) e));
+        finalEarthExplosion.setRelativeHitBox(RelativeHitBox.makeRectangle(mv.getWidth(), mv.getHeight()));
     }
 
     public void explode(boolean quitGame) {
-        finalEarthExplosion.start();
-
-        if(quitGame && !exploded) {
-            stateChecker.stop();
+        if(!exploded) {
             exploded = true;
-
-            // explode in 3 seconds
+            finalEarthExplosion.start();
+            if(!quitGame) return;
             Timer t = new Timer(3000, e -> model.endGame());
             t.setRepeats(false);
             t.start();
         }
+    }
+
+    public boolean isDangerous() {
+        int cx = MainView.getInstance().getWidth() / 2;
+        int cy = MainView.getInstance().getHeight() / 2;
+
+        boolean lessRocketCount = model.getRocketLiveCount().getCount() <= 1;
+
+        boolean meteoriteApproaching = model.getMeteoriteManager().getObstacles().stream()
+                .filter(e -> e instanceof Meteorite)
+                .anyMatch(e -> e.getPoint2D().distance(cx, cy) < model.getCircleDrawArea().width / 2.0 + 100);
+        return lessRocketCount || meteoriteApproaching;
     }
 
     public ImageAnimationSymbol getExplosionAnimation() {
@@ -94,11 +84,9 @@ public class Earth extends Symbol implements Suspendable {
 
     @Override
     public void suspend() {
-        stateChecker.stop();
     }
 
     @Override
     public void resume() {
-        stateChecker.start();
     }
 }

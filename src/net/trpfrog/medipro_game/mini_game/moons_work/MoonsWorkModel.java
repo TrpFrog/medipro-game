@@ -29,6 +29,7 @@ public class MoonsWorkModel extends GameModel {
     private DefenceCounter counter;
     private RocketLiveCount rocketLiveCount;
     private MeteoriteManager meteoriteManager;
+    private Alert alert;
 
     private boolean playing = true;
 
@@ -37,15 +38,17 @@ public class MoonsWorkModel extends GameModel {
         centerPoint    = new Point(mv.getWidth()/2, mv.getHeight()/2);
 
         // 月の軌道を設定
-        int r          = (int)(200);
+        int r          = 200;
         circleDrawArea = new Rectangle(centerPoint.x - r, centerPoint.y - r, r * 2, r * 2);
 
         background       = new Background();
         moon             = new Moon(this);
         earth            = new Earth(this);
         meteoriteManager = new MeteoriteManager(this);
-        counter          = new DefenceCounter(earth.getHitJudgeRectangle());
+        counter          = new DefenceCounter(earth.getAbsoluteHitBox().getBounds());
         rocketLiveCount  = new RocketLiveCount(this);
+        alert            = new Alert();
+
 
         addSymbol(moon);
         addSymbol(earth);
@@ -89,6 +92,10 @@ public class MoonsWorkModel extends GameModel {
 
     public RocketLiveCount getRocketLiveCount() {
         return rocketLiveCount;
+    }
+
+    public Alert getAlert() {
+        return alert;
     }
 
     public boolean isPlaying() {

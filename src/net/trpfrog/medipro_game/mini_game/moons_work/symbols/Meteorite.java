@@ -26,7 +26,8 @@ public class Meteorite extends MovableSymbol {
     public Meteorite(int x, int y) {
         super(x, y);
         setDrawer(g -> {
-            Rectangle r = getHitJudgeRectangle();
+            Rectangle r = getRelativeHitBox().getRelativeHitBoxArea().getBounds();
+            r.translate((int) getX(), (int) getY());
             double cx = r.getCenterX();
             double cy = r.getCenterY();
             r.x -= r.width * 1.8;

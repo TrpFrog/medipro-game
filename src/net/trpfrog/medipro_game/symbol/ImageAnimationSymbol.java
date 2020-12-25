@@ -54,7 +54,8 @@ public class ImageAnimationSymbol extends Symbol implements Drawable {
             stop();
             return;
         }
-        Rectangle bounds = getHitJudgeRectangle();
+        Rectangle bounds = getRelativeHitBox().getRelativeHitBoxArea().getBounds();
+        bounds.translate((int) getX(), (int) getY());
 
         g.drawImage(frameList.get((int)frame), bounds.x, bounds.y, bounds.width, bounds.height, null);
     }

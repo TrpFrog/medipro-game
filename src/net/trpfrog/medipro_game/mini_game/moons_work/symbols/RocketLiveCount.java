@@ -41,6 +41,10 @@ public class RocketLiveCount extends Symbol implements Drawable {
         count++;
     }
 
+    public int getCount() {
+        return count;
+    }
+
     public void increment(Rocket rocket) {
         if(rocket.isReturnedToEarth()) return;
         increment();

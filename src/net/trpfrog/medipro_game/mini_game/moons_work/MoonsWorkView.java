@@ -55,7 +55,8 @@ public class MoonsWorkView extends GameView {
         // シンボルリストにあるシンボルを全て描画
         model.getSymbolsList().forEach(e -> e.getDrawer().draw(g2));
 
-
+        // アラートを描画
+        model.getAlert().getDrawer().draw(g2);
 
         // 爆発アニメーションを描画
         model.getMeteoriteManager().getExplosionAnimations().forEach(e -> e.getDrawer().draw(g2));
