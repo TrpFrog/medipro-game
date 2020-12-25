@@ -234,10 +234,10 @@ public class Symbol {
      * @deprecated この実装では長方形の当たり判定領域を作成します。
      *             {@link RelativeHitBox} の実装により、より良い当たり判定が作れるようになったため、
      *             代わりに {@link Symbol#setRelativeHitBox(RelativeHitBox)} を利用してください。
-     *             このメソッドの上位互換の操作を {@link RelativeHitBox(Shape)} で行うことができます。
+     *             このメソッドの上位互換の操作を {@link RelativeHitBox#RelativeHitBox(Shape)} で行うことができます。
      *             こちらでは長方形以外も設定することができます。
      * @see Symbol#setRelativeHitBox(RelativeHitBox)
-     * @see RelativeHitBox(Shape)
+     * @see RelativeHitBox#RelativeHitBox(Shape)
      */
     @Deprecated (forRemoval = true)
     public void setRelativeHitJudgeRectangle(Rectangle hitJudgeRectangle) {
