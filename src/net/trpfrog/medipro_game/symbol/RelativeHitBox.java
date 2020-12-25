@@ -11,6 +11,8 @@ import java.awt.geom.Rectangle2D;
  */
 public class RelativeHitBox {
 
+    public static RelativeHitBox EMPTY = new RelativeHitBox(new Area());
+
     private Area relativeHitBox;
 
     /**
