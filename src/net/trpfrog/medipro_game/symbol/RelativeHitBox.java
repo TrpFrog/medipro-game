@@ -10,18 +10,16 @@ import java.util.Objects;
 /**
  * 任意形状の当たり判定のヒットボックスを管理します。
  */
-public class RelativeHitBox {
+public class RelativeHitBox extends Area {
 
     public static RelativeHitBox EMPTY = new RelativeHitBox(new Area());
-
-    private final Area relativeHitBox;
 
     /**
      * 座標との相対位置で座標が設定されている当たり判定のShapeを登録して初期化します。
      * @param relativeHitBox Symbolの座標との相対位置で座標が設定されている当たり判定のShape
      */
     public RelativeHitBox(Shape relativeHitBox) {
-        this.relativeHitBox = new Area(relativeHitBox);
+        super(relativeHitBox);
     }
 
     /**
@@ -36,9 +34,14 @@ public class RelativeHitBox {
         var af = new AffineTransform();
         af.translate((int)x, (int)y);
         af.rotate(angleRadians);
-        return relativeHitBox.createTransformedArea(af);
+        return this.createTransformedArea(af);
     }
 
+    /**
+     * Symbolから座標と角度の情報を読み、変形させた絶対位置のHitBoxをAreaとして返します。
+     * @param symbol 座標と角度を持つSymbol
+     * @return 絶対的な位置のHitBoxを表すArea
+     */
     public Area createAbsoluteHitBoxArea(Symbol symbol) {
         return createAbsoluteHitBoxArea(symbol.getX(), symbol.getY(), symbol.getAngleRadians());
     }
@@ -79,26 +82,5 @@ public class RelativeHitBox {
      */
     public static RelativeHitBox makeCircle(double radius) {
         return makeCircle(0, 0, radius);
-    }
-
-    /**
-     * 座標との相対位置で座標が設定されている当たり判定のAreaを返します。
-     * @return 当たり判定のArea (相対位置)
-     */
-    public Area getRelativeHitBoxArea() {
-        return relativeHitBox;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RelativeHitBox that = (RelativeHitBox) o;
-        return relativeHitBox.equals(that.relativeHitBox);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(relativeHitBox);
     }
 }

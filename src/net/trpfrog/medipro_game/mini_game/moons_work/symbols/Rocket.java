@@ -32,7 +32,7 @@ public class Rocket extends MovableSymbol implements Drawable {
 
     @Override
     public void draw(Graphics2D g) {
-        Rectangle r = getRelativeHitBox().getRelativeHitBoxArea().getBounds();
+        Rectangle r = getRelativeHitBox().getBounds();
         r.translate((int) getX(), (int) getY());
         double cx = r.getCenterX();
         double cy = r.getCenterY();
