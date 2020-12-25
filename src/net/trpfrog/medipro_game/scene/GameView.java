@@ -16,6 +16,7 @@ public abstract class GameView extends JPanel implements GameMVC {
 
     public GameView(GameModel model) {
         this.model = model;
+        setFocusable(true);
     }
 
     /**
