@@ -14,6 +14,14 @@ public class RelativeHitBox {
     private Area relativeHitBox;
 
     /**
+     * 座標との相対位置で座標が設定されている当たり判定のShapeを登録して初期化します。
+     * @param relativeHitBox Symbolの座標との相対位置で座標が設定されている当たり判定のShape
+     */
+    public RelativeHitBox(Shape relativeHitBox) {
+        this.relativeHitBox = new Area(relativeHitBox);
+    }
+
+    /**
      * 指定した座標分だけ平行移動させ、(x, y)を中心に angleRadians だけ回転させた
      * HitBoxをAreaとして返します。
      * @param x x座標の平行移動する量
@@ -33,22 +41,14 @@ public class RelativeHitBox {
     }
 
     /**
-     * 座標との相対位置で座標が設定されている当たり判定のShapeを登録します。
-     * @param relativeHitBox Symbolの座標との相対位置で座標が設定されている当たり判定のShape
-     */
-    public void setRelativeHitBoxShape(Shape relativeHitBox) {
-        this.relativeHitBox = new Area(relativeHitBox);
-    }
-
-    /**
      * 指定した座標分Symbolの座標からずらして、幅width, 高さheight の長方形の当たり判定を登録します。
      * @param dx x座標のSymbolの座標からずらす分
      * @param dy y座標のSymbolの座標からずらす分
      * @param width  HitBoxの幅
      * @param height HitBoxの高さ
      */
-    public void registerRectangle(double dx, double dy, double width, double height) {
-        setRelativeHitBoxShape(new Rectangle2D.Double(dx - width / 2, dy - height / 2, width, height));
+    public static RelativeHitBox makeRectangle(double dx, double dy, double width, double height) {
+        return new RelativeHitBox(new Rectangle2D.Double(dx - width / 2, dy - height / 2, width, height));
     }
 
     /**
@@ -56,8 +56,8 @@ public class RelativeHitBox {
      * @param width  HitBoxの幅
      * @param height HitBoxの高さ
      */
-    public void registerRectangle(double width, double height) {
-        registerRectangle(0, 0, width, height);
+    public static RelativeHitBox makeRectangle(double width, double height) {
+        return makeRectangle(0, 0, width, height);
     }
 
     /**
@@ -66,15 +66,15 @@ public class RelativeHitBox {
      * @param dy y座標のSymbolの座標からずらす分
      * @param radius HitBoxの半径
      */
-    public void registerCircle(double dx, double dy, double radius) {
-        setRelativeHitBoxShape(new Ellipse2D.Double(dx - radius, dy - radius, 2 * radius, 2 * radius));
+    public static RelativeHitBox makeCircle(double dx, double dy, double radius) {
+        return new RelativeHitBox(new Ellipse2D.Double(dx - radius, dy - radius, 2 * radius, 2 * radius));
     }
 
     /**
      * Symbolの座標を中心に、半径radiusの円の当たり判定を登録します。
      * @param radius HitBoxの半径
      */
-    public void replaceCircle(double radius) {
-        registerCircle(0, 0, radius);
+    public static RelativeHitBox makeCircle(double radius) {
+        return makeCircle(0, 0, radius);
     }
 }
