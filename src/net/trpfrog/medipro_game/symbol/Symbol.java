@@ -3,6 +3,7 @@ package net.trpfrog.medipro_game.symbol;
 import net.trpfrog.medipro_game.Drawable;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.Objects;
 
@@ -15,10 +16,12 @@ public class Symbol {
     private Drawable drawer;
     private Point2D point;
     private Rectangle hitJudgeRectangle;
+    private RelativeHitBox relativeHitBox;
     private double angleDegrees;
 
     public Symbol() {
         point = new Point2D.Double();
+        relativeHitBox = RelativeHitBox.EMPTY;
     }
 
     public Symbol(double x, double y) {
@@ -274,6 +277,34 @@ public class Symbol {
                 Objects.equals(drawer, symbol.drawer) &&
                 Objects.equals(point, symbol.point) &&
                 Objects.equals(hitJudgeRectangle, symbol.hitJudgeRectangle);
+    }
+
+    /**
+     * 相対座標で管理された当たり判定の範囲を返します。
+     * @return 相対座標で管理された当たり判定の範囲
+     */
+    public RelativeHitBox getRelativeHitBox() {
+        return relativeHitBox;
+    }
+
+    /**
+     * 相対座標で管理された当たり判定の範囲、RelativeHitBoxを登録します。
+     * @param relativeHitBox 相対座標で管理された当たり判定の範囲
+     */
+    public void setRelativeHitBox(RelativeHitBox relativeHitBox) {
+        this.relativeHitBox = relativeHitBox;
+    }
+
+    /**
+     * 他のSymbolと触れているかどうかを返します。
+     * @param other 相手のSymbol
+     * @return 他のSymbolと触れているかどうか
+     */
+    public boolean touches(Symbol other) {
+        Area myHitBox    = this .getRelativeHitBox().createAbsoluteHitBoxArea(this);
+        Area otherHitBox = other.getRelativeHitBox().createAbsoluteHitBoxArea(other);
+        myHitBox.intersect(otherHitBox);
+        return !myHitBox.isEmpty();
     }
 
     @Override
