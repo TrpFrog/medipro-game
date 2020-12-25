@@ -156,6 +156,14 @@ public class Symbol {
     }
 
     /**
+     * オブジェクトの角度を弧度法の表記で取得します。
+     * @return オブジェクトの角度
+     */
+    public double getAngleRadians() {
+        return Math.toRadians(angleDegrees);
+    }
+
+    /**
      * オブジェクトの角度を度数表記で変更します。
      * @param angleDegrees オブジェクトの角度
      */
