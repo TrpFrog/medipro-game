@@ -14,7 +14,7 @@ public class RelativeHitBox {
 
     public static RelativeHitBox EMPTY = new RelativeHitBox(new Area());
 
-    private Area relativeHitBox;
+    private final Area relativeHitBox;
 
     /**
      * 座標との相対位置で座標が設定されている当たり判定のShapeを登録して初期化します。
@@ -79,6 +79,14 @@ public class RelativeHitBox {
      */
     public static RelativeHitBox makeCircle(double radius) {
         return makeCircle(0, 0, radius);
+    }
+
+    /**
+     * 座標との相対位置で座標が設定されている当たり判定のAreaを返します。
+     * @return 当たり判定のArea (相対位置)
+     */
+    public Area getRelativeHitBoxArea() {
+        return relativeHitBox;
     }
 
     @Override
