@@ -5,6 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Objects;
 
 /**
  * 任意形状の当たり判定のヒットボックスを管理します。
@@ -78,5 +79,18 @@ public class RelativeHitBox {
      */
     public static RelativeHitBox makeCircle(double radius) {
         return makeCircle(0, 0, radius);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RelativeHitBox that = (RelativeHitBox) o;
+        return relativeHitBox.equals(that.relativeHitBox);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(relativeHitBox);
     }
 }
