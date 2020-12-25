@@ -1,10 +1,8 @@
 package net.trpfrog.medipro_game.mini_game.moons_work;
 
-import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.pause.EscapeToPause;
 import net.trpfrog.medipro_game.scene.GameController;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -20,12 +18,7 @@ public class MoonsWorkController extends GameController implements MouseMotionLi
         this.model = model;
         this.view  = view;
         view.addMouseMotionListener(this);
-
-        // TODO: KeyListenerはMainのContentPaneに貼らないと効かない、あとで調査
-        var pane = MainView.getInstance().getContentPane();
-        pane.setFocusable(true);
-        pane.requestFocus();
-        pane.addKeyListener(new EscapeToPause());
+        view.addKeyListener(new EscapeToPause());
     }
 
     @Override

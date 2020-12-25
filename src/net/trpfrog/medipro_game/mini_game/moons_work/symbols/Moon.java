@@ -2,6 +2,7 @@ package net.trpfrog.medipro_game.mini_game.moons_work.symbols;
 
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkModel;
+import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
 
 import javax.swing.*;
@@ -13,12 +14,12 @@ public class Moon extends Symbol {
 
     public Moon(MoonsWorkModel model) {
         this.model = model;
-        int size = 30;
+        int size = 15;
         setDrawer(g -> {
             g.setColor(Color.YELLOW);
-            g.fillOval((int) getX() - size / 2, (int) getY() - size / 2, size, size);
+            g.fillOval((int) getX() - size, (int) getY() - size, size * 2, size * 2);
         });
-        createHitJudgementRectangle(20, 20);
+        setRelativeHitBox(RelativeHitBox.makeCircle(size));
     }
 
     @Override

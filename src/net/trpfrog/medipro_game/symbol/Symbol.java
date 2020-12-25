@@ -3,6 +3,7 @@ package net.trpfrog.medipro_game.symbol;
 import net.trpfrog.medipro_game.Drawable;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.Objects;
 
@@ -15,10 +16,14 @@ public class Symbol {
     private Drawable drawer;
     private Point2D point;
     private Rectangle hitJudgeRectangle;
+    private RelativeHitBox relativeHitBox;
     private double angleDegrees;
+
+    private static final boolean DEBUG = false;
 
     public Symbol() {
         point = new Point2D.Double();
+        relativeHitBox = RelativeHitBox.EMPTY;
     }
 
     public Symbol(double x, double y) {
@@ -30,19 +35,37 @@ public class Symbol {
     }
 
     /**
-     * 描画用クラスを取得します。
-     * @return Drawableを実装した描画用クラス
-     */
-    public final Drawable getDrawer() {
-        return drawer;
-    }
-
-    /**
      * 描画用クラスを設定します。
      * @param drawer Drawableを実装した描画用クラス
      */
     public final void setDrawer(Drawable drawer) {
         this.drawer = drawer;
+    }
+
+    /**
+     * 描画用クラスを取得します。
+     * @return Drawableを実装した描画用クラス
+     */
+    public final Drawable getDrawer() {
+        if(!DEBUG) {
+            return drawer;
+        } else {
+            return createDrawerWithCollisionShape();
+        }
+    }
+
+    private Drawable createDrawerWithCollisionShape() {
+        return g -> {
+            drawer.draw(g);
+            Area area = relativeHitBox.createAbsoluteHitBoxArea(this);
+
+            if(!relativeHitBox.equals(RelativeHitBox.EMPTY)) {
+                var color = g.getColor();
+                g.setColor(Color.GREEN);
+                g.draw(area);
+                g.setColor(color);
+            }
+        };
     }
 
     /**
@@ -156,6 +179,14 @@ public class Symbol {
     }
 
     /**
+     * オブジェクトの角度を弧度法の表記で取得します。
+     * @return オブジェクトの角度
+     */
+    public double getAngleRadians() {
+        return Math.toRadians(angleDegrees);
+    }
+
+    /**
      * オブジェクトの角度を度数表記で変更します。
      * @param angleDegrees オブジェクトの角度
      */
@@ -183,7 +214,14 @@ public class Symbol {
      * 座標を中心に幅w, 高さh の当たり判定用長方形を作成します。
      * @param w 当たり判定用の長方形の幅
      * @param h 当たり判定用の長方形の高さ
+     * @deprecated この実装では長方形の当たり判定領域を作成します。
+     *             {@link RelativeHitBox} の実装により、より良い当たり判定が作れるようになったため、
+     *             代わりに {@link Symbol#setRelativeHitBox(RelativeHitBox)} を利用してください。
+     *             このメソッドと同様の操作を {@link RelativeHitBox#makeRectangle(double, double)} で行うことができます。
+     * @see Symbol#setRelativeHitBox(RelativeHitBox)
+     * @see RelativeHitBox#makeRectangle(double, double)
      */
+    @Deprecated (forRemoval = true)
     public void createHitJudgementRectangle(int w, int h) {
         hitJudgeRectangle = new Rectangle(
                 (int)(-w/2.0),
@@ -193,7 +231,15 @@ public class Symbol {
     /**
      * オブジェクトの座標を右上とした相対範囲の当たり判定を設定します。
      * @param hitJudgeRectangle 当たり判定の相対範囲
+     * @deprecated この実装では長方形の当たり判定領域を作成します。
+     *             {@link RelativeHitBox} の実装により、より良い当たり判定が作れるようになったため、
+     *             代わりに {@link Symbol#setRelativeHitBox(RelativeHitBox)} を利用してください。
+     *             このメソッドの上位互換の操作を {@link RelativeHitBox#RelativeHitBox(Shape)} で行うことができます。
+     *             こちらでは長方形以外も設定することができます。
+     * @see Symbol#setRelativeHitBox(RelativeHitBox)
+     * @see RelativeHitBox#RelativeHitBox(Shape)
      */
+    @Deprecated (forRemoval = true)
     public void setRelativeHitJudgeRectangle(Rectangle hitJudgeRectangle) {
         this.hitJudgeRectangle = hitJudgeRectangle;
     }
@@ -201,7 +247,15 @@ public class Symbol {
     /**
      * 当たり判定の範囲を返します。
      * @return 当たり判定の範囲。範囲が設定されていない場合はnull
+     * @deprecated この実装では長方形の当たり判定領域を参照します。
+     *             {@link RelativeHitBox} の実装により、より良い当たり判定が作れるようになったため、
+     *             代わりに {@link Symbol#setRelativeHitBox(RelativeHitBox)} をした上で
+     *             {@link Symbol#getAbsoluteHitBox()} または
+     *             {@link Symbol#getRelativeHitBox()} を利用してください。
+     * @see Symbol#getAbsoluteHitBox()
+     * @see Symbol#getRelativeHitBox()
      */
+    @Deprecated (forRemoval = true)
     public Rectangle getHitJudgeRectangle() {
         if(hitJudgeRectangle == null) return null;
         return new Rectangle(
@@ -217,7 +271,13 @@ public class Symbol {
      * 当たり判定が設定されていない場合は座標が重なっているかで判断します。
      * @param other 接触しているかの判定対象のオブジェクト
      * @return otherと接触しているかどうか
+     * @deprecated この実装では長方形の当たり判定領域を参照します。
+     *             {@link RelativeHitBox} の実装により、より良い当たり判定が作れるようになったため、
+     *             代わりに {@link Symbol#setRelativeHitBox(RelativeHitBox)} をした上で
+     *             {@link Symbol#touches(Symbol)} を利用してください。
+     * @see Symbol#touches(Symbol)
      */
+    @Deprecated (forRemoval = true)
     public boolean isTouched(Symbol other) {
         Rectangle otherRect = other.getHitJudgeRectangle();
         if(otherRect == null) {
@@ -232,7 +292,16 @@ public class Symbol {
      * 当たり判定が設定されていない場合は座標が重なっているかで判断します。
      * @param p 接触しているかの判定対象の座標
      * @return pと接触しているかどうか
+     * @deprecated この実装では長方形の当たり判定領域を参照します。
+     *             {@link RelativeHitBox} の実装により、より良い当たり判定が作れるようになったため、
+     *             代わりに {@link Symbol#setRelativeHitBox(RelativeHitBox)} をした上で
+     *             {@link Symbol#touches(Symbol)}、または
+     *             {@link Symbol#getAbsoluteHitBox}, {@link Area#intersect(Area)}を利用してください。
+     * @see Symbol#touches(Symbol)
+     * @see Symbol#getAbsoluteHitBox()
+     * @see Area#intersect(Area)
      */
+    @Deprecated (forRemoval = true)
     public boolean isTouched(Point p) {
         Rectangle myRect = this.getHitJudgeRectangle();
         if(myRect == null) {
@@ -247,7 +316,16 @@ public class Symbol {
      * 自身に当たり判定が設定されていない場合は座標が重なっているかで判断します。
      * @param r 接触しているかの判定対象の長方形
      * @return rと接触しているかどうか
+     * @deprecated この実装では長方形の当たり判定領域を参照します。
+     *             {@link RelativeHitBox} の実装により、より良い当たり判定が作れるようになったため、
+     *             代わりに {@link Symbol#setRelativeHitBox(RelativeHitBox)} をした上で
+     *             {@link Symbol#touches(Symbol)}、または
+     *             {@link Symbol#getAbsoluteHitBox}, {@link Area#intersect(Area)}を利用してください。
+     * @see Symbol#touches(Symbol)
+     * @see Symbol#getAbsoluteHitBox()
+     * @see Area#intersect(Area)
      */
+    @Deprecated (forRemoval = true)
     public boolean isTouched(Rectangle r) {
         Rectangle myRect = this.getHitJudgeRectangle();
         if(myRect == null) {
@@ -255,6 +333,42 @@ public class Symbol {
         } else {
             return r.intersects(myRect);
         }
+    }
+
+    /**
+     * 相対座標で管理された当たり判定の範囲を返します。
+     * @return 相対座標で管理された当たり判定の範囲
+     */
+    public RelativeHitBox getRelativeHitBox() {
+        return relativeHitBox;
+    }
+
+    /**
+     * 相対座標で管理された当たり判定の範囲、RelativeHitBoxを登録します。
+     * @param relativeHitBox 相対座標で管理された当たり判定の範囲
+     */
+    public void setRelativeHitBox(RelativeHitBox relativeHitBox) {
+        this.relativeHitBox = relativeHitBox;
+    }
+
+    /**
+     * 現在の座標と角度を元に生成された当たり判定の領域を返します。
+     * @return 現在の座標と角度を元に生成された当たり判定の領域
+     */
+    public Area getAbsoluteHitBox() {
+        return relativeHitBox.createAbsoluteHitBoxArea(this);
+    }
+
+    /**
+     * 他のSymbolと触れているかどうかを返します。
+     * @param other 相手のSymbol
+     * @return 他のSymbolと触れているかどうか
+     */
+    public boolean touches(Symbol other) {
+        Area myHitBox    = this .getRelativeHitBox().createAbsoluteHitBoxArea(this);
+        Area otherHitBox = other.getRelativeHitBox().createAbsoluteHitBoxArea(other);
+        myHitBox.intersect(otherHitBox);
+        return !myHitBox.isEmpty();
     }
 
     @Override

@@ -2,6 +2,7 @@ package net.trpfrog.medipro_game.mini_game.moons_work.symbols;
 
 import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.MainView;
+import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
 
 import java.awt.*;
@@ -16,12 +17,12 @@ public class Background extends Symbol implements Drawable {
     public Background() {
         MainView mv = MainView.getInstance();
         setLocation(mv.getWidth()/2.0, mv.getHeight()/2.0);
-        createHitJudgementRectangle(mv.getWidth(), mv.getHeight());
+        setRelativeHitBox(RelativeHitBox.makeRectangle(mv.getWidth(), mv.getHeight()));
 
         Path imagePath = Paths.get(".", "resource", "mini_game", "moons_work", "background.jpg");
         image = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
 
-        drawRange = getHitJudgeRectangle();
+        drawRange = getAbsoluteHitBox().getBounds();
         setDrawer(this);
     }
 
