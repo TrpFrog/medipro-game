@@ -34,8 +34,8 @@ public class RelativeHitBox {
      */
     public Area createAbsoluteHitBoxArea(double x, double y, double angleRadians) {
         var af = new AffineTransform();
-        af.translate(x, y);
-        af.rotate(angleRadians, x, y);
+        af.translate((int)x, (int)y);
+        af.rotate(angleRadians);
         return relativeHitBox.createTransformedArea(af);
     }
 
