@@ -34,7 +34,7 @@ public class DialogBackgroundView extends GameView {
 
         JPanel shadowPane = new JPanel();
         shadowPane.setBounds(0,0,mainView.getWidth(), mainView.getHeight());
-        shadowPane.setBackground(new Color(0, 0, 0, 0.2f));
+        shadowPane.setBackground(new Color(0, 0, 0, 0.6f));
         add(shadowPane);
     }
 

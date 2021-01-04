@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 public class Car extends MovableSymbol implements Drawable, Suspendable {
     private Image image;
 
-    final private int MAX_SPEED = 500;
+    public final int MAX_SPEED = 500;
     private int nowspeed = 0;
 
     // 速度調整用タイマー

@@ -1,5 +1,6 @@
 package net.trpfrog.medipro_game;
 
+import net.trpfrog.medipro_game.scene.GameMVC;
 import net.trpfrog.medipro_game.scene.GameScene;
 
 import java.util.*;
@@ -54,8 +55,15 @@ public class SceneManager {
         if(!deque.isEmpty()) {
             deque.peekFirst().suspend();
         }
-        scene.resume();
         deque.addFirst(scene);
+        for(GameScene sub : scene.getSubScenes()) {
+            deque.addFirst(sub);
+        }
+        if(scene.getSubScenes().isEmpty()) {
+            scene.resume();
+        } else {
+            scene.getSubScenes().get(scene.getSubScenes().size() - 1).resume();
+        }
         notifyDequeChanged();
     }
 
@@ -74,6 +82,37 @@ public class SceneManager {
         deque.peekFirst().resume();
         notifyDequeChanged();
         return ret;
+    }
+
+    /**
+     * 指定したMVCのパーツを含むシーンが現れるまでpopを続けます。
+     * また、そのようなシーンも一緒にpopし、そのシーンを返します。
+     * そのようなシーンが存在しなかった場合、何もせずnullを返します。
+     * @param sceneParts MVCのパーツ
+     * @return 見つかった場合はpopしたシーン, それ以外はnull
+     */
+    public GameScene popUntil(GameMVC sceneParts) {
+        boolean contain = deque.stream().anyMatch(e -> e.contains(sceneParts));
+        while(contain && !deque.isEmpty()) {
+            GameScene popped = pop();
+            if(popped.contains(sceneParts)) return popped;
+        }
+        return null;
+    }
+
+    /**
+     * 指定したシーンが存在する場合、それが現れるまでpopを続け、最後にそのシーンを返します。
+     * そのようなシーンが存在しなかった場合、何もせずnullを返します。
+     * @param scene pop対象のシーン
+     * @return 見つかった場合はpopしたシーン, それ以外はnull
+     */
+    public GameScene popUntil(GameScene scene) {
+        boolean contain = deque.stream().anyMatch(e -> e == scene);
+        while(contain && !deque.isEmpty()) {
+            GameScene popped = pop();
+            if(popped == scene) return popped;
+        }
+        return null;
     }
 
     public int size() {

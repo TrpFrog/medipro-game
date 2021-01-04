@@ -28,11 +28,19 @@ public class RaceGameController extends GameController implements KeyListener {
     // 操作用タイマー
     private final Timer forwardTimer = new Timer(10, e -> model.getCar().accelerate(10));
     private final Timer backTimer    = new Timer(10, e -> model.getCar().accelerate(-10));
+
     private final Timer leftTimer    = new Timer(10, e -> {
-        if(forwardTimer.isRunning()) model.getCar().turnClockwiseDegrees(1.5);
+        var car = model.getCar();
+        if(forwardTimer.isRunning() || backTimer.isRunning()) {
+            car.turnClockwiseDegrees(car.getSpeedPxPerSecond() / car.MAX_SPEED * 2);
+        }
     });
+
     private final Timer rightTimer   = new Timer(10, e -> {
-        if(forwardTimer.isRunning()) model.getCar().turnAnticlockwiseDegrees(1.5);
+        var car = model.getCar();
+        if(forwardTimer.isRunning() || backTimer.isRunning()) {
+            car.turnAnticlockwiseDegrees(car.getSpeedPxPerSecond() / car.MAX_SPEED * 2);
+        }
     });
 
     @Override

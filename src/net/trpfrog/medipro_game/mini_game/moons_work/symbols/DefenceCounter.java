@@ -35,6 +35,10 @@ public class DefenceCounter extends Symbol implements Drawable {
         count++;
     }
 
+    public void decrement() { count--; }
+
+    public void setCount(int count) { this.count = count; }
+
     public int getValue() {
         return count;
     }
