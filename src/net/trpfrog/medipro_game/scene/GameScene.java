@@ -2,6 +2,9 @@ package net.trpfrog.medipro_game.scene;
 
 import net.trpfrog.medipro_game.Suspendable;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * ゲームシーンのMVCをまとめて、1つのシーンとして扱うためのインタフェース。
  * このインタフェースを実装したクラスは、
@@ -14,6 +17,8 @@ public abstract class GameScene implements Suspendable {
     private GameView view;
     private GameController controller;
 
+    private List<GameScene> subScenes = new LinkedList<>();
+
     public GameScene(GameModel model, GameView view, GameController controller) {
         this.model = model;
         this.view = view;
@@ -21,6 +26,23 @@ public abstract class GameScene implements Suspendable {
     }
 
     public GameScene() {}
+
+    protected void addSubScene(GameScene scene) {
+        subScenes.add(scene);
+    }
+
+    public List<GameScene> getSubScenes() {
+        return subScenes;
+    }
+
+    /**
+     * 指定したMVCのパーツがこのシーンに含まれているかどうかを返します。
+     * @param mvc MVCのパーツ
+     * @return それがこのシーンに含まれているかどうか
+     */
+    public boolean contains(GameMVC mvc) {
+        return model.equals(mvc) || view.equals(mvc) || controller.equals(mvc);
+    }
 
     /**
      * このゲームシーンのModelを設定します。
