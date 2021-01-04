@@ -60,7 +60,7 @@ public class MiniGameScene extends GameScene {
         this.howToPlay = generateLabelString(howToPlay);
     }
 
-    protected void pushDescriptionDialog() {
+    protected void makeDescriptionDialog() {
         var dialog = new DialogBackgroundScene(new MiniGameStartDialogPanel(this), true);
         addSubScene(dialog);
     }
