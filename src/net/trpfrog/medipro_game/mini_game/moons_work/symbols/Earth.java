@@ -66,16 +66,23 @@ public class Earth extends Symbol implements Suspendable {
         }
     }
 
-    public boolean isDangerous() {
+    public int dangerousLevel() {
         int cx = MainView.getInstance().getWidth() / 2;
         int cy = MainView.getInstance().getHeight() / 2;
 
-        boolean lessRocketCount = model.getRocketLiveCount().getCount() <= 1;
+        int lessRocketCount = model.getRocketLiveCount().getCount() <= 1 ? 1 : 0;
 
-        boolean meteoriteApproaching = model.getMeteoriteManager().getObstacles().stream()
+        int meteoriteApproaching = model.getMeteoriteManager().getObstacles().stream()
                 .filter(e -> e instanceof Meteorite)
-                .anyMatch(e -> e.getPoint2D().distance(cx, cy) < model.getCircleDrawArea().width / 2.0 + 100);
-        return lessRocketCount || meteoriteApproaching;
+                .filter(e -> e.getPoint2D().distance(cx, cy) < model.getCircleDrawArea().width / 2.0 + 100)
+                .anyMatch(e -> e.getPoint2D().distance(model.getMoon().getPoint2D()) > model.getCircleDrawArea().width
+                        || e.getPoint2D().distance(cx, cy) < model.getCircleDrawArea().width / 2.0) ? 1 : 0;
+
+        int goesToGameOver = model.getMeteoriteManager().getObstacles().stream()
+                .filter(e -> e instanceof Meteorite)
+                .anyMatch(e -> e.getPoint2D().distance(cx, cy) < model.getCircleDrawArea().width / 2.0) ? 3 : 0;
+
+        return Math.max(lessRocketCount + meteoriteApproaching, goesToGameOver);
     }
 
     public ImageAnimationSymbol getExplosionAnimation() {

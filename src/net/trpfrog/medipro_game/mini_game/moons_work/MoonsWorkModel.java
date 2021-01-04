@@ -49,7 +49,6 @@ public class MoonsWorkModel extends GameModel {
         rocketLiveCount  = new RocketLiveCount(this);
         alert            = new Alert();
 
-
         addSymbol(moon);
         addSymbol(earth);
         addSymbol(counter);

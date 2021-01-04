@@ -55,7 +55,7 @@ public class MeteoriteManager extends Symbol implements Suspendable {
             addRocksRandomly();
             addRocketsRandomly();
             removeObsoleteObjects();
-            model.getAlert().setAlertEnabled(model.getEarth().isDangerous());
+            model.getAlert().setAlertLevel(model.getEarth().dangerousLevel());
         });
     }
 
@@ -171,18 +171,23 @@ public class MeteoriteManager extends Symbol implements Suspendable {
     // 出発地点を決める
     private Point selectOutOfBoundsPoint() {
         Point p = new Point();
-        double angle = Math.PI * 2 * Math.random();
+        double angle = Math.PI * 2 * (Math.random());
         p.x = (int)(SPAWN_RADIUS * Math.cos(angle) + mainViewRect.getCenterX());
         p.y = (int)(SPAWN_RADIUS * Math.sin(angle) + mainViewRect.getCenterY());
         return p;
     }
 
+    private static final double CHANCE_OF_HEALING_ROCKET = 0.1;
+    private static final double CHANCE_OF_ROCKET = 0.1;
+    private static final double CHANCE_OF_METEORITE = 0.1;
+
+
     // 岩(障害物)をランダムに生成する
     private void addRocksRandomly() {
-        if(Math.random() < 0.05) {
+        if(Math.random() < CHANCE_OF_METEORITE) {
             var p = selectOutOfBoundsPoint();
             MovableSymbol obj;
-            if(Math.random() < 0.9) {
+            if(Math.random() > CHANCE_OF_HEALING_ROCKET) {
                 obj = new Meteorite(p.x, p.y);
                 obj.setRelativeHitBox(RelativeHitBox.makeCircle(26));
             } else {
@@ -204,7 +209,7 @@ public class MeteoriteManager extends Symbol implements Suspendable {
 
     // 岩(障害物)をランダムに生成する
     private void addRocketsRandomly() {
-        if(Math.random() < 0.1) {
+        if(Math.random() < CHANCE_OF_ROCKET) {
             var p = new Point((int)mainViewRect.getWidth() /2,
                               (int)mainViewRect.getHeight()/2);
             var obj = new Rocket(p.x, p.y);
