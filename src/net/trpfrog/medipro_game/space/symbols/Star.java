@@ -14,6 +14,12 @@ public class Star extends Symbol {
         this.setDrawer(new StarVisual());
     }
 
+    public Star(Image starImage, int radiusPx) {
+        setDrawer(g -> g.drawImage(starImage,
+                (int)getX() - radiusPx, (int)getY() - radiusPx,
+                2 * radiusPx, 2 * radiusPx, null));
+    }
+
     public static Star getRandomStar() {
         return new Star();
     }
