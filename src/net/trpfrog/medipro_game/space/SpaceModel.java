@@ -8,7 +8,7 @@ import net.trpfrog.medipro_game.space.symbols.Rocket;
 public class SpaceModel extends GameModel {
 
     private SpaceMap3D map = new SpaceMap3D(128, 128, 16, 10);
-    private Rocket rocket = new Rocket();
+    private Rocket rocket = new Rocket(this);
 
 
     /**
@@ -38,11 +38,11 @@ public class SpaceModel extends GameModel {
 
     @Override
     public void suspend() {
-
+        rocket.suspend();
     }
 
     @Override
     public void resume() {
-
+        rocket.resume();
     }
 }

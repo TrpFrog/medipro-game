@@ -1,21 +1,70 @@
 package net.trpfrog.medipro_game.space.symbols;
 
 import net.trpfrog.medipro_game.Drawable;
+import net.trpfrog.medipro_game.SceneManager;
+import net.trpfrog.medipro_game.Suspendable;
+import net.trpfrog.medipro_game.space.SpaceModel;
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
+import net.trpfrog.medipro_game.symbol.Symbol;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * 操作キャラクターであるロケットの情報を保持するクラス。
  * @author つまみ
  */
-public class Rocket extends MovableSymbol {
+public class Rocket extends MovableSymbol implements Suspendable {
 
     private int depth;
     private RocketAnimation animation = new RocketAnimation(this);
+    private SpaceModel model;
+    private EventStar touchingEventStar = null;
+    private Timer astronautTimer;
 
-    public Rocket() {
+    public Rocket(SpaceModel model) {
+        this.model = model;
         this.setDrawer(animation);
+        astronautTimer = new Timer(100, e -> warpToTouchingStar());
+    }
+
+    private void warpToTouchingStar() {
+        // 最近触れた星から一定以上離れるまで探索を中止する
+        if(touchingEventStar != null) {
+            boolean touchedRecently =
+                    touches(touchingEventStar) ||
+                    touchingEventStar.getPoint2D().distance(getPoint2D()) < 100;
+            if(touchedRecently) return;
+        }
+
+        int searchRange = 100;
+        var searchRect = new Rectangle(
+                (int)getX() - searchRange, (int)getY() - searchRange,
+                2 * searchRange, 2 * searchRange);
+
+        var nearbyStars = model.getRocketFloorMap().rangeSymbolStream(searchRect);
+
+        touchingEventStar = searchEventStar(nearbyStars);
+        if(touchingEventStar != null) {
+            SceneManager.getInstance().push(touchingEventStar.getEvent());
+        }
+    }
+
+    // 最も近い触れている星を返す
+    private EventStar searchEventStar(Stream<Symbol> starStream) {
+        var eventStar = starStream
+                .filter(e -> e instanceof EventStar)
+                .filter(this::touches)
+                .min(Comparator.comparingDouble(e -> getPoint2D().distance(e.getPoint2D())));
+
+        if(eventStar.isEmpty()) {
+            return null;
+        } else {
+            return (EventStar) eventStar.get();
+        }
     }
 
     /**
@@ -32,6 +81,16 @@ public class Rocket extends MovableSymbol {
      */
     public void setDepth(int depth) {
         this.depth = depth;
+    }
+
+    @Override
+    public void suspend() {
+        astronautTimer.stop();
+    }
+
+    @Override
+    public void resume() {
+        astronautTimer.start();
     }
 
     /**
