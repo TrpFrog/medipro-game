@@ -3,12 +3,18 @@ package net.trpfrog.medipro_game.mini_game;
 import net.trpfrog.medipro_game.dialog_background.DialogBackgroundScene;
 import net.trpfrog.medipro_game.scene.GameScene;
 
+import java.awt.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class MiniGameScene extends GameScene {
 
     private String gameTitle = "SampleGame";
     private String gameDescription = "";
     private String howToPlay = "";
     private String creatorName = "";
+
+    private Image starImage = null;
 
     /**
      * ミニゲームのタイトルを取得します。
@@ -92,6 +98,14 @@ public class MiniGameScene extends GameScene {
      */
     public void setHowToPlay(String... howToPlay) {
         this.howToPlay = generateLabelString(howToPlay);
+    }
+
+    public Image getStarImage() {
+        return starImage;
+    }
+
+    protected void setStarImage(Path imagePath) {
+        starImage = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
     }
 
     /**
