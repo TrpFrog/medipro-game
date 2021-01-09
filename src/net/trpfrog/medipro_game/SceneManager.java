@@ -68,6 +68,14 @@ public class SceneManager {
     }
 
     /**
+     * シーンスタックの最前面のシーンを返します。
+     * @return シーンスタックの最前面のシーン
+     */
+    public GameScene top() {
+        return deque.peekFirst();
+    }
+
+    /**
      * 最後に追加されたゲームシーンを取り出します。
      * また、スタックが空になった場合、ソフトウェアを終了します。
      * @return 取り出されたゲームシーン
@@ -91,7 +99,7 @@ public class SceneManager {
      * @param sceneParts MVCのパーツ
      * @return 見つかった場合はpopしたシーン, それ以外はnull
      */
-    public GameScene popUntil(GameMVC sceneParts) {
+    public GameScene popAndAbove(GameMVC sceneParts) {
         boolean contain = deque.stream().anyMatch(e -> e.contains(sceneParts));
         while(contain && !deque.isEmpty()) {
             GameScene popped = pop();
@@ -106,11 +114,11 @@ public class SceneManager {
      * @param scene pop対象のシーン
      * @return 見つかった場合はpopしたシーン, それ以外はnull
      */
-    public GameScene popUntil(GameScene scene) {
-        boolean contain = deque.stream().anyMatch(e -> e == scene);
+    public GameScene popAndAbove(GameScene scene) {
+        boolean contain = deque.stream().anyMatch(e -> e.equals(scene));
         while(contain && !deque.isEmpty()) {
             GameScene popped = pop();
-            if(popped == scene) return popped;
+            if(popped.equals(scene)) return popped;
         }
         return null;
     }
