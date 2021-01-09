@@ -1,6 +1,7 @@
 package net.trpfrog.medipro_game.mini_game.moons_work;
 
 import net.trpfrog.medipro_game.SceneManager;
+import net.trpfrog.medipro_game.mainmenu.MainMenuScene;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -32,10 +33,7 @@ public class CompleteWindow extends JPanel {
 
         backToMainMenuButton.addActionListener(e -> {
             SceneManager sm = SceneManager.getInstance();
-            int size = sm.size();
-            for (int i = 0; i < size - 1; i++) {
-                sm.pop();
-            }
+            while(!(sm.top() instanceof MainMenuScene)) sm.pop();
         });
 
         setLayout(new BorderLayout());

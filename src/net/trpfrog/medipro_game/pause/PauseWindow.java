@@ -1,6 +1,7 @@
 package net.trpfrog.medipro_game.pause;
 
 import net.trpfrog.medipro_game.SceneManager;
+import net.trpfrog.medipro_game.mainmenu.MainMenuScene;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +16,7 @@ public class PauseWindow extends JPanel {
 
         backToMainMenuButton.addActionListener(e -> {
             SceneManager sm = SceneManager.getInstance();
-            int size = sm.size();
-            for (int i = 0; i < size - 1; i++) {
+            while(!(sm.top() instanceof MainMenuScene)) {
                 sm.pop();
             }
         });
