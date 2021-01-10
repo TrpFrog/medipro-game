@@ -1,6 +1,7 @@
 package net.trpfrog.medipro_game.space.symbols;
 
 import net.trpfrog.medipro_game.Drawable;
+import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.Suspendable;
 import net.trpfrog.medipro_game.space.SpaceModel;
@@ -9,6 +10,8 @@ import net.trpfrog.medipro_game.symbol.Symbol;
 
 import javax.swing.*;
 import java.awt.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -17,18 +20,25 @@ import java.util.stream.Stream;
  * 操作キャラクターであるロケットの情報を保持するクラス。
  * @author つまみ
  */
-public class Rocket extends MovableSymbol implements Suspendable {
+public class Rocket extends MovableSymbol implements Suspendable{
 
     private int depth;
-    private RocketAnimation animation = new RocketAnimation(this);
+    private RocketAnimation animation;
     private SpaceModel model;
     private EventStar touchingEventStar = null;
     private Timer astronautTimer;
+    private Image rocketImage = getImagePath(Paths.get(".","resource","mini_game","moons_work","rocket.png"));
+
 
     public Rocket(SpaceModel model) {
         this.model = model;
+        this.animation = new RocketAnimation(this);
         this.setDrawer(animation);
         astronautTimer = new Timer(100, e -> warpToTouchingStar());
+    }
+
+    public static Image getImagePath(Path path) {
+        return Toolkit.getDefaultToolkit().getImage(path.toString());
     }
 
     private void warpToTouchingStar() {
@@ -96,7 +106,7 @@ public class Rocket extends MovableSymbol implements Suspendable {
     /**
      * ロケットのアニメーションに関するメソッドを定義します。
      */
-    public static class RocketAnimation implements Drawable {
+    public class RocketAnimation implements Drawable {
         private final Rocket rocket;
 
         public RocketAnimation(Rocket rocket) {
@@ -106,12 +116,13 @@ public class Rocket extends MovableSymbol implements Suspendable {
         public void damaged() {
             // TODO: 10秒間赤く点滅させるとか、スレッド走らせればできる？
             // わからんので調べてください、つまみより
+
         }
 
 
         @Override
         public void draw(Graphics2D g) {
-
+            g.drawImage(rocketImage,(int)getX(),(int)getY(),100,100,null);
         }
     }
 }
