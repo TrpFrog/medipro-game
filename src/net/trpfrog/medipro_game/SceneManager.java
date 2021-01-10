@@ -1,5 +1,6 @@
 package net.trpfrog.medipro_game;
 
+import net.trpfrog.medipro_game.animation.TransitionScene;
 import net.trpfrog.medipro_game.scene.GameMVC;
 import net.trpfrog.medipro_game.scene.GameScene;
 
@@ -48,7 +49,7 @@ public class SceneManager {
     }
 
     /**
-     * 新たなゲームシーンをスタックに登録します。
+     * 新たなゲームシーンをスタックに追加します。
      * @param scene 新しく追加されるシーン
      */
     public void push(GameScene scene) {
@@ -56,15 +57,32 @@ public class SceneManager {
             deque.peekFirst().suspend();
         }
         deque.addFirst(scene);
+
         for(GameScene sub : scene.getSubScenes()) {
             deque.addFirst(sub);
         }
+
         if(scene.getSubScenes().isEmpty()) {
             scene.resume();
         } else {
             scene.getSubScenes().get(scene.getSubScenes().size() - 1).resume();
         }
+
         notifyDequeChanged();
+    }
+
+    /**
+     * 新たなゲームシーンをスタックに追加します。
+     * 引数でシーン遷移アニメーションの有無を設定できます。
+     * @param scene 新しく追加されるシーン
+     * @param withTransition シーン遷移アニメーションをつけるか
+     */
+    public void push(GameScene scene, boolean withTransition) {
+        if(!withTransition){
+            push(scene);
+        } else {
+            push(TransitionScene.createPushTransition(scene));
+        }
     }
 
     /**
@@ -84,12 +102,31 @@ public class SceneManager {
         assert deque.peekFirst() != null;
         deque.peekFirst().suspend();
         GameScene ret = deque.removeFirst();
+
         if(deque.isEmpty()) {
             System.exit(0);
         }
         deque.peekFirst().resume();
+
         notifyDequeChanged();
         return ret;
+    }
+
+    /**
+     * 最後に追加されたゲームシーンを取り出します。
+     * また、スタックが空になった場合、ソフトウェアを終了します。
+     * 引数でシーン遷移アニメーションの有無を設定できます。
+     * @param withTransition シーン遷移アニメーションをつけるか
+     * @return 取り出されたゲームシーン
+     */
+    public GameScene pop(boolean withTransition) {
+        if(!withTransition){
+            return pop();
+        } else {
+            var ret = top();
+            push(TransitionScene.createPopTransition(top()));
+            return ret;
+        }
     }
 
     /**
