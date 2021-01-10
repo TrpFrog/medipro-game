@@ -17,7 +17,7 @@ public class SpaceMap2D {
 
     private int chunkSize;
     private int chunkW, chunkH;
-    private boolean[][] visited = new boolean[chunkW][chunkH];
+    private boolean[][] visited;
 
     /**
      * 指定したサイズの平面宇宙マップを作成します。
@@ -32,6 +32,8 @@ public class SpaceMap2D {
         this.chunkSize = chunkSize;
         this.chunkW = chunkW;
         this.chunkH = chunkH;
+        visited = new boolean[chunkW][chunkH];
+        symbolsTree = new FastGridTree<>();
     }
 
     /**

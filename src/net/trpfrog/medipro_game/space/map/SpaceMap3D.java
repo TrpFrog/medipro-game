@@ -30,7 +30,7 @@ public class SpaceMap3D {
     public SpaceMap3D(int chunkW, int chunkH, int chunkSize, int depth) {
         list = new ArrayList<>(depth);
         for(int i = 0; i < depth; i++) {
-            list.set(i, new SpaceMap2D(chunkH, chunkW, chunkSize));
+            list.add(new SpaceMap2D(chunkH, chunkW, chunkSize));
         }
     }
 
