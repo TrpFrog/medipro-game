@@ -21,15 +21,13 @@ public class SpaceView extends GameView {
     private final int imageHeight = 500;
     MainView mainView = MainView.getInstance();
     private Rocket rocket;
+    private Timer timer = new Timer(10, e->repaint());
 
     public SpaceView(SpaceModel model) {
         super(model);
         this.model = model;
         this.rocket = this.model.getRocket();
         centerPoint = new Point(mainView.getWidth()/2, mainView.getHeight()/2);
-        this.rocket.setX(mainView.getWidth()/2);
-        this.rocket.setY(mainView.getHeight()/2);
-
         SpaceMap2D currentMap = this.model.getRocketFloorMap();
         currentMap.addSymbol(centerPoint,this.rocket);
     }
@@ -43,11 +41,11 @@ public class SpaceView extends GameView {
 
     @Override
     public void suspend() {
-
+        timer.stop();
     }
 
     @Override
     public void resume() {
-
+        timer.start();
     }
 }

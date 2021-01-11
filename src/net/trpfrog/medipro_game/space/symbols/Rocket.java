@@ -1,5 +1,6 @@
 package net.trpfrog.medipro_game.space.symbols;
 
+import com.sun.tools.javac.Main;
 import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.SceneManager;
@@ -122,7 +123,12 @@ public class Rocket extends MovableSymbol implements Suspendable{
 
         @Override
         public void draw(Graphics2D g) {
-            g.drawImage(rocketImage,(int)getX(),(int)getY(),100,100,null);
+            MainView mainView = MainView.getInstance();
+            int drawX = mainView.getWidth()/2;
+            int drawY = mainView.getHeight()/2;
+            g.rotate(Math.toRadians(270),drawX,drawY);
+            g.drawImage(rocketImage,drawX,drawY,100,70,null);
+            g.rotate(Math.toRadians(-270),drawX,drawY);
         }
     }
 }
