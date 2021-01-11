@@ -6,7 +6,7 @@ import javax.swing.*;
  * 速度を持つSymbolのクラス。
  * @author つまみ
  */
-public class  MovableSymbol extends Symbol {
+public class MovableSymbol extends Symbol {
 
     private double speedPxPerSecond = 0;
     private Timer timer;
