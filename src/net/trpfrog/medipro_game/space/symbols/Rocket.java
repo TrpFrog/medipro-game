@@ -28,7 +28,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
     private SpaceModel model;
     private EventStar touchingEventStar = null;
     private Timer astronautTimer;
-    private Image rocketImage = getImagePath(Paths.get(".","resource","mini_game","moons_work","rocket.png"));
+    private Image rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
 
 
     public Rocket(SpaceModel model) {
@@ -38,7 +38,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
         astronautTimer = new Timer(100, e -> warpToTouchingStar());
     }
 
-    public static Image getImagePath(Path path) {
+    private Image getImagePath(Path path) {
         return Toolkit.getDefaultToolkit().getImage(path.toString());
     }
 
@@ -124,11 +124,14 @@ public class Rocket extends MovableSymbol implements Suspendable{
         @Override
         public void draw(Graphics2D g) {
             MainView mainView = MainView.getInstance();
+            int imageWidth = 80;
+            int imageHeight = 100;
             int drawX = mainView.getWidth()/2;
             int drawY = mainView.getHeight()/2;
-            g.rotate(Math.toRadians(270),drawX,drawY);
-            g.drawImage(rocketImage,drawX,drawY,100,70,null);
-            g.rotate(Math.toRadians(-270),drawX,drawY);
+            double angle = getAngleRadians();
+            g.rotate(angle,drawX,drawY);
+            g.drawImage(rocketImage,drawX-imageWidth/2,drawY-imageHeight/2,imageWidth,imageHeight,null);
+            g.rotate(angle,drawX,drawY);
         }
     }
 }
