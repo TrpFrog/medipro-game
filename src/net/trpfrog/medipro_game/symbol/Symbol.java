@@ -54,6 +54,20 @@ public class Symbol {
         }
     }
 
+    /**
+     * 描画範囲の座標に合わせて一時的に座標をずらして描画する {@code Drawer} を取得します。
+     * @param drawRangeX 描画範囲の左上のx座標
+     * @param drawRangeY 描画範囲の左上のy座標
+     * @return 画範囲の座標に合わせて一時的に座標をずらして描画する {@code Drawer}
+     */
+    public final Drawable createTranslatedDrawer(int drawRangeX, int drawRangeY) {
+        return g -> {
+            translate(-drawRangeX, -drawRangeY);
+            getDrawer().draw(g);
+            translate(drawRangeX, drawRangeY);
+        };
+    }
+
     private Drawable createDrawerWithCollisionShape() {
         return g -> {
             drawer.draw(g);
