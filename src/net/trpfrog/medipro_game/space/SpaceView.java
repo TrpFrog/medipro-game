@@ -29,7 +29,8 @@ public class SpaceView extends GameView {
         this.rocket = this.model.getRocket();
         centerPoint = new Point(mainView.getWidth()/2, mainView.getHeight()/2);
         SpaceMap2D currentMap = this.model.getRocketFloorMap();
-        currentMap.addSymbol(centerPoint,this.rocket);
+        //currentMap.addSymbol(centerPoint,this.rocket);
+
     }
 
     @Override

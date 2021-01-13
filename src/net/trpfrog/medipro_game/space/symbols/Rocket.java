@@ -11,6 +11,8 @@ import net.trpfrog.medipro_game.symbol.Symbol;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
@@ -29,6 +31,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
     private EventStar touchingEventStar = null;
     private Timer astronautTimer;
     private Image rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
+    private boolean damageFlag = false;
 
 
     public Rocket(SpaceModel model) {
@@ -36,11 +39,18 @@ public class Rocket extends MovableSymbol implements Suspendable{
         this.animation = new RocketAnimation(this);
         this.setDrawer(animation);
         astronautTimer = new Timer(100, e -> warpToTouchingStar());
+        animation.damaged();
     }
 
     private Image getImagePath(Path path) {
         return Toolkit.getDefaultToolkit().getImage(path.toString());
     }
+
+    /**
+     * ロケットがダメージを受けている状態かどうかを判定します。
+     * @return ロケットがダメージを受けているかの真偽値
+     */
+    public boolean isDamaged(){ return damageFlag; }
 
     private void warpToTouchingStar() {
         // 最近触れた星から一定以上離れるまで探索を中止する
@@ -104,34 +114,49 @@ public class Rocket extends MovableSymbol implements Suspendable{
         astronautTimer.start();
     }
 
+
     /**
      * ロケットのアニメーションに関するメソッドを定義します。
      */
-    public class RocketAnimation implements Drawable {
+    public class RocketAnimation implements Drawable,ActionListener {
         private final Rocket rocket;
+        private Timer damageTimer;
+        private int damageCounter;
 
         public RocketAnimation(Rocket rocket) {
             this.rocket = rocket;
+            damageTimer = new Timer(10,this);
         }
 
         public void damaged() {
             // TODO: 10秒間赤く点滅させるとか、スレッド走らせればできる？
             // わからんので調べてください、つまみより
-
+            rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket_damaged.png"));
+            damageTimer.start();
+            damageCounter = 0;
         }
-
 
         @Override
         public void draw(Graphics2D g) {
             MainView mainView = MainView.getInstance();
             int imageWidth = 80;
-            int imageHeight = 100;
+            int imageHeight = 120;
             int drawX = mainView.getWidth()/2;
             int drawY = mainView.getHeight()/2;
             double angle = getAngleRadians();
             g.rotate(angle,drawX,drawY);
             g.drawImage(rocketImage,drawX-imageWidth/2,drawY-imageHeight/2,imageWidth,imageHeight,null);
             g.rotate(angle,drawX,drawY);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            rocket.setAngleDegrees(rocket.getAngleDegrees()+10);
+            damageCounter++;
+            if(damageCounter >= 36){
+                damageTimer.stop();
+                rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
+            }
         }
     }
 }
