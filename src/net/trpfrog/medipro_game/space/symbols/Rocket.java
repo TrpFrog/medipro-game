@@ -31,8 +31,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
     private EventStar touchingEventStar = null;
     private Timer astronautTimer;
     private Image rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
-    private boolean damageFlag = false;
-
 
     public Rocket(SpaceModel model) {
         this.model = model;
@@ -45,12 +43,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
     private Image getImagePath(Path path) {
         return Toolkit.getDefaultToolkit().getImage(path.toString());
     }
-
-    /**
-     * ロケットがダメージを受けている状態かどうかを判定します。
-     * @return ロケットがダメージを受けているかの真偽値
-     */
-    public boolean isDamaged(){ return damageFlag; }
 
     private void warpToTouchingStar() {
         // 最近触れた星から一定以上離れるまで探索を中止する
@@ -129,8 +121,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
         }
 
         public void damaged() {
-            // TODO: 10秒間赤く点滅させるとか、スレッド走らせればできる？
-            // わからんので調べてください、つまみより
             rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket_damaged.png"));
             damageTimer.start();
             damageCounter = 0;
@@ -151,9 +141,9 @@ public class Rocket extends MovableSymbol implements Suspendable{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            rocket.setAngleDegrees(rocket.getAngleDegrees()+10);
+            rocket.setAngleDegrees(rocket.getAngleDegrees()+8);
             damageCounter++;
-            if(damageCounter >= 36){
+            if(damageCounter >= 45){
                 damageTimer.stop();
                 rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
             }

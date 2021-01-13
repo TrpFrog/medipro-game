@@ -14,13 +14,13 @@ import java.nio.file.Paths;
 public class Star extends Symbol{
     public static Image starImage1 = getImagePath(Paths.get(".","resource","space_game","star1.png"));
     public static Image starImage2 = getImagePath(Paths.get(".","resource","space_game","star2.png"));
-    static final int STAR_MAX_NUM = 2;
-    private int starIndex;
+    private static int starIndex;
     public static Image[] starImageArray = {starImage1,starImage2};
-    MainView mainView = MainView.getInstance();
+    private MainView mainView = MainView.getInstance();
+    private Image drawStarImage;
 
     public Star() {
-        this.starIndex =(int)(Math.random()*STAR_MAX_NUM);
+        drawStarImage = starImageArray[(int)(Math.random()*starImageArray.length)];
         setX(Math.random()*mainView.getHeight());
         setY(Math.random()*mainView.getWidth());
         this.setDrawer(new StarVisual());
@@ -35,33 +35,27 @@ public class Star extends Symbol{
     public static Star getRandomStar() {
         return new Star();
     }
+    private static Image getRandomStarImage(){
+        return starImageArray[(int)(Math.random()*starImageArray.length)];
+    }
 
     public static class StarVisual implements Drawable {
 
         @Override
         public void draw(Graphics2D g) {
             MainView mainView = MainView.getInstance();
-            int n = (int)(Math.random() * Star.STAR_MAX_NUM);
+            int n = (int)(Math.random() * starImageArray.length);
             int starSize = 48;
             int drawX = mainView.getWidth()/2 - starSize/2;
             int drawY = mainView.getHeight()/2 - starSize/2;
             int drawRangeW = drawX + (int)(Math.random()*350 - 175);
             int drawRangeH = drawY + (int)(Math.random()*350 - 175);
-            Image drawImageNow = getStarImageArray()[n];
-            g.drawImage(drawImageNow, drawRangeW,drawRangeH, starSize,starSize, null);
+            g.drawImage(getRandomStarImage(), drawRangeW,drawRangeH, starSize,starSize, null);
         }
     }
 
     public static Image getImagePath(Path path) {
         return Toolkit.getDefaultToolkit().getImage(path.toString());
-    }
-
-    public static Image[] getStarImageArray(){
-        return starImageArray;
-    }
-
-    public int getStarIndex() {
-        return starIndex;
     }
 }
 

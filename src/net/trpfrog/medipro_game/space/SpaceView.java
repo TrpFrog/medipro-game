@@ -35,12 +35,7 @@ public class SpaceView extends GameView{
         SpaceMap2D currentMap = this.model.getRocketFloorMap();
         star = Star.getRandomStar();
     }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        // 背景の描写
+    private void drawBackground(Graphics g){
         int x0 = (int)(rocket.getX()/2.0 - mainView.getWidth()/2.0);
         int y0 = (int)(rocket.getY()/2.0 - mainView.getHeight()/2.0);
         x0 = (x0 % imageWidth + imageWidth) % imageWidth - imageWidth;
@@ -50,6 +45,13 @@ public class SpaceView extends GameView{
                 g.drawImage(bkgImage,x,y,imageWidth,imageHeight,null);
             }
         }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        drawBackground(g);
         rocket.getDrawer().draw(g2); // ロケットの描写
         star.getDrawer().draw(g2);
     }
