@@ -57,12 +57,13 @@ public class MapDrawer implements Drawable {
     public void draw(Graphics2D g) {
         MainView mv = MainView.getInstance();
 
-        Rectangle drawRange = new Rectangle(0, 0, mv.getWidth(), mv.getHeight());
-        drawRange.translate(mv.getWidth()/2, mv.getHeight()/2);
-        drawRange.translate((int) player.getX(), (int) player.getY());
+        int x = (int) player.getX() - mv.getWidth()/2;
+        int y = (int) player.getY() - mv.getHeight()/2;
+
+        Rectangle drawRange = new Rectangle(x, y, mv.getWidth(), mv.getHeight());
         drawRange.grow(mv.getWidth()/2, mv.getHeight()/2);
 
         drawnMap.rangeSymbolStream(drawRange)
-                .forEach(e -> e.getDrawer().draw(g));
+                .forEach(e -> e.createTranslatedDrawer(x, y).draw(g));
     }
 }
