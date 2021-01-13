@@ -39,7 +39,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
         this.animation = new RocketAnimation(this);
         this.setDrawer(animation);
         astronautTimer = new Timer(100, e -> warpToTouchingStar());
-        animation.damaged();
+        //animation.damaged();
     }
 
     private Image getImagePath(Path path) {
