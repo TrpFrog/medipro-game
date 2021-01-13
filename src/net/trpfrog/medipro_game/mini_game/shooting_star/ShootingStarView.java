@@ -35,6 +35,8 @@ public class ShootingStarView extends GameView {
         });
         model.getStars().forEach(e -> e.getDrawer().draw(g2));
         model.getCouple().getDrawer().draw(g2);
+
+        model.getGameTimer().draw(g2);
     }
 
 

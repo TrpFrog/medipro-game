@@ -11,10 +11,10 @@ public class SubtractCount extends Symbol {
 
     public SubtractCount(double x, double y) {
         super(x, y);
-        font = new Font(Font.SANS_SERIF, Font.BOLD, 30);
+        font = new Font(Font.SANS_SERIF, Font.BOLD, 50);
         setDrawer(g -> {
             translate(0, -1);
-            alpha -= 0.001f;
+            alpha -= 0.01f;
             if(alpha < 0) return;
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
             g.setColor(Color.RED);

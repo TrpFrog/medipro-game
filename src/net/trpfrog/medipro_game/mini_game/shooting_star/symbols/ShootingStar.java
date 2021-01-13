@@ -34,8 +34,8 @@ public class ShootingStar extends Symbol implements Drawable {
         MainView mv = MainView.getInstance();
         drawRange = new Rectangle(centerX, centerY, 0, 0);
         drawRange.grow(radius, radius);
-        setX(drawRange.getCenterX());
-        setY(drawRange.getCenterY());
+        setX(centerX);
+        setY(centerY);
 
         timer.start();
     }
@@ -46,16 +46,17 @@ public class ShootingStar extends Symbol implements Drawable {
 
     private SubtractCount createSubtractCount() {
         int r = drawRange.width / 2;
+        int margin = 100;
         return new SubtractCount(
-                getX() + r * calcSightLineX(),
-                getY() - r * calcSightLineY()
+                (MainView.getInstance().getWidth()  - margin * 2) * Math.random() + margin/2.0,
+                (MainView.getInstance().getHeight() - margin * 2) * Math.random() + margin/2.0
         );
     }
 
     public boolean isLooked(Couple couple) {
         if(lookedByCouple) return true;
         lookedByCouple =  couple.looksAtTheSky() &&
-                180 - 45 <= getAngleDegrees() && getAngleDegrees() <= 45;
+                45 <= getAngleDegrees() && getAngleDegrees() <= 180 - 45;
 
         if(lookedByCouple) {
             subtractCount = createSubtractCount();

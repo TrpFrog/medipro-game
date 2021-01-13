@@ -34,6 +34,7 @@ public class ShootingStarController extends GameController implements KeyListene
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SPACE && !spaceKeyPressed) {
+            model.getGameTimer().start();
             model.addStar();
             spaceKeyPressed = true;
         }
