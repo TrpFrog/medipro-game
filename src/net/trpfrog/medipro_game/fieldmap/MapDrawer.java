@@ -50,11 +50,10 @@ public class MapDrawer implements Drawable {
     }
 
     /**
-     * 指定した {@code Symbol} を中心に {@code FieldMap} のオブジェクトを描画します。
-     * @param g 描画に使用する {@code Graphics2D}
+     * 描画範囲を示す {@code Rectangle} を生成します。
+     * @return 描画範囲を示す {@code Rectangle}
      */
-    @Override
-    public void draw(Graphics2D g) {
+    public Rectangle createDrawRangeRectangle() {
         MainView mv = MainView.getInstance();
 
         int x = (int) player.getX() - mv.getWidth()/2;
@@ -63,7 +62,17 @@ public class MapDrawer implements Drawable {
         Rectangle drawRange = new Rectangle(x, y, mv.getWidth(), mv.getHeight());
         drawRange.grow(mv.getWidth()/2, mv.getHeight()/2);
 
-        drawnMap.rangeSymbolStream(drawRange)
-                .forEach(e -> e.createTranslatedDrawer(x, y).draw(g));
+        return drawRange;
+    }
+
+    /**
+     * 指定した {@code Symbol} を中心に {@code FieldMap} のオブジェクトを描画します。
+     * @param g 描画に使用する {@code Graphics2D}
+     */
+    @Override
+    public void draw(Graphics2D g) {
+        var rect = createDrawRangeRectangle();
+        drawnMap.rangeSymbolStream(rect)
+                .forEach(e -> e.createTranslatedDrawer(rect.x, rect.y).draw(g));
     }
 }
