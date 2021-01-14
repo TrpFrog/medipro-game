@@ -67,6 +67,9 @@ public class Couple extends Symbol implements Drawable {
         int vibration = Math.max(0, desireToSeeSky - 3);
 
         MainView mv = MainView.getInstance();
+        setLocation(mv.getWidth() - width - 30,
+                mv.getHeight() - height);
+
         g.drawImage(image,
                 mv.getWidth() - width - 30 - (int)(vibration * Math.random()),
                 mv.getHeight() - height,

@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class ShootingStarController extends GameController implements KeyListener {
+public class ShootingStarController extends GameController implements KeyListener, MouseListener {
 
     private ShootingStarModel model;
     private ShootingStarView  view;
@@ -22,12 +22,11 @@ public class ShootingStarController extends GameController implements KeyListene
         // view に listener を add する
         view.addKeyListener(new EscapeToPause());
         view.addKeyListener(this);
+        view.addMouseListener(this);
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     private boolean spaceKeyPressed = false;
 
@@ -48,11 +47,26 @@ public class ShootingStarController extends GameController implements KeyListene
     }
 
     @Override
-    public void suspend() {
+    public void suspend() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        model.getGameTimer().start();
+        model.addStar();
     }
 
     @Override
-    public void resume() {
-    }
+    public void mousePressed(MouseEvent e) {}
 
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }

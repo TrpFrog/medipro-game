@@ -10,6 +10,7 @@ import net.trpfrog.medipro_game.mini_game.shooting_star.symbols.ScoreCounter;
 import net.trpfrog.medipro_game.mini_game.shooting_star.symbols.ShootingStar;
 import net.trpfrog.medipro_game.scene.GameModel;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class ShootingStarModel extends GameModel {
     private Couple couple;
     private ScoreCounter scoreCounter;
     private GameTimer gameTimer;
+    private Timer timer;
     private int score = 0;
     private boolean gameEnded = false;
 
@@ -30,6 +32,8 @@ public class ShootingStarModel extends GameModel {
         couple = new Couple(this);
         scoreCounter = new ScoreCounter(this);
         gameTimer = new GameTimer(30 * 1000, this);
+
+        timer = new Timer(10, e -> stars.forEach(ShootingStar::turn));
     }
 
     public List<ShootingStar> getStars() {
@@ -79,9 +83,11 @@ public class ShootingStarModel extends GameModel {
 
     @Override
     public void suspend(){
+        timer.stop();
     }
 
     @Override
     public void resume() {
+        timer.start();
     }
 }

@@ -13,19 +13,17 @@ public class ShootingStarScene extends MiniGameScene {
         );
 
         setGameTitle("Don't Show Shooting Stars!");
-        setCreatorName("つまみ流星群 inspired by ラブ一世");
+        setCreatorName("つまみ流星群 impacted by ねぎー彗星");
 
-        setGameDescription(
-                "今日は流れ星がよく見えそうです！"
-        );
+        setGameDescription("今日は流れ星がよく見えそうです！");
 
         setHowToPlay(
                 "あなたはカップルが嫌いな神です。",
-                "流れ星を待ち望むカップルのために、",
-                "カップルが見ていない隙に流れ星を流しましょう。",
-                "スペースキーを押すと流れ星を流すことができます。",
-                "60秒間でできるだけ多くの流れ星を流しましょう。",
-                "ただし流れ星を見られてしまうと10点減点です。"
+                "カップルが見ていない隙に流れ星を流しましょう。","",
+                "スペースキーを押す、または画面をクリックすることで",
+                "流れ星を流すことができます。",
+                "30秒間でできるだけ多くの星を流しましょう。",
+                "ただし、流れ星を見られてしまうと10点減点です。"
         );
 
         makeDescriptionDialog();

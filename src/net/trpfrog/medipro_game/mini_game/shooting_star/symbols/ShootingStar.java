@@ -5,7 +5,6 @@ import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.mini_game.shooting_star.ShootingStarModel;
 import net.trpfrog.medipro_game.symbol.Symbol;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class ShootingStar extends Symbol implements Drawable {
@@ -19,9 +18,8 @@ public class ShootingStar extends Symbol implements Drawable {
     private Rectangle drawRange;
     private boolean lookedByCouple = false;
     private SubtractCount subtractCount;
+    private Heart heart;
     private ShootingStarModel model;
-
-    private Timer timer = new Timer(10, e -> turnStarAutomatically());
 
     public ShootingStar(ShootingStarModel model) {
         setAngleDegrees(180);
@@ -36,8 +34,6 @@ public class ShootingStar extends Symbol implements Drawable {
         drawRange.grow(radius, radius);
         setX(centerX);
         setY(centerY);
-
-        timer.start();
     }
 
     public boolean isOutdated() {
@@ -45,11 +41,17 @@ public class ShootingStar extends Symbol implements Drawable {
     }
 
     private SubtractCount createSubtractCount() {
-        int r = drawRange.width / 2;
         int margin = 100;
         return new SubtractCount(
                 (MainView.getInstance().getWidth()  - margin * 2) * Math.random() + margin/2.0,
                 (MainView.getInstance().getHeight() - margin * 2) * Math.random() + margin/2.0
+        );
+    }
+
+    private Heart createHeart() {
+        return new Heart(
+                model.getCouple().getX() + Math.random() * 300,
+                model.getCouple().getY() + Math.random() * 250
         );
     }
 
@@ -60,14 +62,15 @@ public class ShootingStar extends Symbol implements Drawable {
 
         if(lookedByCouple) {
             subtractCount = createSubtractCount();
+            heart = createHeart();
             model.setScore(Math.max(0, model.getScore() - 10));
         }
 
         return lookedByCouple;
     }
 
-    private void turnStarAutomatically() {
-        if(isOutdated()) timer.stop();
+    public void turn() {
+        if(isOutdated()) return;
         this.turnClockwiseDegrees(2);
     }
 
@@ -75,15 +78,17 @@ public class ShootingStar extends Symbol implements Drawable {
         return subtractCount;
     }
 
+    public Heart getHeart() {
+        return heart;
+    }
+
     @Override
     public void draw(Graphics2D g) {
-        Graphics2D g2 = (Graphics2D) g;
-
-        if(subtractCount != null) subtractCount.getDrawer().draw(g2);
-
-        g2.setColor(Color.WHITE);
-        g2.setStroke(new BasicStroke(5));
-        g2.drawArc(drawRange.x, drawRange.y, drawRange.width, drawRange.height,
+        if(subtractCount != null) subtractCount.getDrawer().draw(g);
+        if(heart != null) heart.getDrawer().draw(g);
+        g.setColor(Color.WHITE);
+        g.setStroke(new BasicStroke(5));
+        g.drawArc(drawRange.x, drawRange.y, drawRange.width, drawRange.height,
                 (int)getAngleDegrees(), 5);
     }
 }
