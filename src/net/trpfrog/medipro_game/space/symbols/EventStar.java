@@ -1,6 +1,5 @@
 package net.trpfrog.medipro_game.space.symbols;
 
-import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.scene.GameScene;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 

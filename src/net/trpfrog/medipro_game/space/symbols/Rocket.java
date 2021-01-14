@@ -1,6 +1,5 @@
 package net.trpfrog.medipro_game.space.symbols;
 
-import com.sun.tools.javac.Main;
 import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.SceneManager;
@@ -16,7 +15,6 @@ import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**

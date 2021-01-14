@@ -1,6 +1,5 @@
 package net.trpfrog.medipro_game.mainmenu;
 
-import com.sun.tools.javac.Main;
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.scene.GameModel;
@@ -46,8 +45,6 @@ public class MainMenuView extends GameView {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         MainView mainView = MainView.getInstance();
-        int centerX = mainView.getX()/2;
-        int centerY = mainView.getY()/2;
         setBackground(Color.BLACK);
         g.drawImage(mainMenuImage,0,0,mainView.getWidth(),mainView.getHeight(),null);
     }
