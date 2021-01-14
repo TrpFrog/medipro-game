@@ -31,6 +31,8 @@ public class Rocket extends MovableSymbol implements Suspendable{
     private EventStar touchingEventStar = null;
     private Timer astronautTimer;
     private Image rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
+    private int imageWidth = 120;
+    private int imageHeight = 80;
 
     public Rocket(SpaceModel model) {
         this.model = model;
@@ -43,6 +45,8 @@ public class Rocket extends MovableSymbol implements Suspendable{
     private Image getImagePath(Path path) {
         return Toolkit.getDefaultToolkit().getImage(path.toString());
     }
+    public int getImageWidth(){ return this.imageWidth;}
+    public int getImageHeight(){ return this.imageHeight; }
 
     private void warpToTouchingStar() {
         // 最近触れた星から一定以上離れるまで探索を中止する
@@ -129,8 +133,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
         @Override
         public void draw(Graphics2D g) {
             MainView mainView = MainView.getInstance();
-            int imageWidth = 80;
-            int imageHeight = 120;
             int drawX = mainView.getWidth()/2;
             int drawY = mainView.getHeight()/2;
             double angle = getAngleRadians();

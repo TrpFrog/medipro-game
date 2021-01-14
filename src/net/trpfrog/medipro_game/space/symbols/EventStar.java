@@ -1,11 +1,12 @@
 package net.trpfrog.medipro_game.space.symbols;
 
+import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.scene.GameScene;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 
 import java.awt.*;
 
-public class EventStar extends Star {
+public class EventStar extends Star{
     private GameScene eventScene;
 
     public EventStar(Image starImage, int radius, GameScene event) {
@@ -21,4 +22,5 @@ public class EventStar extends Star {
     public GameScene getEvent() {
         return eventScene;
     }
+
 }

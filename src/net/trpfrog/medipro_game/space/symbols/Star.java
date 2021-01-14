@@ -18,6 +18,7 @@ public class Star extends Symbol{
     public static Image[] starImageArray = {starImage1,starImage2};
     private MainView mainView = MainView.getInstance();
     private Image drawStarImage;
+    private int STAR_NUM = 0;
 
     public Star() {
         drawStarImage = starImageArray[(int)(Math.random()*starImageArray.length)];
@@ -39,18 +40,12 @@ public class Star extends Symbol{
         return starImageArray[(int)(Math.random()*starImageArray.length)];
     }
 
-    public static class StarVisual implements Drawable {
+    public class StarVisual implements Drawable {
 
         @Override
         public void draw(Graphics2D g) {
-            MainView mainView = MainView.getInstance();
-            int n = (int)(Math.random() * starImageArray.length);
-            int starSize = 48;
-            int drawX = mainView.getWidth()/2 - starSize/2;
-            int drawY = mainView.getHeight()/2 - starSize/2;
-            int drawRangeW = drawX + (int)(Math.random()*350 - 175);
-            int drawRangeH = drawY + (int)(Math.random()*350 - 175);
-            g.drawImage(getRandomStarImage(), drawRangeW,drawRangeH, starSize,starSize, null);
+            int starSize = 35;
+            g.drawImage(getRandomStarImage(),(int)getX() ,(int)getY(), starSize,starSize, null);
         }
     }
 

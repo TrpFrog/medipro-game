@@ -41,7 +41,7 @@ public class SpaceMap2D extends FieldMap {
         int cx = x/chunkSize, cy = y/chunkSize;
         if(visited[cx][cy]) return;
 
-        double AUTO_GENERATED_STAR_DENSITY = 0.1;
+        double AUTO_GENERATED_STAR_DENSITY = 0.000005;
 
         for(int i = cx * chunkSize; i < (cx + 1) * chunkSize; i++) {
             for(int j = cy * chunkSize; j < (cy + 1) * chunkSize; j++) {
