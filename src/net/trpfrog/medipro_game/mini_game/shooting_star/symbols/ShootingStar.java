@@ -18,6 +18,7 @@ public class ShootingStar extends Symbol implements Drawable {
     private Rectangle drawRange;
     private boolean lookedByCouple = false;
     private SubtractCount subtractCount;
+    private Heart heart;
     private ShootingStarModel model;
 
     public ShootingStar(ShootingStarModel model) {
@@ -47,6 +48,13 @@ public class ShootingStar extends Symbol implements Drawable {
         );
     }
 
+    private Heart createHeart() {
+        return new Heart(
+                model.getCouple().getX() + Math.random() * 300,
+                model.getCouple().getY() + Math.random() * 250
+        );
+    }
+
     public boolean isLooked(Couple couple) {
         if(lookedByCouple) return true;
         lookedByCouple =  couple.looksAtTheSky() &&
@@ -54,6 +62,7 @@ public class ShootingStar extends Symbol implements Drawable {
 
         if(lookedByCouple) {
             subtractCount = createSubtractCount();
+            heart = createHeart();
             model.setScore(Math.max(0, model.getScore() - 10));
         }
 
@@ -69,9 +78,14 @@ public class ShootingStar extends Symbol implements Drawable {
         return subtractCount;
     }
 
+    public Heart getHeart() {
+        return heart;
+    }
+
     @Override
     public void draw(Graphics2D g) {
         if(subtractCount != null) subtractCount.getDrawer().draw(g);
+        if(heart != null) heart.getDrawer().draw(g);
         g.setColor(Color.WHITE);
         g.setStroke(new BasicStroke(5));
         g.drawArc(drawRange.x, drawRange.y, drawRange.width, drawRange.height,
