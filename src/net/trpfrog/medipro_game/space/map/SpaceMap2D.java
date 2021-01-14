@@ -56,19 +56,20 @@ public class SpaceMap2D extends FieldMap {
     }
 
     /**
-     * 指定した範囲に含まれるSymbolのStreamを返します。<br>
-     * もし未踏のチャンクが含まれていればそれを同時に生成します。<br>
-     * 計算量はフィールド全体の大きさを (H, W) として
-     * O(log(H) + log(W) + range.h * range.w) です。
-     * @param range Symbolが含まれている範囲
-     * @return 範囲内に存在するSymbolのStream
+     * 指定した範囲に未踏のチャンクがあればそのチャンク内に星オブジェクトを自動生成します。
+     * @param range 範囲
      */
-    public Stream<Symbol> rangeSymbolStream(final Rectangle range) {
+    public void generateStars(final Rectangle range) {
         for(int i = range.x; i < range.x + range.width; i += getChunkSquareLength()) {
             for(int j = range.y; j < range.y + range.height; j += getChunkSquareLength()) {
                 generateStars(i, j);
             }
         }
+    }
+
+    @Override
+    public Stream<Symbol> rangeSymbolStream(Rectangle range) {
+        generateStars(range);
         return super.rangeSymbolStream(range);
     }
 }

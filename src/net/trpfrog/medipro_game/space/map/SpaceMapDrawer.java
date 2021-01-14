@@ -17,9 +17,7 @@ public class SpaceMapDrawer extends MapDrawer {
     @Override
     public void draw(Graphics2D g) {
         setDrawnMap(model.getRocketFloorMap());
-
-        // 背景の描画
-
+        model.getRocketFloorMap().generateStars(createDrawRangeRectangle());
         super.draw(g);
     }
 }
