@@ -1,5 +1,6 @@
 package net.trpfrog.medipro_game.mini_game.galaxy_express;
 
+import net.trpfrog.medipro_game.mini_game.galaxy_express.symbols.Station;
 import net.trpfrog.medipro_game.scene.GameView;
 
 import javax.swing.*;
@@ -8,19 +9,13 @@ import java.awt.*;
 public class GalaxyExpressView extends GameView {
 
     private GalaxyExpressModel model;
+    private Station station1 = Station.getStation("UNKO");
     private Timer paintTimer = new Timer(10, g->repaint());
 
     public GalaxyExpressView(GalaxyExpressModel model) {
         super(model);
         this.model = model;
         setBackground(Color.pink);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.add(new JButton("SOUTH"),BorderLayout.SOUTH);
-        panel.add(new JButton("center"),BorderLayout.CENTER);
-        panel.add(new JButton("EAST"),BorderLayout.EAST);
-        add(panel);
     }
 
     @Override
@@ -28,8 +23,7 @@ public class GalaxyExpressView extends GameView {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         model.getTrain().getDrawer().draw(g2);
-        JButton button = new JButton("UNKO");
-        add(button,BorderLayout.SOUTH);
+        station1.getDrawer().draw(g2);
     }
 
     @Override

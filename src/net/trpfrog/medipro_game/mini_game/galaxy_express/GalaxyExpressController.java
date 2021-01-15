@@ -1,5 +1,6 @@
 package net.trpfrog.medipro_game.mini_game.galaxy_express;
 
+import net.trpfrog.medipro_game.pause.EscapeToPause;
 import net.trpfrog.medipro_game.scene.GameController;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class GalaxyExpressController extends GameController implements KeyListen
         super(model,view);
         this.model = model;
         this.view = view;
-        view.addKeyListener(this);
+        view.addKeyListener(new EscapeToPause());
     }
 
     @Override
