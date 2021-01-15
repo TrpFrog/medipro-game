@@ -2,6 +2,7 @@ package net.trpfrog.medipro_game.mini_game;
 
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.mainmenu.MainMenuScene;
+import net.trpfrog.medipro_game.space.SpaceScene;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -22,6 +23,7 @@ public class GameOverWindow extends JPanel {
 
         JLabel  messageLabel         = new JLabel(title);
         JLabel  countLabel           = new JLabel(score + "");
+        JButton spaceButton         = new JButton("Back to Space");
         JButton backToMainMenuButton = new JButton("Back to Main Menu");
 
         countLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 100));
@@ -37,10 +39,21 @@ public class GameOverWindow extends JPanel {
             while(!(sm.top() instanceof MainMenuScene)) sm.pop();
         });
 
+        spaceButton.addActionListener(e -> {
+            SceneManager sm = SceneManager.getInstance();
+            while(!(sm.top() instanceof SpaceScene)) sm.pop();
+        });
+
         setLayout(new BorderLayout());
         add(messageLabel, BorderLayout.NORTH);
         add(countLabel, BorderLayout.CENTER);
-        add(backToMainMenuButton, BorderLayout.SOUTH);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BorderLayout());
+        buttonPanel.add(backToMainMenuButton, BorderLayout.NORTH);
+        buttonPanel.add(spaceButton, BorderLayout.SOUTH);
+        buttonPanel.setOpaque(false);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     @Override

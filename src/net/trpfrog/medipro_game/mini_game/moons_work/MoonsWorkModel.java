@@ -3,21 +3,11 @@ package net.trpfrog.medipro_game.mini_game.moons_work;
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.dialog_background.DialogBackgroundScene;
+import net.trpfrog.medipro_game.mini_game.GameOverWindow;
 import net.trpfrog.medipro_game.mini_game.moons_work.symbols.*;
-import net.trpfrog.medipro_game.pause.PauseScene;
-import net.trpfrog.medipro_game.pause.PauseWindow;
 import net.trpfrog.medipro_game.scene.GameModel;
-import net.trpfrog.medipro_game.space.symbols.Rocket;
-import net.trpfrog.medipro_game.symbol.ImageAnimationSymbol;
-import net.trpfrog.medipro_game.symbol.Symbol;
-import net.trpfrog.medipro_game.util.GifConverter;
 
-import javax.swing.*;
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import static java.lang.Thread.sleep;
 
 public class MoonsWorkModel extends GameModel {
 
@@ -57,7 +47,10 @@ public class MoonsWorkModel extends GameModel {
 
     public void endGame() {
         playing = false;
-        var scene = new DialogBackgroundScene(new CompleteWindow(this), false);
+        var window = new GameOverWindow("GAME OVER",
+                getCounter().getValue(),
+                new Color(0xB5762200, true));
+        var scene = new DialogBackgroundScene(window, false);
         SceneManager.getInstance().push(scene);
     }
 
