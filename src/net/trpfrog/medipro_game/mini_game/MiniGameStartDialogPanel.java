@@ -1,20 +1,25 @@
 package net.trpfrog.medipro_game.mini_game;
 
 import net.trpfrog.medipro_game.SceneManager;
+import net.trpfrog.medipro_game.Suspendable;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class MiniGameStartDialogPanel extends JPanel {
+public class MiniGameStartDialogPanel extends JPanel implements Suspendable {
 
     private MiniGameScene scene;
+
+    private Timer timer = new Timer(10, e -> repaint());
+
+    private final int WIDTH = 600, HEIGHT = 400;
 
     public MiniGameStartDialogPanel(MiniGameScene scene) {
 
         this.scene = scene;
 
-        setSize(600, 400);
+        setSize(WIDTH, HEIGHT);
         setOpaque(false);
 
         setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -88,10 +93,30 @@ public class MiniGameStartDialogPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        // draw background
+        scene.getView().repaint();
+
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(new Color(0xE6171717, true));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+
+        // draw star image
+        if(scene.getStarImage() != null){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+            g2.drawImage(scene.getStarImage(), 0, HEIGHT - 350, 350, 350, null);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1.0f));
+        }
     }
 
+    @Override
+    public void suspend() {
+        timer.stop();
+    }
+
+    @Override
+    public void resume() {
+        timer.start();
+    }
 }

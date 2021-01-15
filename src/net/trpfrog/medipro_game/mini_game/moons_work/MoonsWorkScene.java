@@ -3,6 +3,8 @@ package net.trpfrog.medipro_game.mini_game.moons_work;
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.mini_game.MiniGameScene;
 
+import java.nio.file.Paths;
+
 public class MoonsWorkScene extends MiniGameScene {
 
     public MoonsWorkScene() {
@@ -21,6 +23,9 @@ public class MoonsWorkScene extends MiniGameScene {
                 "ロケットは3回までしか壊すことができません。",
                 "隕石が地球に落ちたらゲームオーバーです。"
         );
+
+        setStarImage(Paths.get(".","resource","mini_game","moons_work","staricon.png"));
+
         makeDescriptionDialog();
     }
 
