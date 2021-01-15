@@ -46,10 +46,10 @@ public class SpaceView extends GameView{
         shootingStarStar = new EventStar(ssScene.getStarImage(),60,ssScene);
         galaxyExpressStar = new EventStar(geScene.getStarImage(),60,geScene);
         // マップにEventStarのSymbolを追加
-        spaceMap2D.addSymbol(100,300,moonWorkStar);
-        spaceMap2D.addSymbol(400,150,raceGameStar);
-        spaceMap2D.addSymbol(700,200,shootingStarStar);
-        spaceMap2D.addSymbol(500,300,galaxyExpressStar);
+        spaceMap2D.addSymbol(-300,0,moonWorkStar);
+        spaceMap2D.addSymbol(300,0,raceGameStar);
+        spaceMap2D.addSymbol(0,200,shootingStarStar);
+        spaceMap2D.addSymbol(0,-200,galaxyExpressStar);
 
         spaceMapDrawer = new SpaceMapDrawer(model);
     }
