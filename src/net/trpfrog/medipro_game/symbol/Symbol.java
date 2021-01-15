@@ -236,7 +236,7 @@ public class Symbol {
         double dx = otherX - myX;
         double dy = otherY - myY;
 
-        double toOtherAngle = Math.atan2(dy, dx);
+        double toOtherAngle = Math.toDegrees(Math.atan2(dy, dx));
         this.setAngleDegrees(toOtherAngle);
     }
 
@@ -246,7 +246,7 @@ public class Symbol {
         double dx = x - myX;
         double dy = y - myY;
 
-        double toOtherAngle = Math.atan2(dy, dx);
+        double toOtherAngle = Math.toDegrees(Math.atan2(dy, dx));
         this.setAngleDegrees(toOtherAngle);
     }
 

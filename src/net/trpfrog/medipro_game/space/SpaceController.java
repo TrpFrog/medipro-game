@@ -8,8 +8,10 @@ import net.trpfrog.medipro_game.pause.EscapeToPause;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class SpaceController extends GameController implements KeyListener {
+public class SpaceController extends GameController implements KeyListener, MouseListener {
     private SpaceModel model;
     private SpaceView view;
     private boolean isUpperAngle;
@@ -34,6 +36,7 @@ public class SpaceController extends GameController implements KeyListener {
 
         this.view = view;
         this.view.addKeyListener(this);
+        this.view.addMouseListener(this);
         this.view.addKeyListener(new EscapeToPause(false));
     }
 
@@ -92,5 +95,36 @@ public class SpaceController extends GameController implements KeyListener {
 
         rotateTimerL.stop();
         rotateTimerR.stop();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        double rocketX = rocket.getX();
+        double rocketY = rocket.getY();
+        int mapX = (int) (rocketX - view.getWidth()/2 + mouseX);
+        int mapY = (int) (rocketY - view.getHeight()/2 + mouseY);
+        rocket.faceTo(mapX, mapY);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
