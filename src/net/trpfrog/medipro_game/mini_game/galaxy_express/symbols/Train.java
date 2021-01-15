@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Train extends MovableSymbol implements Drawable, Suspendable, ActionListener {
+public class Train extends MovableSymbol implements Drawable, Suspendable,ActionListener{
 
     private Image image;
     private final Timer trainTimer = new Timer(10,this);
