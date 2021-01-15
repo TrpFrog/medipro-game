@@ -8,10 +8,16 @@ import java.awt.event.KeyEvent;
 public class EscapeToPause extends KeyAdapter {
     private int prevKeyCode;
     private long prevKeyPressedUNIXTime;
+    private boolean hasBackToSpaceButton;
 
-    public EscapeToPause(){
+    public EscapeToPause(boolean hasBackToSpaceButton){
+        this.hasBackToSpaceButton = hasBackToSpaceButton;
         prevKeyCode = 0;
         prevKeyPressedUNIXTime = 0;
+    }
+
+    public EscapeToPause(){
+        this(true);
     }
 
     @Override
@@ -22,7 +28,7 @@ public class EscapeToPause extends KeyAdapter {
         int keyCode = e.getKeyCode();
         if(keyCode == prevKeyCode) return;
         if(keyCode == KeyEvent.VK_ESCAPE) {
-            SceneManager.getInstance().push(new PauseScene());
+            SceneManager.getInstance().push(new PauseScene(hasBackToSpaceButton));
             prevKeyPressedUNIXTime = System.currentTimeMillis();
             prevKeyCode = keyCode;
         }

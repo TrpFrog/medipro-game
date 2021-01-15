@@ -26,11 +26,11 @@ public class Rocket extends MovableSymbol implements Suspendable{
     private int depth;
     private RocketAnimation animation;
     private SpaceModel model;
-    private EventStar touchingEventStar = null;
     private Timer astronautTimer;
     private Image rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
     private int imageWidth = 120;
     private int imageHeight = 80;
+    private long invincibleTimeUntil = 0;
 
     public Rocket(SpaceModel model) {
         this.model = model;
@@ -47,12 +47,9 @@ public class Rocket extends MovableSymbol implements Suspendable{
     public int getImageHeight(){ return this.imageHeight; }
 
     private void warpToTouchingStar() {
-        // 最近触れた星から一定以上離れるまで探索を中止する
-        if(touchingEventStar != null) {
-            boolean touchedRecently =
-                    touches(touchingEventStar) ||
-                    touchingEventStar.getPoint2D().distance(getPoint2D()) < 100;
-            if(touchedRecently) return;
+
+        if(System.currentTimeMillis() < invincibleTimeUntil) {
+            return;
         }
 
         int searchRange = 100;
@@ -62,7 +59,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
 
         var nearbyStars = model.getRocketFloorMap().rangeSymbolStream(searchRect);
 
-        touchingEventStar = searchEventStar(nearbyStars);
+        var touchingEventStar = searchEventStar(nearbyStars);
         if(touchingEventStar != null) {
             SceneManager.getInstance().push(touchingEventStar.getEvent(), true);
         }
@@ -106,11 +103,11 @@ public class Rocket extends MovableSymbol implements Suspendable{
 
     @Override
     public void resume() {
+        invincibleTimeUntil = System.currentTimeMillis() + 5000;
         astronautTimer.start();
         start();
         animation.damaged();
     }
-
 
     /**
      * ロケットのアニメーションに関するメソッドを定義します。

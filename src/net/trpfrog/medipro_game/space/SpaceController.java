@@ -37,7 +37,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         this.view = view;
         this.view.addKeyListener(this);
         this.view.addMouseListener(this);
-        this.view.addKeyListener(new EscapeToPause());
+        this.view.addKeyListener(new EscapeToPause(false));
     }
 
     @Override
