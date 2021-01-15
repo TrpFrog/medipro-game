@@ -25,13 +25,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
     }
     private Timer rotateTimerL = new Timer(20, e -> rotateTimerFunc(true));
     private Timer rotateTimerR = new Timer(20, e -> rotateTimerFunc(false));
-    private Timer decelerateTimer = new Timer(20, e -> {
-        double currentSpeedPxPerSecond = rocket.getSpeedPxPerSecond();
-        double dSpeedPxPerSecond = 25.0;
-        if(currentSpeedPxPerSecond <= 0) return; // 下限速度の場合に離脱
-        currentSpeedPxPerSecond = Math.max(currentSpeedPxPerSecond-dSpeedPxPerSecond, 0);
-        rocket.setSpeedPxPerSecond(currentSpeedPxPerSecond);
-    });
+    private Timer decelerateTimer = new Timer(20, e -> rocket.accelerate(-25.0));
 
     public SpaceController(SpaceModel model, SpaceView view) {
         super(model, view);
@@ -67,16 +61,11 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void keyPressed(KeyEvent e) {
-        double currentSpeedPxPerSecond = rocket.getSpeedPxPerSecond();
         double dSpeedPxPerSecond = 50.0; // とりあえず
 
         switch (e.getKeyChar()){
             // W: 加速
-            case 'w' -> {
-                if(1000.0 <= currentSpeedPxPerSecond) return; // 上限速度の場合に離脱
-                currentSpeedPxPerSecond = Math.min(currentSpeedPxPerSecond + dSpeedPxPerSecond, 1000.0);
-                rocket.setSpeedPxPerSecond(currentSpeedPxPerSecond);
-            }
+            case 'w' -> rocket.accelerate(dSpeedPxPerSecond);
             // A: 左旋回
             case 'a' -> rotateTimerL.start();
             // D: 右旋回
