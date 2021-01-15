@@ -14,16 +14,15 @@ public class SpaceController extends GameController implements KeyListener {
     private SpaceView view;
     private boolean isUpperAngle;
     private Rocket rocket;
-    private Timer rotateTimerL = new Timer(20, e -> {
+
+    private void rotateTimerFunc(boolean isLeft){
         double dAngleDegrees = 5.0; // とりあえず
         if(!this.isUpperAngle) dAngleDegrees *= -1;
-        rocket.turnAnticlockwiseDegrees(-dAngleDegrees);
-    });
-    private Timer rotateTimerR = new Timer(20, e -> {
-        double dAngleDegrees = 5.0; // とりあえず
-        if(!this.isUpperAngle) dAngleDegrees *= -1;
+        if(isLeft) dAngleDegrees *= -1;
         rocket.turnAnticlockwiseDegrees(dAngleDegrees);
-    });
+    }
+    private Timer rotateTimerL = new Timer(20, e -> rotateTimerFunc(true));
+    private Timer rotateTimerR = new Timer(20, e -> rotateTimerFunc(false));
 
     public SpaceController(SpaceModel model, SpaceView view) {
         super(model, view);
@@ -40,7 +39,8 @@ public class SpaceController extends GameController implements KeyListener {
 
     @Override
     public void suspend() {
-
+        rotateTimerL.stop();
+        rotateTimerR.stop();
     }
 
     @Override
