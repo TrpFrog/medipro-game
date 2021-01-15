@@ -143,7 +143,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
         public void actionPerformed(ActionEvent e) {
             rocket.setAngleDegrees(rocket.getAngleDegrees()+8);
             damageCounter++;
-            if(damageCounter >= 45*2){
+            if(damageCounter >= 45){
                 damageTimer.stop();
                 rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
             }

@@ -14,10 +14,12 @@ import java.nio.file.Paths;
 public class Train extends MovableSymbol implements Drawable, Suspendable, ActionListener {
 
     private Image image;
-    private final Timer trainTimer = new Timer(10,this::actionPerformed);
+    private final Timer trainTimer = new Timer(10,this);
+    private final int imageWidth = 170;
+    private final int imageHeight = 140;
 
     public Train(){
-        setLocation(100,100);
+        setLocation(400,400);
         Path imagePath = Paths.get(".","resource","mini_game","galaxy_express","train.png");
         image = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
         setDrawer(this);
@@ -25,7 +27,7 @@ public class Train extends MovableSymbol implements Drawable, Suspendable, Actio
 
     @Override
     public void draw(Graphics2D g) {
-        g.drawImage(image,(int)getX(),(int)getY(),170,140,null);
+        g.drawImage(image,(int)getX(),(int)getY(),imageWidth,imageHeight,null);
     }
 
     @Override
