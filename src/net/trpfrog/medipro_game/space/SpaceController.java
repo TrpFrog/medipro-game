@@ -9,15 +9,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class SpaceController extends GameController implements KeyListener {
-
     private SpaceModel model;
     private SpaceView view;
+    private boolean isUpperAngle;
+    private Rocket rocket;
 
     public SpaceController(SpaceModel model, SpaceView view) {
         super(model, view);
         this.model = model;
+        this.isUpperAngle = true;
 
-        Rocket rocket = model.getRocket();
+        rocket = model.getRocket();
         rocket.start(); // とりあえずC側でスタート
 
         this.view = view;
@@ -42,10 +44,10 @@ public class SpaceController extends GameController implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Rocket rocket = model.getRocket();
         double currentSpeedPxPerSecond = rocket.getSpeedPxPerSecond();
         double dSpeedPxPerSecond = 20.0; // とりあえず
         double dAngleDegrees = 5.0; // とりあえず
+        if(!isUpperAngle) dAngleDegrees *= -1;
 
         switch (e.getKeyChar()){
             // W: 加速
@@ -69,6 +71,7 @@ public class SpaceController extends GameController implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        double currentAngleDegrees = rocket.getAngleDegrees();
+        this.isUpperAngle = !(currentAngleDegrees <= 180);
     }
 }
