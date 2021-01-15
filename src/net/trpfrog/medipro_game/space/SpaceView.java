@@ -58,7 +58,6 @@ public class SpaceView extends GameView{
         Graphics2D g2 = (Graphics2D) g;
         drawBackground(g);
         spaceMapDrawer.draw(g2);
-        rocket.getDrawer().draw(g2); // ロケットの描写
     }
 
     @Override

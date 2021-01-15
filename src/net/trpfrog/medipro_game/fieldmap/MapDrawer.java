@@ -59,10 +59,7 @@ public class MapDrawer implements Drawable {
         int x = (int) player.getX() - mv.getWidth()/2;
         int y = (int) player.getY() - mv.getHeight()/2;
 
-        Rectangle drawRange = new Rectangle(x, y, mv.getWidth(), mv.getHeight());
-        drawRange.grow(mv.getWidth()/2, mv.getHeight()/2);
-
-        return drawRange;
+        return new Rectangle(x, y, mv.getWidth(), mv.getHeight());
     }
 
     /**
@@ -72,7 +69,14 @@ public class MapDrawer implements Drawable {
     @Override
     public void draw(Graphics2D g) {
         var rect = createDrawRangeRectangle();
+        int x = rect.x;
+        int y = rect.y;
+        rect.grow(500, 500);
+
+        player.createTranslatedDrawer((int)player.getX(), (int)player.getY()).draw(g);
+
         drawnMap.rangeSymbolStream(rect)
-                .forEach(e -> e.createTranslatedDrawer(rect.x, rect.y).draw(g));
+                .filter(e -> !player.equals(e))
+                .forEach(e -> e.createTranslatedDrawer((int)player.getX(), (int)player.getY()).draw(g));
     }
 }

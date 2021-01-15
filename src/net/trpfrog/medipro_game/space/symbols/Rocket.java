@@ -136,7 +136,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
             double angle = getAngleRadians();
             g.rotate(angle,drawX,drawY);
             g.drawImage(rocketImage,drawX-imageWidth/2,drawY-imageHeight/2,imageWidth,imageHeight,null);
-            g.rotate(angle,drawX,drawY);
+            g.rotate(-angle,drawX,drawY);
         }
 
         @Override
