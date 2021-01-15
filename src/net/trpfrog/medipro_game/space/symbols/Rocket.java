@@ -10,8 +10,7 @@ import net.trpfrog.medipro_game.symbol.Symbol;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
@@ -37,7 +36,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
         this.animation = new RocketAnimation(this);
         this.setDrawer(animation);
         astronautTimer = new Timer(100, e -> warpToTouchingStar());
-        //animation.damaged();
     }
 
     private Image getImagePath(Path path) {
@@ -109,23 +107,45 @@ public class Rocket extends MovableSymbol implements Suspendable{
         animation.damaged();
     }
 
+    public boolean isInvincible() {
+        return System.currentTimeMillis() < invincibleTimeUntil;
+    }
+
     /**
      * ロケットのアニメーションに関するメソッドを定義します。
      */
-    public class RocketAnimation implements Drawable,ActionListener {
+    public class RocketAnimation implements Drawable{
         private final Rocket rocket;
-        private Timer damageTimer;
+        private Timer damageTimer,invincibleTimer;
         private int damageCounter;
 
         public RocketAnimation(Rocket rocket) {
             this.rocket = rocket;
-            damageTimer = new Timer(10,this);
+            damageTimer = new Timer(10,e->{
+                rocket.setAngleDegrees(rocket.getAngleDegrees()+8);
+                damageCounter++;
+                if(damageCounter >= 45){
+                    damageTimer.stop();
+                    invincible();
+                }
+            });
+            invincibleTimer = new Timer(100,e -> {
+                if(!rocket.isInvincible()){
+                    rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
+                    invincibleTimer.stop();
+                }
+            });
         }
 
         public void damaged() {
             rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket_damaged.png"));
             damageTimer.start();
             damageCounter = 0;
+        }
+
+        public void invincible(){
+            rocketImage = getImagePath(Paths.get(".","resource","space_game","invincibleRocket.png"));
+            invincibleTimer.start();
         }
 
         @Override
@@ -137,16 +157,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
             g.rotate(angle,drawX,drawY);
             g.drawImage(rocketImage,drawX-imageWidth/2,drawY-imageHeight/2,imageWidth,imageHeight,null);
             g.rotate(-angle,drawX,drawY);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            rocket.setAngleDegrees(rocket.getAngleDegrees()+8);
-            damageCounter++;
-            if(damageCounter >= 45){
-                damageTimer.stop();
-                rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
-            }
         }
     }
 }
