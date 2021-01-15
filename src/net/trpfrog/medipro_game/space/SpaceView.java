@@ -7,7 +7,6 @@ import net.trpfrog.medipro_game.space.map.SpaceMap2D;
 import net.trpfrog.medipro_game.space.map.SpaceMapDrawer;
 import net.trpfrog.medipro_game.space.symbols.EventStar;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
-import net.trpfrog.medipro_game.space.symbols.Star;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 
 import javax.swing.*;
@@ -31,14 +30,12 @@ public class SpaceView extends GameView{
         super(model);
         this.model = model;
         this.rocket = this.model.getRocket();
-        rocket.setRelativeHitBox(RelativeHitBox.makeCircle(Math.max(rocket.getImageWidth(),rocket.getImageHeight())));
+        rocket.setRelativeHitBox(RelativeHitBox.makeCircle(60));
         spaceMap2D = this.model.getRocketFloorMap();
         eventStarImage = Toolkit.getDefaultToolkit().getImage(Paths.get(".","resource","space_game","EventStar.png").toString());
         eventStar = new EventStar(eventStarImage,60,new MoonsWorkScene());
-        eventStar.setX(400); eventStar.setY(400);
-        spaceMap2D.addSymbol((int)eventStar.getX(),(int)eventStar.getY(),eventStar);
+        spaceMap2D.addSymbol(300,300,eventStar);
         spaceMapDrawer = new SpaceMapDrawer(model);
-
     }
     private void drawBackground(Graphics g){
         int x0 = -(int)(rocket.getX()/2.0 - mainView.getWidth()/2.0);
