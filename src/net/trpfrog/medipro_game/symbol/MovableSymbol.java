@@ -11,7 +11,7 @@ public class MovableSymbol extends Symbol {
     private double speedPxPerSecond = 0;
     private Timer timer;
 
-    private double minSpeed = Double.MAX_VALUE, maxSpeed = Double.MAX_VALUE;
+    private double minSpeed = Double.MIN_VALUE, maxSpeed = Double.MAX_VALUE;
 
     /**
      * 座標(double)を指定してMovableSymbolを生成します。
