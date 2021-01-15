@@ -41,8 +41,8 @@ public class SpaceView extends GameView{
 
     }
     private void drawBackground(Graphics g){
-        int x0 = (int)(rocket.getX()/2.0 - mainView.getWidth()/2.0);
-        int y0 = (int)(rocket.getY()/2.0 - mainView.getHeight()/2.0);
+        int x0 = -(int)(rocket.getX()/2.0 - mainView.getWidth()/2.0);
+        int y0 = -(int)(rocket.getY()/2.0 - mainView.getHeight()/2.0);
         x0 = (x0 % imageWidth + imageWidth) % imageWidth - imageWidth;
         y0 = (y0 % imageHeight + imageHeight) % imageHeight - imageHeight;
         for(int x = x0; x < mainView.getWidth(); x+= imageWidth){
