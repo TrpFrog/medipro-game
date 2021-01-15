@@ -118,6 +118,9 @@ public class Rocket extends MovableSymbol implements Suspendable{
         private final Rocket rocket;
         private Timer damageTimer,invincibleTimer;
         private int damageCounter;
+        private Image rocketNow;
+        private Image rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
+        private Image invincibleImage = getImagePath(Paths.get(".","resource","space_game","invincibleRocket.png"));
 
         public RocketAnimation(Rocket rocket) {
             this.rocket = rocket;
@@ -131,20 +134,20 @@ public class Rocket extends MovableSymbol implements Suspendable{
             });
             invincibleTimer = new Timer(100,e -> {
                 if(!rocket.isInvincible()){
-                    rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
+                    rocketNow = rocketImage;
                     invincibleTimer.stop();
                 }
             });
         }
 
         public void damaged() {
-            rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket_damaged.png"));
+            rocketNow = getImagePath(Paths.get(".","resource","space_game","rocket_damaged.png"));
             damageTimer.start();
             damageCounter = 0;
         }
 
         public void invincible(){
-            rocketImage = getImagePath(Paths.get(".","resource","space_game","invincibleRocket.png"));
+            rocketNow = getImagePath(Paths.get(".","resource","space_game","invincibleRocket.png"));
             invincibleTimer.start();
         }
 
@@ -155,7 +158,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
             int drawY = mainView.getHeight()/2;
             double angle = getAngleRadians();
             g.rotate(angle,drawX,drawY);
-            g.drawImage(rocketImage,drawX-imageWidth/2,drawY-imageHeight/2,imageWidth,imageHeight,null);
+            g.drawImage(rocketNow,drawX-imageWidth/2,drawY-imageHeight/2,imageWidth,imageHeight,null);
             g.rotate(-angle,drawX,drawY);
         }
     }
