@@ -72,6 +72,11 @@ public class SpaceController extends GameController implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         double currentAngleDegrees = rocket.getAngleDegrees();
-        this.isUpperAngle = !(currentAngleDegrees <= 180);
+        // 旋回方向の決定に少し猶予を持たせる
+        if(30<=currentAngleDegrees && currentAngleDegrees<=150){
+            this.isUpperAngle = false;
+        }else if(210<=currentAngleDegrees && currentAngleDegrees<=330){
+            this.isUpperAngle = true;
+        }
     }
 }
