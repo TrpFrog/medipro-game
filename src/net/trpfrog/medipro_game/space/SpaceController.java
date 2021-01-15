@@ -5,6 +5,7 @@ import net.trpfrog.medipro_game.scene.GameController;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
 import net.trpfrog.medipro_game.pause.EscapeToPause;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -13,6 +14,15 @@ public class SpaceController extends GameController implements KeyListener {
     private SpaceView view;
     private boolean isUpperAngle;
     private Rocket rocket;
+
+    private void rotateTimerFunc(boolean isLeft){
+        double dAngleDegrees = 5.0; // とりあえず
+        if(!this.isUpperAngle) dAngleDegrees *= -1;
+        if(isLeft) dAngleDegrees *= -1;
+        rocket.turnAnticlockwiseDegrees(dAngleDegrees);
+    }
+    private Timer rotateTimerL = new Timer(20, e -> rotateTimerFunc(true));
+    private Timer rotateTimerR = new Timer(20, e -> rotateTimerFunc(false));
 
     public SpaceController(SpaceModel model, SpaceView view) {
         super(model, view);
@@ -29,7 +39,8 @@ public class SpaceController extends GameController implements KeyListener {
 
     @Override
     public void suspend() {
-
+        rotateTimerL.stop();
+        rotateTimerR.stop();
     }
 
     @Override
@@ -57,7 +68,7 @@ public class SpaceController extends GameController implements KeyListener {
                 rocket.setSpeedPxPerSecond(currentSpeedPxPerSecond);
             }
             // A: 左旋回
-            case 'a' -> rocket.turnAnticlockwiseDegrees(-dAngleDegrees);
+            case 'a' -> rotateTimerL.start();
             // S: 減速
             case 's' -> {
                 if(currentSpeedPxPerSecond <= 0) return; // 下限速度の場合に離脱
@@ -65,7 +76,7 @@ public class SpaceController extends GameController implements KeyListener {
                 rocket.setSpeedPxPerSecond(currentSpeedPxPerSecond);
             }
             // D: 右旋回
-            case 'd' -> rocket.turnAnticlockwiseDegrees(dAngleDegrees);
+            case 'd' -> rotateTimerR.start();
         }
     }
 
@@ -78,5 +89,8 @@ public class SpaceController extends GameController implements KeyListener {
         }else if(210<=currentAngleDegrees && currentAngleDegrees<=330){
             this.isUpperAngle = true;
         }
+
+        rotateTimerL.stop();
+        rotateTimerR.stop();
     }
 }
