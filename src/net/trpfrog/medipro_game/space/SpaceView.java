@@ -1,39 +1,44 @@
 package net.trpfrog.medipro_game.space;
 
 import net.trpfrog.medipro_game.MainView;
-import net.trpfrog.medipro_game.SceneManager;
+import net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkScene;
 import net.trpfrog.medipro_game.scene.GameView;
 import net.trpfrog.medipro_game.space.map.SpaceMap2D;
+import net.trpfrog.medipro_game.space.map.SpaceMapDrawer;
+import net.trpfrog.medipro_game.space.symbols.EventStar;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
 import net.trpfrog.medipro_game.space.symbols.Star;
+import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseMotionListener;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SpaceView extends GameView{
 
     private SpaceModel model;
-    private Image image, bkgImage = Toolkit.getDefaultToolkit().getImage(Paths.get(".","resource","space_game","spaceMap.jpg").toString());
-    private Point centerPoint;
+    private Image eventStarImage, bkgImage = Toolkit.getDefaultToolkit().getImage(Paths.get(".","resource","space_game","spaceMap.jpg").toString());
     private final int imageWidth  = 500;
     private final int imageHeight = 500;
-    MainView mainView = MainView.getInstance();
+    private MainView mainView = MainView.getInstance();
     private Rocket rocket;
     private Timer timer = new Timer(10, e->repaint());
-    private Star star;
+    private EventStar eventStar;
+    private SpaceMap2D spaceMap2D;
+    private SpaceMapDrawer spaceMapDrawer;
 
     public SpaceView(SpaceModel model) {
         super(model);
         this.model = model;
         this.rocket = this.model.getRocket();
-        centerPoint = new Point(mainView.getWidth()/2, mainView.getHeight()/2);
-        SpaceMap2D currentMap = this.model.getRocketFloorMap();
-        star = Star.getRandomStar();
+        rocket.setRelativeHitBox(RelativeHitBox.makeCircle(Math.max(rocket.getImageWidth(),rocket.getImageHeight())));
+        spaceMap2D = this.model.getRocketFloorMap();
+        eventStarImage = Toolkit.getDefaultToolkit().getImage(Paths.get(".","resource","space_game","EventStar.png").toString());
+        eventStar = new EventStar(eventStarImage,60,new MoonsWorkScene());
+        eventStar.setX(400); eventStar.setY(400);
+        spaceMap2D.addSymbol((int)eventStar.getX(),(int)eventStar.getY(),eventStar);
+        spaceMapDrawer = new SpaceMapDrawer(model);
+
     }
     private void drawBackground(Graphics g){
         int x0 = (int)(rocket.getX()/2.0 - mainView.getWidth()/2.0);
@@ -52,8 +57,8 @@ public class SpaceView extends GameView{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         drawBackground(g);
+        spaceMapDrawer.draw(g2);
         rocket.getDrawer().draw(g2); // ロケットの描写
-        star.getDrawer().draw(g2);
     }
 
     @Override
