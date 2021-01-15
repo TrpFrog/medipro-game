@@ -11,6 +11,8 @@ public class MovableSymbol extends Symbol {
     private double speedPxPerSecond = 0;
     private Timer timer;
 
+    private double minSpeed = Double.MAX_VALUE, maxSpeed = Double.MAX_VALUE;
+
     /**
      * 座標(double)を指定してMovableSymbolを生成します。
      * @param x x座標
@@ -62,11 +64,55 @@ public class MovableSymbol extends Symbol {
     }
 
     /**
+     * シンボルの速度の最小値を返します。
+     * @return シンボルの速度の最小値
+     */
+    public double getMinSpeed() {
+        return minSpeed;
+    }
+
+    /**
+     * シンボルの速度の最小値を設定します。
+     * @param minSpeed シンボルの速度の最小値
+     */
+    public void setMinSpeed(double minSpeed) {
+        this.minSpeed = minSpeed;
+        setSpeedPxPerSecond(getSpeedPxPerSecond());
+    }
+
+    /**
+     * シンボルの速度の最大値を返します。
+     * @return シンボルの速度の最大値
+     */
+    public double getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    /**
+     * シンボルの速度の最大値を設定します。
+     * @param maxSpeed シンボルの速度の最大値
+     */
+    public void setMaxSpeed(double maxSpeed) {
+        this.maxSpeed = maxSpeed;
+        setSpeedPxPerSecond(getSpeedPxPerSecond());
+    }
+
+    /**
      * シンボルの速度 [px/s] の大きさを設定します。
      * @param speedPxPerSecond シンボルの速度の大きさ
      */
     public void setSpeedPxPerSecond(double speedPxPerSecond) {
+        speedPxPerSecond = Math.max(getMinSpeed(), speedPxPerSecond);
+        speedPxPerSecond = Math.min(getMaxSpeed(), speedPxPerSecond);
         this.speedPxPerSecond = speedPxPerSecond;
+    }
+
+    /**
+     * 指定した量だけ加速します。
+     * @param a 加速度
+     */
+    public void accelerate(double a) {
+        setSpeedPxPerSecond(getSpeedPxPerSecond() + a);
     }
 
     /**
