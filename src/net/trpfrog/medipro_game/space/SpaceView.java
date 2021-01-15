@@ -1,7 +1,10 @@
 package net.trpfrog.medipro_game.space;
 
 import net.trpfrog.medipro_game.MainView;
+import net.trpfrog.medipro_game.mini_game.galaxy_express.GalaxyExpressScene;
 import net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkScene;
+import net.trpfrog.medipro_game.mini_game.race_game.RaceGameScene;
+import net.trpfrog.medipro_game.mini_game.shooting_star.ShootingStarScene;
 import net.trpfrog.medipro_game.scene.GameView;
 import net.trpfrog.medipro_game.space.map.SpaceMap2D;
 import net.trpfrog.medipro_game.space.map.SpaceMapDrawer;
@@ -16,15 +19,20 @@ import java.nio.file.Paths;
 public class SpaceView extends GameView{
 
     private SpaceModel model;
-    private Image eventStarImage, bkgImage = Toolkit.getDefaultToolkit().getImage(Paths.get(".","resource","space_game","spaceMap.jpg").toString());
+    private Image bkgImage = Toolkit.getDefaultToolkit().getImage(
+            Paths.get(".","resource","space_game","spaceMap.jpg").toString());
     private final int imageWidth  = 500;
     private final int imageHeight = 500;
     private MainView mainView = MainView.getInstance();
     private Rocket rocket;
     private Timer timer = new Timer(10, e->repaint());
-    private EventStar eventStar;
+    private EventStar moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar;
     private SpaceMap2D spaceMap2D;
     private SpaceMapDrawer spaceMapDrawer;
+    private MoonsWorkScene mwScene = new MoonsWorkScene();
+    private RaceGameScene rgScene = new RaceGameScene();
+    private ShootingStarScene ssScene = new ShootingStarScene();
+    private GalaxyExpressScene geScene = new GalaxyExpressScene();
 
     public SpaceView(SpaceModel model) {
         super(model);
@@ -32,9 +40,17 @@ public class SpaceView extends GameView{
         this.rocket = this.model.getRocket();
         rocket.setRelativeHitBox(RelativeHitBox.makeCircle(60));
         spaceMap2D = this.model.getRocketFloorMap();
-        eventStarImage = Toolkit.getDefaultToolkit().getImage(Paths.get(".","resource","space_game","EventStar.png").toString());
-        eventStar = new EventStar(eventStarImage,60,new MoonsWorkScene());
-        spaceMap2D.addSymbol(300,300,eventStar);
+        // EventStarの作成
+        moonWorkStar = new EventStar(mwScene.getStarImage(),60,mwScene);
+        raceGameStar = new EventStar(rgScene.getStarImage(),60,rgScene);
+        shootingStarStar = new EventStar(ssScene.getStarImage(),60,ssScene);
+        galaxyExpressStar = new EventStar(geScene.getStarImage(),60,geScene);
+        // マップにEventStarのSymbolを追加
+        spaceMap2D.addSymbol(100,300,moonWorkStar);
+        spaceMap2D.addSymbol(400,150,raceGameStar);
+        spaceMap2D.addSymbol(700,200,shootingStarStar);
+        spaceMap2D.addSymbol(500,300,galaxyExpressStar);
+
         spaceMapDrawer = new SpaceMapDrawer(model);
     }
     private void drawBackground(Graphics g){

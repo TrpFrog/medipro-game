@@ -101,11 +101,13 @@ public class Rocket extends MovableSymbol implements Suspendable{
     @Override
     public void suspend() {
         astronautTimer.stop();
+        stop();
     }
 
     @Override
     public void resume() {
         astronautTimer.start();
+        start();
     }
 
 
