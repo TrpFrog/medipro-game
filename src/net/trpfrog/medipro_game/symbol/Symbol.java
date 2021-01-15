@@ -224,6 +224,28 @@ public class Symbol {
         setAngleDegrees(angleDegrees - dt);
     }
 
+    public void faceTo(Symbol other){
+        double myX = this.getX();
+        double myY = this.getY();
+        double otherX = other.getX();
+        double otherY = other.getY();
+        double dx = otherX - myX;
+        double dy = otherY - myY;
+
+        double toOtherAngle = Math.atan2(dy, dx);
+        this.setAngleDegrees(toOtherAngle);
+    }
+
+    public void faceTo(double x, double y){
+        double myX = this.getX();
+        double myY = this.getY();
+        double dx = x - myX;
+        double dy = y - myY;
+
+        double toOtherAngle = Math.atan2(dy, dx);
+        this.setAngleDegrees(toOtherAngle);
+    }
+
     /**
      * 座標を中心に幅w, 高さh の当たり判定用長方形を作成します。
      * @param w 当たり判定用の長方形の幅
