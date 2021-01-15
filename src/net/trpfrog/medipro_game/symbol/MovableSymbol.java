@@ -108,6 +108,14 @@ public class MovableSymbol extends Symbol {
     }
 
     /**
+     * 指定した量だけ加速します。
+     * @param a 加速度
+     */
+    public void accelerate(double a) {
+        setSpeedPxPerSecond(getSpeedPxPerSecond() + a);
+    }
+
+    /**
      * 速度 [px/s] に秒数をかけた距離移動します。
      * @param seconds 移動する分の秒数
      */
