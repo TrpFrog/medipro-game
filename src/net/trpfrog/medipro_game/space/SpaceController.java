@@ -49,7 +49,7 @@ public class SpaceController extends GameController implements KeyListener {
             // W: 加速
             case 'w' -> {
                 if(500.0 <= currentSpeedPxPerSecond) return; // 上限速度の場合に離脱
-                currentSpeedPxPerSecond += dSpeedPxPerSecond;
+                currentSpeedPxPerSecond = Math.min(currentSpeedPxPerSecond + dSpeedPxPerSecond, 500.0);
                 rocket.setSpeedPxPerSecond(currentSpeedPxPerSecond);
             }
             // A: 左旋回
@@ -57,7 +57,7 @@ public class SpaceController extends GameController implements KeyListener {
             // S: 減速
             case 's' -> {
                 if(currentSpeedPxPerSecond <= 0) return; // 下限速度の場合に離脱
-                currentSpeedPxPerSecond -= dSpeedPxPerSecond;
+                currentSpeedPxPerSecond = Math.max(currentSpeedPxPerSecond - dSpeedPxPerSecond, 0);
                 rocket.setSpeedPxPerSecond(currentSpeedPxPerSecond);
             }
             // D: 右旋回
