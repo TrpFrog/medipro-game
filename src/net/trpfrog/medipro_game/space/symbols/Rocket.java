@@ -108,6 +108,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
     public void resume() {
         astronautTimer.start();
         start();
+        animation.damaged();
     }
 
 
