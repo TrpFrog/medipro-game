@@ -54,6 +54,7 @@ public class FieldMap {
      */
     public void addSymbol(int x, int y, Symbol symbol) {
         symbolsTree.put(x, y, symbol);
+        symbol.setLocation(x,y);
     }
 
     /**

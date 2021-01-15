@@ -30,14 +30,12 @@ public class SpaceView extends GameView{
         super(model);
         this.model = model;
         this.rocket = this.model.getRocket();
-        rocket.setX(mainView.getWidth()/2); rocket.setY(mainView.getHeight()/2);
         rocket.setRelativeHitBox(RelativeHitBox.makeCircle(60));
         spaceMap2D = this.model.getRocketFloorMap();
         eventStarImage = Toolkit.getDefaultToolkit().getImage(Paths.get(".","resource","space_game","EventStar.png").toString());
         eventStar = new EventStar(eventStarImage,60,new MoonsWorkScene());
-        spaceMap2D.addSymbol(200,200,eventStar);
+        spaceMap2D.addSymbol(300,300,eventStar);
         spaceMapDrawer = new SpaceMapDrawer(model);
-
     }
     private void drawBackground(Graphics g){
         int x0 = -(int)(rocket.getX()/2.0 - mainView.getWidth()/2.0);
