@@ -1,6 +1,7 @@
 package net.trpfrog.medipro_game.symbol;
 
 import net.trpfrog.medipro_game.Drawable;
+import net.trpfrog.medipro_game.MainView;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -56,15 +57,18 @@ public class Symbol {
 
     /**
      * 描画範囲の座標に合わせて一時的に座標をずらして描画する {@code Drawer} を取得します。
-     * @param drawRangeX 描画範囲の左上のx座標
-     * @param drawRangeY 描画範囲の左上のy座標
-     * @return 画範囲の座標に合わせて一時的に座標をずらして描画する {@code Drawer}
+     * @param drawRangeX 中央に表示したいオブジェクトのx座標
+     * @param drawRangeY 中央に表示したいオブジェクトの左上のy座標
+     * @return 描画範囲の座標に合わせて一時的に座標をずらして描画する {@code Drawer}
      */
     public final Drawable createTranslatedDrawer(int drawRangeX, int drawRangeY) {
+        MainView mv = MainView.getInstance();
+        int x = drawRangeX - mv.getWidth()/2;
+        int y = drawRangeY - mv.getHeight()/2;
         return g -> {
-            translate(-drawRangeX, -drawRangeY);
+            translate(-x, -y);
             getDrawer().draw(g);
-            translate(drawRangeX, drawRangeY);
+            translate(x, y);
         };
     }
 
