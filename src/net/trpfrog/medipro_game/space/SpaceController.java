@@ -3,6 +3,7 @@ package net.trpfrog.medipro_game.space;
 
 import net.trpfrog.medipro_game.scene.GameController;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
+import net.trpfrog.medipro_game.pause.EscapeToPause;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -21,6 +22,7 @@ public class SpaceController extends GameController implements KeyListener {
 
         this.view = view;
         this.view.addKeyListener(this);
+        this.view.addKeyListener(new EscapeToPause());
     }
 
     @Override
