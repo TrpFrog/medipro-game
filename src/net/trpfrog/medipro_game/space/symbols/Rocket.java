@@ -121,6 +121,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
         private Image rocketNow;
         private Image rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
         private Image invincibleImage = getImagePath(Paths.get(".","resource","space_game","invincibleRocket.png"));
+        private Image damagedImage = getImagePath(Paths.get(".","resource","space_game","rocket_damaged.png"));
 
         public RocketAnimation(Rocket rocket) {
             this.rocket = rocket;
@@ -141,13 +142,13 @@ public class Rocket extends MovableSymbol implements Suspendable{
         }
 
         public void damaged() {
-            rocketNow = getImagePath(Paths.get(".","resource","space_game","rocket_damaged.png"));
+            rocketNow = damagedImage;
             damageTimer.start();
             damageCounter = 0;
         }
 
         public void invincible(){
-            rocketNow = getImagePath(Paths.get(".","resource","space_game","invincibleRocket.png"));
+            rocketNow = invincibleImage;
             invincibleTimer.start();
         }
 
