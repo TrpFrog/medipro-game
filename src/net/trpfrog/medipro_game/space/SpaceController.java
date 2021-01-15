@@ -34,7 +34,7 @@ public class SpaceController extends GameController implements KeyListener {
 
         this.view = view;
         this.view.addKeyListener(this);
-        this.view.addKeyListener(new EscapeToPause());
+        this.view.addKeyListener(new EscapeToPause(false));
     }
 
     @Override
