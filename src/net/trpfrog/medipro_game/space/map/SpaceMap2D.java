@@ -5,6 +5,7 @@ import net.trpfrog.medipro_game.space.symbols.Star;
 import net.trpfrog.medipro_game.symbol.Symbol;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 /**
@@ -21,6 +22,10 @@ public class SpaceMap2D extends FieldMap {
 
         super(numberOfHorizontalChunks, numberOfVerticalChunks, chunkSquareLength);
         visited = new boolean[numberOfHorizontalChunks][numberOfVerticalChunks];
+
+        for (boolean[] booleans : visited) {
+            Arrays.fill(booleans, false);
+        }
     }
 
     public SpaceMap2D(int numberOfHorizontalChunks,
@@ -28,6 +33,10 @@ public class SpaceMap2D extends FieldMap {
 
         super(numberOfHorizontalChunks, numberOfVerticalChunks);
         visited = new boolean[numberOfHorizontalChunks][numberOfVerticalChunks];
+
+        for (boolean[] booleans : visited) {
+            Arrays.fill(booleans, false);
+        }
     }
 
     /**
@@ -46,9 +55,10 @@ public class SpaceMap2D extends FieldMap {
         for(int i = cx * chunkSize; i < (cx + 1) * chunkSize; i++) {
             for(int j = cy * chunkSize; j < (cy + 1) * chunkSize; j++) {
                 if(Math.random() > AUTO_GENERATED_STAR_DENSITY) continue;
+
                 Star star = Star.getRandomStar();
                 star.setLocation(i, j);
-                addSymbol(x, y, Star.getRandomStar());
+                addSymbol(i, j, star);
             }
         }
 
