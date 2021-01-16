@@ -7,12 +7,15 @@ import net.trpfrog.medipro_game.pause.EscapeToPause;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.HashMap;
 
 public class SpaceController extends GameController implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener {
     private SpaceModel model;
     private SpaceView view;
     private Rocket rocket;
-    private Timer rotateTimerL, rotateTimerR, accelerateTimer, decelerateTimer, faceToGradientTimer;
+    private HashMap<Character, Boolean> keyMap;
+    private Timer keyTimer;
+    private Timer accelerateTimer, faceToGradientTimer;
     private int fps, spf;
     private boolean isUpperAngle;
 
@@ -56,10 +59,35 @@ public class SpaceController extends GameController implements KeyListener, Mous
         fps = 50;
         spf = 1000 / fps;
 
-        rotateTimerL = new Timer(spf, e -> rotateTimerFunc(true));
-        rotateTimerR = new Timer(spf, e -> rotateTimerFunc(false));
         accelerateTimer = new Timer(spf, e -> rocket.accelerate(50.0));
-        decelerateTimer = new Timer(spf, e -> rocket.accelerate(-25.0));
+
+        keyMap = new HashMap<Character, Boolean>();
+        keyMap.put('w', false);
+        keyMap.put('a', false);
+        keyMap.put('d', false);
+        keyMap.put('z', false);
+        keyMap.put('x', false);
+        keyTimer = new Timer(spf, e -> {
+            rocket.accelerate(-25.0);
+
+            // W: 加速
+            if(keyMap.get('w')) rocket.accelerate(50.0);
+            // A: 左旋回
+            if(keyMap.get('a')) rotateTimerFunc(true);
+            // D: 右旋回
+            if(keyMap.get('d')) rotateTimerFunc(false);
+            // Z: 上昇
+            if(keyMap.get('z')){
+                moveDepth(1);
+                keyMap.put('z', false);
+            };
+            // X: 下降
+            if(keyMap.get('x')){
+                moveDepth(-1);
+                keyMap.put('x', false);
+            };
+        });
+        keyTimer.start();
 
         rocket = model.getRocket();
         rocket.start(); // とりあえずC側でスタート
@@ -70,19 +98,16 @@ public class SpaceController extends GameController implements KeyListener, Mous
         this.view.addMouseMotionListener(this);
         this.view.addMouseWheelListener(this);
         this.view.addKeyListener(new EscapeToPause(false));
-        decelerateTimer.start();
     }
 
     @Override
     public void suspend() {
-        rotateTimerL.stop();
-        rotateTimerR.stop();
-        decelerateTimer.stop();
+        keyTimer.stop();
     }
 
     @Override
     public void resume() {
-
+        keyTimer.start();
     }
 
     @Override
@@ -92,35 +117,12 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyChar()){
-            // W: 加速
-            case 'w' -> accelerateTimer.start();
-            // A: 左旋回
-            case 'a' -> rotateTimerL.start();
-            // D: 右旋回
-            case 'd' -> rotateTimerR.start();
-            // Z: 上昇
-            case 'z' -> moveDepth(1);
-            // X: 下降
-            case 'x' -> moveDepth(-1);
-        }
+        keyMap.put(e.getKeyChar(), true);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        double currentAngleDegrees = rocket.getAngleDegrees();
-        double graceDegrees = 30.0;
-
-        // 旋回方向の決定に少し猶予を持たせる
-        if(graceDegrees<=currentAngleDegrees && currentAngleDegrees<=180-graceDegrees){
-            this.isUpperAngle = false;
-        }else if(180+graceDegrees<=currentAngleDegrees && currentAngleDegrees<=360-graceDegrees){
-            this.isUpperAngle = true;
-        }
-
-        accelerateTimer.stop();
-        rotateTimerL.stop();
-        rotateTimerR.stop();
+        keyMap.put(e.getKeyChar(), false);
     }
 
     @Override
