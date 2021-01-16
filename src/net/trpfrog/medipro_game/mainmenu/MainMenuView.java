@@ -40,13 +40,16 @@ public class MainMenuView extends GameView {
         setLayout(new BorderLayout());
         add(start, BorderLayout.NORTH);
         add(quit, BorderLayout.SOUTH);
+
+        mvWidth = mainView.getWidth();
+        mvHeight = mainView.getHeight();
+        setFont(strFont);
     }
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        MainView mainView = MainView.getInstance();
-        setBackground(Color.BLACK);
-        g.drawImage(mainMenuImage,0,0,mainView.getWidth(),mainView.getHeight(),null);
+        g.drawString(loadingMessage,mainView.getWidth()/2,mainView.getHeight()/2);
+        g.drawImage(mainMenuImage,0,0,mvWidth+=1,mvHeight+=1,null);
     }
 
     @Override
