@@ -10,9 +10,24 @@ import java.awt.*;
 
 public class MiniMapUI implements Drawable {
 
+    /**
+     * ミニマップを画面左上に描画するための定数です。
+     */
     public static final int UPPER_LEFT  = 0b00;
+
+    /**
+     * ミニマップを画面右上に描画するための定数です。
+     */
     public static final int UPPER_RIGHT = 0b10;
+
+    /**
+     * ミニマップを画面左下に描画するための定数です。
+     */
     public static final int LOWER_LEFT  = 0b01;
+
+    /**
+     * ミニマップを画面右下に描画するための定数です。
+     */
     public static final int LOWER_RIGHT = 0b11;
 
     private final SpaceModel model;
@@ -22,7 +37,13 @@ public class MiniMapUI implements Drawable {
 
     private final float alpha = 0.3f;
 
-    public MiniMapUI(SpaceModel model, int chunkSquareLength, int direction) {
+    /**
+     * ミニマップを初期化します。
+     * @param model SpaceModel
+     * @param chunkSquareLength 1チャンクを何pxで描画するか
+     * @param position ミニマップの位置, このクラスの定数を使用してください。
+     */
+    public MiniMapUI(SpaceModel model, int chunkSquareLength, int position) {
         this.model = model;
         this.rocket = model.getRocket();
         var map = model.getRocketFloorMap();
@@ -35,15 +56,20 @@ public class MiniMapUI implements Drawable {
         drawRange = new Rectangle(margin, margin, width, height);
 
         var contentPane = MainView.getInstance().getContentPane();
-        if((direction >> 1 & 1) == 1) {
+        if((position >> 1 & 1) == 1) {
             drawRange.translate(contentPane.getWidth() - margin * 2 - width, 0);
         }
-        if((direction & 1) == 1){
+        if((position & 1) == 1){
             drawRange.translate(0, contentPane.getHeight() - margin * 2 - height);
         }
     }
 
-    private int toMiniMapX(int originX) {
+    /**
+     * マップ上のx座標をミニマップ上のx座標に変換します。
+     * @param originX マップ上のx座標
+     * @return ミニマップ上のx座標
+     */
+    public int toMiniMapX(int originX) {
         var map = model.getRocketFloorMap();
         int x = (int)(originX * drawRange.getWidth() / map.getWidth());
         x = Math.max(0, x);
@@ -51,7 +77,12 @@ public class MiniMapUI implements Drawable {
         return x + drawRange.x;
     }
 
-    private int toMiniMapY(int originY) {
+    /**
+     * マップ上のy座標をミニマップ上のy座標に変換します。
+     * @param originY マップ上のy座標
+     * @return ミニマップ上のy座標
+     */
+    public int toMiniMapY(int originY) {
         var map = model.getRocketFloorMap();
         int y = (int)(originY * drawRange.getHeight() / map.getHeight());
         y = Math.max(0, y);
@@ -84,6 +115,10 @@ public class MiniMapUI implements Drawable {
         g.fill(drawRange);
     }
 
+    /**
+     * ミニマップを描画します。
+     * @param g MainViewのpaintComponentから渡されるGraphics2D
+     */
     @Override
     public void draw(Graphics2D g) {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha));
