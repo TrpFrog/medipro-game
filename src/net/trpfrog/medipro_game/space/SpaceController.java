@@ -24,6 +24,29 @@ public class SpaceController extends GameController implements KeyListener, Mous
     private Timer rotateTimerR = new Timer(20, e -> rotateTimerFunc(false));
     private Timer decelerateTimer = new Timer(20, e -> rocket.accelerate(-25.0));
 
+    private void faceToGradient(MouseEvent e){
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        double rocketX = rocket.getX();
+        double rocketY = rocket.getY();
+        double mapX = rocketX - view.getWidth()/2 + mouseX;
+        double mapY = rocketY - view.getHeight()/2 + mouseY;
+        double dx = mapX - rocketX;
+        double dy = mapY - rocketY;
+
+        double toOtherAngleDegrees = Math.toDegrees(Math.atan2(dy, dx));
+        double currentAngleDegrees = rocket.getAngleDegrees();
+        double rocketToOtherAngleDegrees = (toOtherAngleDegrees - currentAngleDegrees + 720) % 360;
+
+        double dAngleDegrees = 5.0;
+        if(Math.abs(rocketToOtherAngleDegrees) < 20.0) dAngleDegrees = 1.0;
+        if(Math.abs(rocketToOtherAngleDegrees) < 1.0) return;
+
+        if(rocketToOtherAngleDegrees < 180) dAngleDegrees *= -1;
+        rocket.turnClockwiseDegrees(dAngleDegrees);
+    }
+    private Timer faceToGradientTimer;
+
     public SpaceController(SpaceModel model, SpaceView view) {
         super(model, view);
         this.model = model;
@@ -108,18 +131,13 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void mousePressed(MouseEvent e) {
-        int mouseX = e.getX();
-        int mouseY = e.getY();
-        double rocketX = rocket.getX();
-        double rocketY = rocket.getY();
-        int mapX = (int) (rocketX - view.getWidth()/2 + mouseX);
-        int mapY = (int) (rocketY - view.getHeight()/2 + mouseY);
-        rocket.faceTo(mapX, mapY);
+        faceToGradientTimer = new Timer(20, o -> faceToGradient(e));
+        faceToGradientTimer.start();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        faceToGradientTimer.stop();
     }
 
     @Override
