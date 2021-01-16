@@ -52,6 +52,26 @@ public class SpaceController extends GameController implements KeyListener, Mous
         currentDepth = (currentDepth % mapDepth + mapDepth) % mapDepth;
         rocket.setDepth(currentDepth);
     }
+    private void step(){
+        rocket.accelerate(-25.0);
+
+        // W: 加速
+        if(keyMap.getOrDefault(KeyEvent.VK_W, false)) rocket.accelerate(50.0);
+        // A: 左旋回
+        if(keyMap.getOrDefault(KeyEvent.VK_A, false)) rotateTimerFunc(true);
+        // D: 右旋回
+        if(keyMap.getOrDefault(KeyEvent.VK_D, false)) rotateTimerFunc(false);
+        // Z: 上昇
+        if(keyMap.getOrDefault(KeyEvent.VK_Z, false)){
+            moveDepth(1);
+            keyMap.put(KeyEvent.VK_Z, false);
+        };
+        // X: 下降
+        if(keyMap.getOrDefault(KeyEvent.VK_X, false)){
+            moveDepth(-1);
+            keyMap.put(KeyEvent.VK_X, false);
+        };
+    }
 
     public SpaceController(SpaceModel model, SpaceView view) {
         super(model, view);
@@ -63,26 +83,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         accelerateTimer = new Timer(spf, e -> rocket.accelerate(50.0));
 
         keyMap = new HashMap<Integer, Boolean>();
-        keyTimer = new Timer(spf, e -> {
-            rocket.accelerate(-25.0);
-
-            // W: 加速
-            if(keyMap.getOrDefault(KeyEvent.VK_W, false)) rocket.accelerate(50.0);
-            // A: 左旋回
-            if(keyMap.getOrDefault(KeyEvent.VK_A, false)) rotateTimerFunc(true);
-            // D: 右旋回
-            if(keyMap.getOrDefault(KeyEvent.VK_D, false)) rotateTimerFunc(false);
-            // Z: 上昇
-            if(keyMap.getOrDefault(KeyEvent.VK_Z, false)){
-                moveDepth(1);
-                keyMap.put(KeyEvent.VK_Z, false);
-            };
-            // X: 下降
-            if(keyMap.getOrDefault(KeyEvent.VK_X, false)){
-                moveDepth(-1);
-                keyMap.put(KeyEvent.VK_X, false);
-            };
-        });
+        keyTimer = new Timer(spf, e -> step());
         keyTimer.start();
 
         rocket = model.getRocket();
