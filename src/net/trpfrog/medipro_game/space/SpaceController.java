@@ -23,7 +23,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
     private double acceleration;
     private int fps, spf;
     private boolean isUpperAngle;
-    private Point p;
+    private Point pointerLocation;
 
     private void rotateTimerFunc(boolean isLeft){
         double dAngleDegrees = 5.0; // とりあえず
@@ -32,8 +32,8 @@ public class SpaceController extends GameController implements KeyListener, Mous
         rocket.turnAnticlockwiseDegrees(dAngleDegrees);
     }
     private void faceToGradient(){
-        double mouseX = p.getX();
-        double mouseY = p.getY();
+        double mouseX = pointerLocation.getX();
+        double mouseY = pointerLocation.getY();
         double dx = mouseX - view.getWidth()/2;
         double dy = mouseY - view.getHeight()/2;
 
@@ -99,7 +99,6 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
         acceleration = 0.0;
         accelerateByMouseTimer = new Timer(spf, e -> rocket.accelerate(25.0 + acceleration));
-        p = new Point(0, 0);
         faceToGradientTimer = new Timer(spf, o -> faceToGradient());
 
         keyMap = new HashMap<Integer, Boolean>();
@@ -153,8 +152,8 @@ public class SpaceController extends GameController implements KeyListener, Mous
         acceleration = 25 * mouseEventToScale(e);
 
         PointerInfo pi = MouseInfo.getPointerInfo();
-        p = pi.getLocation();
-        SwingUtilities.convertPointFromScreen(p, MainView.getInstance().getContentPane());
+        pointerLocation = pi.getLocation();
+        SwingUtilities.convertPointFromScreen(pointerLocation, MainView.getInstance().getContentPane());
 
         faceToGradientTimer.start();
         accelerateByMouseTimer.start();
@@ -187,8 +186,8 @@ public class SpaceController extends GameController implements KeyListener, Mous
         acceleration = 25 * mouseEventToScale(e);
 
         PointerInfo pi = MouseInfo.getPointerInfo();
-        p = pi.getLocation();
-        SwingUtilities.convertPointFromScreen(p, MainView.getInstance().getContentPane());
+        pointerLocation = pi.getLocation();
+        SwingUtilities.convertPointFromScreen(pointerLocation, MainView.getInstance().getContentPane());
     }
 
     @Override
