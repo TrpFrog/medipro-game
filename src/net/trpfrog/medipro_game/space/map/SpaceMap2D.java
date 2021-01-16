@@ -1,11 +1,14 @@
 package net.trpfrog.medipro_game.space.map;
 
 import net.trpfrog.medipro_game.fieldmap.FieldMap;
+import net.trpfrog.medipro_game.space.symbols.EventStar;
 import net.trpfrog.medipro_game.space.symbols.Star;
 import net.trpfrog.medipro_game.symbol.Symbol;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -15,6 +18,7 @@ import java.util.stream.Stream;
 public class SpaceMap2D extends FieldMap {
 
     private boolean[][] visited;
+    private List<EventStar> eventStars = new LinkedList<>();
 
     public SpaceMap2D(int numberOfVerticalChunks,
                       int numberOfHorizontalChunks,
@@ -63,6 +67,16 @@ public class SpaceMap2D extends FieldMap {
         }
 
         visited[cx][cy] = true;
+    }
+
+    @Override
+    public void addSymbol(int x, int y, Symbol symbol) {
+        if(symbol instanceof EventStar) eventStars.add((EventStar) symbol);
+        super.addSymbol(x, y, symbol);
+    }
+
+    public List<EventStar> getEventStars() {
+        return eventStars;
     }
 
     /**
