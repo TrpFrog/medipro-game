@@ -62,7 +62,6 @@ public class SpaceController extends GameController implements KeyListener, Mous
         decelerateTimer = new Timer(spf, e -> rocket.accelerate(-25.0));
 
         rocket = model.getRocket();
-        rocket.start(); // とりあえずC側でスタート
 
         this.view = view;
         this.view.addKeyListener(this);
