@@ -63,27 +63,22 @@ public class SpaceController extends GameController implements KeyListener, Mous
         accelerateTimer = new Timer(spf, e -> rocket.accelerate(50.0));
 
         keyMap = new HashMap<Integer, Boolean>();
-        keyMap.put(KeyEvent.VK_W, false);
-        keyMap.put(KeyEvent.VK_A, false);
-        keyMap.put(KeyEvent.VK_D, false);
-        keyMap.put(KeyEvent.VK_Z, false);
-        keyMap.put(KeyEvent.VK_X, false);
         keyTimer = new Timer(spf, e -> {
             rocket.accelerate(-25.0);
 
             // W: 加速
-            if(keyMap.get(KeyEvent.VK_W)) rocket.accelerate(50.0);
+            if(keyMap.getOrDefault(KeyEvent.VK_W, false)) rocket.accelerate(50.0);
             // A: 左旋回
-            if(keyMap.get(KeyEvent.VK_A)) rotateTimerFunc(true);
+            if(keyMap.getOrDefault(KeyEvent.VK_A, false)) rotateTimerFunc(true);
             // D: 右旋回
-            if(keyMap.get(KeyEvent.VK_D)) rotateTimerFunc(false);
+            if(keyMap.getOrDefault(KeyEvent.VK_D, false)) rotateTimerFunc(false);
             // Z: 上昇
-            if(keyMap.get(KeyEvent.VK_Z)){
+            if(keyMap.getOrDefault(KeyEvent.VK_Z, false)){
                 moveDepth(1);
                 keyMap.put(KeyEvent.VK_Z, false);
             };
             // X: 下降
-            if(keyMap.get(KeyEvent.VK_X)){
+            if(keyMap.getOrDefault(KeyEvent.VK_X, false)){
                 moveDepth(-1);
                 keyMap.put(KeyEvent.VK_X, false);
             };
