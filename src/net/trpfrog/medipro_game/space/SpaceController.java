@@ -7,6 +7,7 @@ import net.trpfrog.medipro_game.pause.EscapeToPause;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,10 +78,12 @@ public class SpaceController extends GameController implements KeyListener, Mous
         int mouseX = e.getX();
         int mouseY = e.getY();
         int halfHeight = view.getHeight()/2;
-        double dx = mouseX - view.getWidth()/2;
-        double dy = mouseY - halfHeight;
-        double d = Math.pow((Math.pow(dx, 2.0) + Math.pow(dy, 2.0)), 0.5);
-        double scale = d / halfHeight;
+        double distance = Point2D.distance(
+                mouseX, mouseY,
+                view.getWidth()/2, halfHeight
+        );
+
+        double scale = distance / halfHeight;
         return scale;
     }
 
