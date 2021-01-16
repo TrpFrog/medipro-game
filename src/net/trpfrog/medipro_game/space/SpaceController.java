@@ -8,7 +8,7 @@ import net.trpfrog.medipro_game.pause.EscapeToPause;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class SpaceController extends GameController implements KeyListener, MouseListener, MouseWheelListener {
+public class SpaceController extends GameController implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener {
     private SpaceModel model;
     private SpaceView view;
     private boolean isUpperAngle;
@@ -58,6 +58,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         this.view = view;
         this.view.addKeyListener(this);
         this.view.addMouseListener(this);
+        this.view.addMouseMotionListener(this);
         this.view.addMouseWheelListener(this);
         this.view.addKeyListener(new EscapeToPause(false));
         decelerateTimer.start();
@@ -158,5 +159,17 @@ public class SpaceController extends GameController implements KeyListener, Mous
         currentDepth += direction;
         currentDepth = (currentDepth + mapDepth) % mapDepth;
         rocket.setDepth(currentDepth);
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        faceToGradientTimer.stop();
+        faceToGradientTimer = new Timer(20, o -> faceToGradient(e));
+        faceToGradientTimer.start();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
     }
 }
