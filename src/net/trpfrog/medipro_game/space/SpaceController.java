@@ -98,6 +98,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void suspend() {
+        keyMap.clear();
         keyTimer.stop();
     }
 
