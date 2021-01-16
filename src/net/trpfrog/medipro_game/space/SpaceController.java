@@ -160,7 +160,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         int currentDepth = rocket.getDepth();
         int mapDepth = model.get3DMap().getDepth();
         currentDepth += direction;
-        currentDepth = (currentDepth + mapDepth) % mapDepth;
+        currentDepth = (currentDepth % mapDepth + mapDepth) % mapDepth;
         rocket.setDepth(currentDepth);
     }
 
