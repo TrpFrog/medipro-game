@@ -22,6 +22,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
     }
     private Timer rotateTimerL = new Timer(20, e -> rotateTimerFunc(true));
     private Timer rotateTimerR = new Timer(20, e -> rotateTimerFunc(false));
+    private Timer accelerateTimer = new Timer(20, e -> rocket.accelerate(50.0));
     private Timer decelerateTimer = new Timer(20, e -> rocket.accelerate(-25.0));
 
     private void faceToGradient(MouseEvent e){
@@ -133,11 +134,13 @@ public class SpaceController extends GameController implements KeyListener, Mous
     public void mousePressed(MouseEvent e) {
         faceToGradientTimer = new Timer(20, o -> faceToGradient(e));
         faceToGradientTimer.start();
+        accelerateTimer.start();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         faceToGradientTimer.stop();
+        accelerateTimer.stop();
     }
 
     @Override
