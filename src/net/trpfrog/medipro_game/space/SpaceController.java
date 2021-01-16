@@ -16,7 +16,8 @@ public class SpaceController extends GameController implements KeyListener, Mous
     private Rocket rocket;
     private Map<Integer, Boolean> keyMap;
     private Timer keyTimer;
-    private Timer accelerateTimer, faceToGradientTimer;
+    private Timer accelerateByMouseTimer, faceToGradientTimer;
+    private double acceleration;
     private int fps, spf;
     private boolean isUpperAngle;
 
@@ -80,7 +81,8 @@ public class SpaceController extends GameController implements KeyListener, Mous
         fps = 50;
         spf = 1000 / fps;
 
-        accelerateTimer = new Timer(spf, e -> rocket.accelerate(50.0));
+        acceleration = 0.0;
+        accelerateByMouseTimer = new Timer(spf, e -> rocket.accelerate(25.0 + acceleration));
 
         keyMap = new HashMap<Integer, Boolean>();
         keyTimer = new Timer(spf, e -> step());
@@ -100,6 +102,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
     public void suspend() {
         keyMap.clear();
         keyTimer.stop();
+        accelerateByMouseTimer.stop();
     }
 
     @Override
@@ -129,15 +132,24 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void mousePressed(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        int halfHeight = view.getHeight()/2;
+        double dx = mouseX - view.getWidth()/2;
+        double dy = mouseY - halfHeight;
+        double d = Math.pow((Math.pow(dx, 2.0) + Math.pow(dy, 2.0)), 0.5);
+        double scale = d / halfHeight;
+        acceleration = 25 * scale;
+
         faceToGradientTimer = new Timer(spf, o -> faceToGradient(e));
         faceToGradientTimer.start();
-        accelerateTimer.start();
+        accelerateByMouseTimer.start();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         faceToGradientTimer.stop();
-        accelerateTimer.stop();
+        accelerateByMouseTimer.stop();
     }
 
     @Override
@@ -158,6 +170,15 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        int halfHeight = view.getHeight()/2;
+        double dx = mouseX - view.getWidth()/2;
+        double dy = mouseY - halfHeight;
+        double d = Math.pow((Math.pow(dx, 2.0) + Math.pow(dy, 2.0)), 0.5);
+        double scale = d / halfHeight;
+        acceleration = 25 * scale;
+
         faceToGradientTimer.stop();
         faceToGradientTimer = new Timer(spf, o -> faceToGradient(e));
         faceToGradientTimer.start();
