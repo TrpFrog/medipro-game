@@ -1,4 +1,4 @@
-package net.trpfrog.medipro_game.symbol_manager;
+package net.trpfrog.medipro_game.data_structures;
 
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
 
