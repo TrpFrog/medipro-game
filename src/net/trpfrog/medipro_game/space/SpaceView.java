@@ -10,6 +10,7 @@ import net.trpfrog.medipro_game.space.map.SpaceMap2D;
 import net.trpfrog.medipro_game.space.map.SpaceMapDrawer;
 import net.trpfrog.medipro_game.space.symbols.EventStar;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
+import net.trpfrog.medipro_game.space.ui.MiniMapUI;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 
 import javax.swing.*;
@@ -29,6 +30,8 @@ public class SpaceView extends GameView{
     private EventStar moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar;
     private SpaceMap2D spaceMap2D;
     private SpaceMapDrawer spaceMapDrawer;
+    private MiniMapUI miniMap;
+
     private MoonsWorkScene mwScene = new MoonsWorkScene();
     private RaceGameScene rgScene = new RaceGameScene();
     private ShootingStarScene ssScene = new ShootingStarScene();
@@ -51,6 +54,8 @@ public class SpaceView extends GameView{
         spaceMap2D.addSymbol(0,200,shootingStarStar);
         spaceMap2D.addSymbol(0,-200,galaxyExpressStar);
 
+        miniMap = new MiniMapUI(model, 7, MiniMapUI.LOWER_RIGHT);
+
         spaceMapDrawer = new SpaceMapDrawer(model);
     }
     private void drawBackground(Graphics g){
@@ -71,6 +76,7 @@ public class SpaceView extends GameView{
         Graphics2D g2 = (Graphics2D) g;
         drawBackground(g);
         spaceMapDrawer.draw(g2);
+        miniMap.draw(g2);
     }
 
     @Override
