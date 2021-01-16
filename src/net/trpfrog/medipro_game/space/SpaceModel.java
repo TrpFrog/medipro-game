@@ -5,11 +5,33 @@ import net.trpfrog.medipro_game.space.map.SpaceMap2D;
 import net.trpfrog.medipro_game.space.map.SpaceMap3D;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
 
+import javax.sound.sampled.*;
+import java.io.File;
+import java.nio.file.Paths;
+
 public class SpaceModel extends GameModel {
 
     private SpaceMap3D map = new SpaceMap3D(16, 16, 128, 10);
     private Rocket rocket = new Rocket(this);
+    private Clip bgm;
 
+    public SpaceModel() {
+        initBGM();
+    }
+
+    private void initBGM() {
+        String path = Paths.get(".", "resource", "space_game", "bgm.wav").toString();
+        try {
+            bgm = AudioSystem.getClip();
+            var stream = AudioSystem.getAudioInputStream(new File(path));
+            var info = new DataLine.Info(Clip.class, stream.getFormat());
+            bgm = (Clip) AudioSystem.getLine(info);
+            bgm.loop(Clip.LOOP_CONTINUOUSLY);
+            bgm.open(stream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 宇宙全体のSpaceMap3Dを返します。
@@ -35,6 +57,13 @@ public class SpaceModel extends GameModel {
         return rocket;
     }
 
+    /**
+     * ゲーム中で流すBGMの {@code Clip} を返します。
+     * @return ゲーム中で流すBGM
+     */
+    public Clip getBGMClip() {
+        return bgm;
+    }
 
     @Override
     public void suspend() {
