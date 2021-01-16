@@ -1,11 +1,13 @@
 package net.trpfrog.medipro_game.space;
 
 
+import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.scene.GameController;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
 import net.trpfrog.medipro_game.pause.EscapeToPause;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
@@ -21,6 +23,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
     private double acceleration;
     private int fps, spf;
     private boolean isUpperAngle;
+    private Point p;
 
     private void rotateTimerFunc(boolean isLeft){
         double dAngleDegrees = 5.0; // とりあえず
@@ -28,9 +31,9 @@ public class SpaceController extends GameController implements KeyListener, Mous
         if(isLeft) dAngleDegrees *= -1;
         rocket.turnAnticlockwiseDegrees(dAngleDegrees);
     }
-    private void faceToGradient(MouseEvent e){
-        int mouseX = e.getX();
-        int mouseY = e.getY();
+    private void faceToGradient(){
+        double mouseX = p.getX();
+        double mouseY = p.getY();
         double dx = mouseX - view.getWidth()/2;
         double dy = mouseY - view.getHeight()/2;
 
@@ -96,6 +99,8 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
         acceleration = 0.0;
         accelerateByMouseTimer = new Timer(spf, e -> rocket.accelerate(25.0 + acceleration));
+        p = new Point(0, 0);
+        faceToGradientTimer = new Timer(spf, o -> faceToGradient());
 
         keyMap = new HashMap<Integer, Boolean>();
         keyTimer = new Timer(spf, e -> step());
@@ -147,7 +152,10 @@ public class SpaceController extends GameController implements KeyListener, Mous
     public void mousePressed(MouseEvent e) {
         acceleration = 25 * mouseEventToScale(e);
 
-        faceToGradientTimer = new Timer(spf, o -> faceToGradient(e));
+        PointerInfo pi = MouseInfo.getPointerInfo();
+        p = pi.getLocation();
+        SwingUtilities.convertPointFromScreen(p, MainView.getInstance().getContentPane());
+
         faceToGradientTimer.start();
         accelerateByMouseTimer.start();
     }
@@ -178,9 +186,9 @@ public class SpaceController extends GameController implements KeyListener, Mous
     public void mouseDragged(MouseEvent e) {
         acceleration = 25 * mouseEventToScale(e);
 
-        faceToGradientTimer.stop();
-        faceToGradientTimer = new Timer(spf, o -> faceToGradient(e));
-        faceToGradientTimer.start();
+        PointerInfo pi = MouseInfo.getPointerInfo();
+        p = pi.getLocation();
+        SwingUtilities.convertPointFromScreen(p, MainView.getInstance().getContentPane());
     }
 
     @Override
