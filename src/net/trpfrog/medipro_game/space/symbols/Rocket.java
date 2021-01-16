@@ -38,7 +38,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
         astronautTimer = new Timer(100, e -> warpToTouchingStar());
         this.setMaxSpeed(2000.0);
         this.setMinSpeed(0.0);
-        this.start();
     }
 
     private Image getImagePath(Path path) {
