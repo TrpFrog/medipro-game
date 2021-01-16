@@ -73,6 +73,16 @@ public class SpaceController extends GameController implements KeyListener, Mous
             keyMap.put(KeyEvent.VK_X, false);
         };
     }
+    private double mouseEventToScale(MouseEvent e){
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        int halfHeight = view.getHeight()/2;
+        double dx = mouseX - view.getWidth()/2;
+        double dy = mouseY - halfHeight;
+        double d = Math.pow((Math.pow(dx, 2.0) + Math.pow(dy, 2.0)), 0.5);
+        double scale = d / halfHeight;
+        return scale;
+    }
 
     public SpaceController(SpaceModel model, SpaceView view) {
         super(model, view);
@@ -132,14 +142,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void mousePressed(MouseEvent e) {
-        int mouseX = e.getX();
-        int mouseY = e.getY();
-        int halfHeight = view.getHeight()/2;
-        double dx = mouseX - view.getWidth()/2;
-        double dy = mouseY - halfHeight;
-        double d = Math.pow((Math.pow(dx, 2.0) + Math.pow(dy, 2.0)), 0.5);
-        double scale = d / halfHeight;
-        acceleration = 25 * scale;
+        acceleration = 25 * mouseEventToScale(e);
 
         faceToGradientTimer = new Timer(spf, o -> faceToGradient(e));
         faceToGradientTimer.start();
@@ -170,14 +173,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        int mouseX = e.getX();
-        int mouseY = e.getY();
-        int halfHeight = view.getHeight()/2;
-        double dx = mouseX - view.getWidth()/2;
-        double dy = mouseY - halfHeight;
-        double d = Math.pow((Math.pow(dx, 2.0) + Math.pow(dy, 2.0)), 0.5);
-        double scale = d / halfHeight;
-        acceleration = 25 * scale;
+        acceleration = 25 * mouseEventToScale(e);
 
         faceToGradientTimer.stop();
         faceToGradientTimer = new Timer(spf, o -> faceToGradient(e));
