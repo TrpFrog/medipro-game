@@ -120,6 +120,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         keyMap.clear();
         keyTimer.stop();
         accelerateByMouseTimer.stop();
+        faceToGradientTimer.stop();
     }
 
     @Override
