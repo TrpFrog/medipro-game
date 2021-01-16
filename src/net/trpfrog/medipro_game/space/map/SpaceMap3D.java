@@ -37,7 +37,7 @@ public class SpaceMap3D {
     /**
      * 指定した階層(0-indexed)の平面宇宙マップを返します。
      * @param depth 取得するマップの階層
-     * @return その階層のSpaceMap2D, もし存在しなければnull
+     * @return その階層のSpaceMap2D
      */
     public SpaceMap2D get2DMap(int depth) {
         return list.get(depth);
