@@ -41,10 +41,10 @@ public class SpaceController extends GameController implements KeyListener, Mous
         if(rocketToOtherAngleDegrees < 180) dAngleDegrees *= -1;
         rocket.turnClockwiseDegrees(dAngleDegrees);
     }
-    private void moveDepth(int dir){
+    private void moveDepth(int dz){
         int currentDepth = rocket.getDepth();
         int mapDepth = model.get3DMap().getDepth();
-        currentDepth += dir;
+        currentDepth += dz;
         currentDepth = (currentDepth + mapDepth) % mapDepth;
         rocket.setDepth(currentDepth);
     }
