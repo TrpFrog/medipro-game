@@ -8,14 +8,25 @@ import net.trpfrog.medipro_game.space.SpaceScene;
 
 import javax.swing.*;
 import java.awt.*;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class MainMenuView extends GameView {
 
     private JButton start, quit;
-    private Image mainMenuImage = Toolkit.getDefaultToolkit().getImage
-            (Paths.get(".","resource","main_menu","main_menu.jpg").toString());
-    private Timer mainMenuTimer = new Timer(100, e -> repaint());
+    private String loadingMessage = "Now loading";
+    private Timer mainMenuTimer = new Timer(100, e ->{ repaint(); loadingMessage += "."; });
+    private Font strFont = new Font("",Font.BOLD,30);
+    private MainView mainView = MainView.getInstance();
+    private int mvWidth, mvHeight;
+    private Path[] imagePath = {
+                Paths.get(".","resource","main_menu","main_menu1.jpg"),
+                Paths.get(".","resource","main_menu","main_menu2.jpg"),
+                Paths.get(".","resource","main_menu","main_menu3.jpg"),
+                Paths.get(".","resource","main_menu","main_menu4.jpg")
+            };
+    private Path mainMenuImagePath = imagePath[(int)(Math.random()*imagePath.length)];
+    private Image mainMenuImage = Toolkit.getDefaultToolkit().getImage(mainMenuImagePath.toString());
 
     public MainMenuView(GameModel model) {
         super(model);
