@@ -40,10 +40,6 @@ public class SpaceMap3D {
      * @return その階層のSpaceMap2D, もし存在しなければnull
      */
     public SpaceMap2D get2DMap(int depth) {
-        if(depth < 0 || getDepth() <= depth) {
-            return null;
-        } else {
-            return list.get(depth);
-        }
+        return list.get(depth);
     }
 }
