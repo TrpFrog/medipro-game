@@ -102,6 +102,21 @@ public class FieldMap {
         return numberOfVerticalChunks;
     }
 
+    /**
+     * マップの横の長さを返します。
+     * @return マップの横の長さ
+     */
+    public int getWidth() {
+        return getNumberOfHorizontalChunks() * getChunkSquareLength();
+    }
+
+    /**
+     * マップの縦の長さを返します。
+     * @return マップの縦の長さ
+     */
+    public int getHeight() {
+        return getNumberOfVerticalChunks() * getChunkSquareLength();
+    }
 
     /**
      * 指定した範囲に含まれるSymbolのStreamを返します。<br>
