@@ -115,6 +115,30 @@ public class MiniMapUI implements Drawable {
         g.fill(drawRange);
     }
 
+    private void drawRocketLocation(Graphics2D g) {
+        var map = model.getRocketFloorMap();
+        boolean outOfMap = !map.isWithin((int)rocket.getX(), (int)rocket.getY());
+        int r = 5;
+
+        if(outOfMap) {
+            double distanceFromTheVerticalMapBorder = Math.min(
+                    Math.abs(rocket.getX()),
+                    Math.abs(rocket.getX() - map.getWidth())
+            );
+            double distanceFromTheHorizontalMapBorder = Math.min(
+                    Math.abs(rocket.getY()),
+                    Math.abs(rocket.getY() - map.getHeight())
+            );
+            int distanceFromTheMapBorder = (int)Math.max(
+                    distanceFromTheVerticalMapBorder,
+                    distanceFromTheHorizontalMapBorder
+            );
+            r = Math.max(r - distanceFromTheMapBorder / 500, 2);
+        }
+
+        drawSymbolPoint(g, rocket, r, Color.RED);
+    }
+
     /**
      * ミニマップを描画します。
      * @param g MainViewのpaintComponentから渡されるGraphics2D
@@ -124,7 +148,7 @@ public class MiniMapUI implements Drawable {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha));
         drawMapBase(g);
         drawEventStarLocation(g);
-        drawSymbolPoint(g, rocket, 5, Color.RED);
+        drawRocketLocation(g);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1.0f));
     }
 }
