@@ -6,12 +6,9 @@ import net.trpfrog.medipro_game.space.symbols.Rocket;
 import net.trpfrog.medipro_game.pause.EscapeToPause;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
-public class SpaceController extends GameController implements KeyListener, MouseListener {
+public class SpaceController extends GameController implements KeyListener, MouseListener, MouseWheelListener {
     private SpaceModel model;
     private SpaceView view;
     private boolean isUpperAngle;
@@ -38,6 +35,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         this.view = view;
         this.view.addKeyListener(this);
         this.view.addMouseListener(this);
+        this.view.addMouseWheelListener(this);
         this.view.addKeyListener(new EscapeToPause(false));
         decelerateTimer.start();
     }
@@ -70,6 +68,22 @@ public class SpaceController extends GameController implements KeyListener, Mous
             case 'a' -> rotateTimerL.start();
             // D: 右旋回
             case 'd' -> rotateTimerR.start();
+            // Z: 上昇
+            case 'z' -> {
+                int currentDepth = rocket.getDepth();
+                int mapDepth = model.get3DMap().getDepth();
+                currentDepth += 1;
+                currentDepth = (currentDepth + mapDepth) % mapDepth;
+                rocket.setDepth(currentDepth);
+            }
+            // X: 下降
+            case 'x' -> {
+                int currentDepth = rocket.getDepth();
+                int mapDepth = model.get3DMap().getDepth();
+                currentDepth -= 1;
+                currentDepth = (currentDepth + mapDepth) % mapDepth;
+                rocket.setDepth(currentDepth);
+            }
         }
     }
 
@@ -116,5 +130,15 @@ public class SpaceController extends GameController implements KeyListener, Mous
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        int direction = e.getWheelRotation();
+        int currentDepth = rocket.getDepth();
+        int mapDepth = model.get3DMap().getDepth();
+        currentDepth += direction;
+        currentDepth = (currentDepth + mapDepth) % mapDepth;
+        rocket.setDepth(currentDepth);
     }
 }
