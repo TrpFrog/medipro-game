@@ -8,12 +8,13 @@ import net.trpfrog.medipro_game.pause.EscapeToPause;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SpaceController extends GameController implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener {
     private SpaceModel model;
     private SpaceView view;
     private Rocket rocket;
-    private HashMap<Character, Boolean> keyMap;
+    private Map<Integer, Boolean> keyMap;
     private Timer keyTimer;
     private Timer accelerateTimer, faceToGradientTimer;
     private int fps, spf;
@@ -61,30 +62,30 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
         accelerateTimer = new Timer(spf, e -> rocket.accelerate(50.0));
 
-        keyMap = new HashMap<Character, Boolean>();
-        keyMap.put('w', false);
-        keyMap.put('a', false);
-        keyMap.put('d', false);
-        keyMap.put('z', false);
-        keyMap.put('x', false);
+        keyMap = new HashMap<Integer, Boolean>();
+        keyMap.put(KeyEvent.VK_W, false);
+        keyMap.put(KeyEvent.VK_A, false);
+        keyMap.put(KeyEvent.VK_D, false);
+        keyMap.put(KeyEvent.VK_Z, false);
+        keyMap.put(KeyEvent.VK_X, false);
         keyTimer = new Timer(spf, e -> {
             rocket.accelerate(-25.0);
 
             // W: 加速
-            if(keyMap.get('w')) rocket.accelerate(50.0);
+            if(keyMap.get(KeyEvent.VK_W)) rocket.accelerate(50.0);
             // A: 左旋回
-            if(keyMap.get('a')) rotateTimerFunc(true);
+            if(keyMap.get(KeyEvent.VK_A)) rotateTimerFunc(true);
             // D: 右旋回
-            if(keyMap.get('d')) rotateTimerFunc(false);
+            if(keyMap.get(KeyEvent.VK_D)) rotateTimerFunc(false);
             // Z: 上昇
-            if(keyMap.get('z')){
+            if(keyMap.get(KeyEvent.VK_Z)){
                 moveDepth(1);
-                keyMap.put('z', false);
+                keyMap.put(KeyEvent.VK_Z, false);
             };
             // X: 下降
-            if(keyMap.get('x')){
+            if(keyMap.get(KeyEvent.VK_X)){
                 moveDepth(-1);
-                keyMap.put('x', false);
+                keyMap.put(KeyEvent.VK_X, false);
             };
         });
         keyTimer.start();
@@ -117,12 +118,12 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void keyPressed(KeyEvent e) {
-        keyMap.put(e.getKeyChar(), true);
+        keyMap.put(e.getKeyCode(), true);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        keyMap.put(e.getKeyChar(), false);
+        keyMap.put(e.getKeyCode(), false);
     }
 
     @Override
