@@ -32,22 +32,19 @@ public class SpaceView extends GameView{
     private SpaceMapDrawer spaceMapDrawer;
     private MiniMapUI miniMap;
 
-    private MoonsWorkScene mwScene = new MoonsWorkScene();
-    private RaceGameScene rgScene = new RaceGameScene();
-    private ShootingStarScene ssScene = new ShootingStarScene();
-    private GalaxyExpressScene geScene = new GalaxyExpressScene();
-
     public SpaceView(SpaceModel model) {
         super(model);
         this.model = model;
         this.rocket = this.model.getRocket();
         rocket.setRelativeHitBox(RelativeHitBox.makeCircle(60));
         spaceMap2D = this.model.getRocketFloorMap();
+
         // EventStarの作成
-        moonWorkStar = new EventStar(mwScene.getStarImage(),60,mwScene);
-        raceGameStar = new EventStar(rgScene.getStarImage(),60,rgScene);
-        shootingStarStar = new EventStar(ssScene.getStarImage(),60,ssScene);
-        galaxyExpressStar = new EventStar(geScene.getStarImage(),60,geScene);
+        moonWorkStar      = EventStar.createSceneTransitionStar(60, MoonsWorkScene.class);
+        raceGameStar      = EventStar.createSceneTransitionStar(60, RaceGameScene.class);
+        shootingStarStar  = EventStar.createSceneTransitionStar(60, ShootingStarScene.class);
+        galaxyExpressStar = EventStar.createSceneTransitionStar(60, GalaxyExpressScene.class);
+
         // マップにEventStarのSymbolを追加
         spaceMap2D.addSymbol(-300,0,moonWorkStar);
         spaceMap2D.addSymbol(300,0,raceGameStar);
