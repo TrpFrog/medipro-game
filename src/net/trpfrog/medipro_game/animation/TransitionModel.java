@@ -77,10 +77,10 @@ public class TransitionModel extends GameModel {
      */
     protected void transit() {
         var sm = SceneManager.getInstance();
-        if(!fadeOut) return;
         assert(sm.top().getModel().equals(this));
-
         sm.pop();
+        if(!fadeOut) return;
+
         if(isPopMode()) {
             while(true) {
                 if(sm.pop().equals(getPopScene())) {
