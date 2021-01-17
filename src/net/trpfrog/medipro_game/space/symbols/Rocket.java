@@ -61,7 +61,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
 
         var touchingEventStar = searchEventStar(nearbyStars);
         if(touchingEventStar != null) {
-            SceneManager.getInstance().push(touchingEventStar.getEvent(), true);
+            touchingEventStar.getEvent().run(this);
         }
     }
 
