@@ -8,14 +8,25 @@ import net.trpfrog.medipro_game.space.SpaceScene;
 
 import javax.swing.*;
 import java.awt.*;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class MainMenuView extends GameView {
 
     private JButton start, quit;
-    private Image mainMenuImage = Toolkit.getDefaultToolkit().getImage
-            (Paths.get(".","resource","main_menu","main_menu.jpg").toString());
-    private Timer mainMenuTimer = new Timer(100, e -> repaint());
+    private String loadingMessage = "Now loading";
+    private Timer mainMenuTimer = new Timer(100, e ->{ repaint(); loadingMessage += "."; });
+    private Font strFont = new Font("",Font.BOLD,30);
+    private MainView mainView = MainView.getInstance();
+    private int mvWidth, mvHeight;
+    private Path[] imagePath = {
+                Paths.get(".","resource","main_menu","main_menu1.jpg"),
+                Paths.get(".","resource","main_menu","main_menu2.jpg"),
+                Paths.get(".","resource","main_menu","main_menu3.jpg"),
+                Paths.get(".","resource","main_menu","main_menu4.jpg")
+            };
+    private Path mainMenuImagePath = imagePath[(int)(Math.random()*imagePath.length)];
+    private Image mainMenuImage = Toolkit.getDefaultToolkit().getImage(mainMenuImagePath.toString());
 
     public MainMenuView(GameModel model) {
         super(model);
@@ -40,13 +51,16 @@ public class MainMenuView extends GameView {
         setLayout(new BorderLayout());
         add(start, BorderLayout.NORTH);
         add(quit, BorderLayout.SOUTH);
+
+        mvWidth = mainView.getWidth();
+        mvHeight = mainView.getHeight();
+        setFont(strFont);
     }
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        MainView mainView = MainView.getInstance();
-        setBackground(Color.BLACK);
-        g.drawImage(mainMenuImage,0,0,mainView.getWidth(),mainView.getHeight(),null);
+        g.drawString(loadingMessage,mainView.getWidth()/2,mainView.getHeight()/2);
+        g.drawImage(mainMenuImage,0,0,mvWidth+=1,mvHeight+=1,null);
     }
 
     @Override
