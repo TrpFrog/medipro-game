@@ -7,25 +7,32 @@ import net.trpfrog.medipro_game.pause.EscapeToPause;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.HashMap;
-import java.util.Map;
 
-public class SpaceController extends GameController implements KeyListener {
+public class SpaceController extends GameController {
     private SpaceModel model;
     private SpaceView view;
     private Rocket rocket;
-    private Map<Integer, Boolean> keyStateMap;
     private Timer stepTimer;
     private int spf;
     private MouseState mouseState;
+    private KeyState keyState;
+
+    // ===(一連の流れ)===
+    // キー入力があるか判定
+    // ある => キー操作して終わり
+    // ない => マウス入力があるか判定
+    //        ある => マウス操作して終わり
+    //        ない => 終わり
 
     private void step(){
         // W: 加速, S: 減速, クリック: 加減速
         double acceleration = 2.0; // 250f(5s)で最高速度到達
-        if(keyStateMap.getOrDefault(KeyEvent.VK_W, false) || keyStateMap.getOrDefault(KeyEvent.VK_S, false)){
+        boolean isPressedW = keyState.isPressed(KeyEvent.VK_W);
+        boolean isPressedS = keyState.isPressed(KeyEvent.VK_S);
+        if(isPressedW || isPressedS){
             int accelerationVec = 0;
-            if(keyStateMap.getOrDefault(KeyEvent.VK_W, false)) accelerationVec += 1;
-            if(keyStateMap.getOrDefault(KeyEvent.VK_S, false)) accelerationVec -= 1;
+            if(isPressedW) accelerationVec += 1;
+            if(isPressedS) accelerationVec -= 1;
             rocket.accelerate(acceleration * (double) accelerationVec);
         }else if(mouseState.isClicked()){
             rocket.accelerate(acceleration * mouseEventToScale());
@@ -33,10 +40,12 @@ public class SpaceController extends GameController implements KeyListener {
 
         // A: 左旋回, D: 右旋回, 長押し: 向かって旋回
         double dAngleDegrees = 3.6; // 100f(2s)で1周
-        if(keyStateMap.getOrDefault(KeyEvent.VK_A, false) || keyStateMap.getOrDefault(KeyEvent.VK_D, false)){
+        boolean isPressedA = keyState.isPressed(KeyEvent.VK_A);
+        boolean isPressedD = keyState.isPressed(KeyEvent.VK_D);
+        if(isPressedA || isPressedD){
             int rotateVec = 0;
-            if(keyStateMap.getOrDefault(KeyEvent.VK_A, false)) rotateVec -= 1;
-            if(keyStateMap.getOrDefault(KeyEvent.VK_D, false)) rotateVec += 1;
+            if(isPressedA) rotateVec -= 1;
+            if(isPressedD) rotateVec += 1;
             rocket.turnAnticlockwiseDegrees(dAngleDegrees * (double) rotateVec);
         }else if(mouseState.isClicked()){
             double mouseX = mouseState.getPointerX();
@@ -61,14 +70,16 @@ public class SpaceController extends GameController implements KeyListener {
         // Z: 上昇, X: 下降, ホイール(ピンチイン/アウト): 上下移動
         int dz = 1;
         int depthVec = 0;
-        if(keyStateMap.getOrDefault(KeyEvent.VK_Z, false) || keyStateMap.getOrDefault(KeyEvent.VK_X, false)){
-            if(keyStateMap.getOrDefault(KeyEvent.VK_Z, false)){
+        boolean isPressedZ = keyState.isPressed(KeyEvent.VK_Z);
+        boolean isPressedX = keyState.isPressed(KeyEvent.VK_X);
+        if(isPressedZ || isPressedX){
+            if(isPressedZ){
                 depthVec += 1;
-                keyStateMap.put(KeyEvent.VK_Z, false);
+                keyState.remove(KeyEvent.VK_Z);
             }
-            if(keyStateMap.getOrDefault(KeyEvent.VK_X, false)){
+            if(isPressedX){
                 depthVec -= 1;
-                keyStateMap.put(KeyEvent.VK_X, false);
+                keyState.remove(KeyEvent.VK_X);
             }
         }else if(mouseState.isWheeled()){
             depthVec = mouseState.getWheelVec();
@@ -93,20 +104,19 @@ public class SpaceController extends GameController implements KeyListener {
 
         spf = 1000 / 50;
         mouseState = new MouseState(view);
-        keyStateMap = new HashMap<Integer, Boolean>();
+        keyState = new KeyState(view);
         stepTimer = new Timer(spf, e -> step());
         stepTimer.start();
 
         rocket = model.getRocket();
 
         this.view = view;
-        this.view.addKeyListener(this);
         this.view.addKeyListener(new EscapeToPause(false));
     }
 
     @Override
     public void suspend() {
-        keyStateMap.clear();
+        keyState.clear();
         mouseState.clear();
         stepTimer.stop();
     }
@@ -114,20 +124,5 @@ public class SpaceController extends GameController implements KeyListener {
     @Override
     public void resume() {
         stepTimer.start();
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        keyStateMap.put(e.getKeyCode(), true);
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        keyStateMap.put(e.getKeyCode(), false);
     }
 }
