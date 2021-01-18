@@ -54,7 +54,7 @@ public class SpaceView extends GameView{
         spaceMap2D.addSymbol(0,-200,galaxyExpressStar);
 
         miniMap = new MiniMapUI(model, 7, MiniMapUI.LOWER_RIGHT);
-        speedIndicator = new SpeedIndicatorUI(model, SpeedIndicatorUI.LOWER_LEFT);
+        speedIndicator = new SpeedIndicatorUI(model.getRocket(), SpeedIndicatorUI.LOWER_LEFT);
 
         spaceMapDrawer = new SpaceMapDrawer(model);
     }
