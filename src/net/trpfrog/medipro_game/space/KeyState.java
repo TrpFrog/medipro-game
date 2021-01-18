@@ -16,7 +16,7 @@ public class KeyState implements KeyListener {
     private void remove(int keyCode){
         states.put(keyCode, false);
     }
-    public Boolean isPressed(int keyCode){
+    public boolean isPressed(int keyCode){
         return states.getOrDefault(keyCode, false);
     }
     public void clear(){
