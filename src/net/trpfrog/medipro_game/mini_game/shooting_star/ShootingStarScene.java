@@ -3,6 +3,8 @@ package net.trpfrog.medipro_game.mini_game.shooting_star;
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.mini_game.MiniGameScene;
 
+import java.nio.file.Paths;
+
 public class ShootingStarScene extends MiniGameScene {
     public ShootingStarScene() {
         setModel(new ShootingStarModel());
@@ -25,6 +27,7 @@ public class ShootingStarScene extends MiniGameScene {
                 "30秒間でできるだけ多くの星を流しましょう。",
                 "ただし、流れ星を見られてしまうと10点減点です。"
         );
+        setStarImage(Paths.get(""));
         makeDescriptionDialog();
     }
 

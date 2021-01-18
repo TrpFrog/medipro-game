@@ -105,7 +105,12 @@ public class MiniGameScene extends GameScene {
     }
 
     protected void setStarImage(Path imagePath) {
-        starImage = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
+        if(imagePath.toString().equals("")){
+            Path path = Paths.get(".","resource","mini_game","defaultEventStar.png");
+            starImage = Toolkit.getDefaultToolkit().getImage(path.toString());
+        }else{
+            starImage = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
+        }
     }
 
     /**
