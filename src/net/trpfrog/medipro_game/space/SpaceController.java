@@ -19,73 +19,132 @@ public class SpaceController extends GameController implements KeyListener, Mous
     private Rocket rocket;
     private Map<Integer, Boolean> keyStateMap;
     private Timer stepTimer;
-    private Timer accelerateByMouseTimer, faceToGradientTimer;
-    private double acceleration;
     private int spf;
-    private boolean isUpperAngle;
-    private Point pointerLocation;
+    private MouseState mouseState;
 
-    private void rotateTimerFunc(boolean isLeft){
+    public class MouseState {
+        private boolean clicked, wheeled, wheelUp;
+        private Point pointerLocation;
+
+        public MouseState(){
+            clicked = false;
+            wheeled = false;
+        }
+
+        public void onClick(){
+            clicked = true;
+        }
+        public void offClick(){
+            clicked = false;
+        }
+        public boolean isClicked(){
+            return clicked;
+        }
+
+        public void pointerLocationUpdate(){
+            PointerInfo pi = MouseInfo.getPointerInfo();
+            pointerLocation = pi.getLocation();
+            SwingUtilities.convertPointFromScreen(pointerLocation, MainView.getInstance().getContentPane());
+        }
+        public double getPointerX(){
+            return pointerLocation.getX();
+        }
+        public double getPointerY(){
+            return pointerLocation.getY();
+        }
+        public double getPointerDistance(){
+            double mouseX = getPointerX();
+            double mouseY = getPointerY();
+            double distance = Point2D.distance(
+                    mouseX, mouseY,
+                    view.getWidth()/2, view.getHeight()/2
+            );
+            return distance;
+        };
+
+        public void onWheel(boolean isUp){
+            wheeled = true;
+            wheelUp = isUp;
+        }
+        public void offWheel(){
+            wheeled = false;
+        }
+        public boolean isWheeled(){
+            return wheeled;
+        }
+        public int getWheelVec(){
+            return wheelUp ? 1 : -1;
+        }
+
+        public void clear(){
+            offClick();
+        }
+    }
+
+    private void step(){
+        // W: 加速, S: 減速, クリック: 加減速
+        double acceleration = 2.0; // 250f(5s)で最高速度到達
+        if(keyStateMap.getOrDefault(KeyEvent.VK_W, false) || keyStateMap.getOrDefault(KeyEvent.VK_S, false)){
+            int accelerationVec = 0;
+            if(keyStateMap.getOrDefault(KeyEvent.VK_W, false)) accelerationVec += 1;
+            if(keyStateMap.getOrDefault(KeyEvent.VK_S, false)) accelerationVec -= 1;
+            rocket.accelerate(acceleration * (double) accelerationVec);
+        }else if(mouseState.isClicked()){
+            rocket.accelerate(acceleration * mouseEventToScale());
+        }
+
+        // A: 左旋回, D: 右旋回, 長押し: 向かって旋回
         double dAngleDegrees = 3.6; // 100f(2s)で1周
-        if(!isUpperAngle) dAngleDegrees *= -1;
-        if(isLeft) dAngleDegrees *= -1;
-        rocket.turnAnticlockwiseDegrees(dAngleDegrees);
-    }
-    private void faceToGradient(){
-        double mouseX = pointerLocation.getX();
-        double mouseY = pointerLocation.getY();
-        double dx = mouseX - view.getWidth()/2;
-        double dy = mouseY - view.getHeight()/2;
+        if(keyStateMap.getOrDefault(KeyEvent.VK_A, false) || keyStateMap.getOrDefault(KeyEvent.VK_D, false)){
+            int rotateVec = 0;
+            if(keyStateMap.getOrDefault(KeyEvent.VK_A, false)) rotateVec -= 1;
+            if(keyStateMap.getOrDefault(KeyEvent.VK_D, false)) rotateVec += 1;
+            rocket.turnAnticlockwiseDegrees(dAngleDegrees * (double) rotateVec);
+        }else if(mouseState.isClicked()){
+            double mouseX = mouseState.getPointerX();
+            double mouseY = mouseState.getPointerY();
+            double dx = mouseX - view.getWidth()/2;
+            double dy = mouseY - view.getHeight()/2;
 
-        double toOtherAngleDegrees = Math.toDegrees(Math.atan2(dy, dx));
-        double currentAngleDegrees = rocket.getAngleDegrees();
-        double rocketToOtherAngleDegrees = ((toOtherAngleDegrees - currentAngleDegrees) % 360 + 360) % 360;
+            double toOtherAngleDegrees = Math.toDegrees(Math.atan2(dy, dx));
+            double currentAngleDegrees = rocket.getAngleDegrees();
+            double rocketToOtherAngleDegrees = ((toOtherAngleDegrees - currentAngleDegrees) % 360 + 360) % 360;
 
-        double dAngleDegrees = 3.6;
-        double fastDAngleDegrees = 14.4;
-        double slowDAngleDegrees = 1.0;
-        if(Math.abs(rocketToOtherAngleDegrees) < fastDAngleDegrees) dAngleDegrees = slowDAngleDegrees;
-        if(Math.abs(rocketToOtherAngleDegrees) < slowDAngleDegrees) return;
+            double fastDAngleDegrees = 14.4; // 4フレーム分
+            double slowDAngleDegrees = 1.0;
+            if(Math.abs(rocketToOtherAngleDegrees) < fastDAngleDegrees) dAngleDegrees = slowDAngleDegrees;
+            if(Math.abs(rocketToOtherAngleDegrees) < slowDAngleDegrees) dAngleDegrees = 0.0;
 
-        if(rocketToOtherAngleDegrees < 180) dAngleDegrees *= -1;
-        rocket.turnClockwiseDegrees(dAngleDegrees);
-    }
-    private void moveDepth(int dz){
+            int vec = 1;
+            if(rocketToOtherAngleDegrees < 180) vec *= -1;
+            rocket.turnClockwiseDegrees(dAngleDegrees * vec);
+        }
+
+        // Z: 上昇, X: 下降, ホイール(ピンチイン/アウト): 上下移動
+        int dz = 1;
+        int depthVec = 0;
+        if(keyStateMap.getOrDefault(KeyEvent.VK_Z, false) || keyStateMap.getOrDefault(KeyEvent.VK_X, false)){
+            if(keyStateMap.getOrDefault(KeyEvent.VK_Z, false)){
+                depthVec += 1;
+                keyStateMap.put(KeyEvent.VK_Z, false);
+            }
+            if(keyStateMap.getOrDefault(KeyEvent.VK_X, false)){
+                depthVec -= 1;
+                keyStateMap.put(KeyEvent.VK_X, false);
+            }
+        }else if(mouseState.isWheeled()){
+            depthVec = mouseState.getWheelVec();
+            mouseState.offWheel();
+        }
         int currentDepth = rocket.getDepth();
-        int mapDepth = model.get3DMap().getDepth();
-        currentDepth += dz;
-        currentDepth = (currentDepth % mapDepth + mapDepth) % mapDepth;
+        int mapDepthLength = model.get3DMap().getDepth();
+        currentDepth += dz * depthVec;
+        currentDepth = (currentDepth % mapDepthLength + mapDepthLength) % mapDepthLength;
         rocket.setDepth(currentDepth);
     }
-    private void step(){
-        // W: 加速
-        if(keyStateMap.getOrDefault(KeyEvent.VK_W, false)) rocket.accelerate(2.0);
-        // S: 減速
-        if(keyStateMap.getOrDefault(KeyEvent.VK_S, false)) rocket.accelerate(-2.0);
-        // A: 左旋回
-        if(keyStateMap.getOrDefault(KeyEvent.VK_A, false)) rotateTimerFunc(true);
-        // D: 右旋回
-        if(keyStateMap.getOrDefault(KeyEvent.VK_D, false)) rotateTimerFunc(false);
-        // Z: 上昇
-        if(keyStateMap.getOrDefault(KeyEvent.VK_Z, false)){
-            moveDepth(1);
-            keyStateMap.put(KeyEvent.VK_Z, false);
-        };
-        // X: 下降
-        if(keyStateMap.getOrDefault(KeyEvent.VK_X, false)){
-            moveDepth(-1);
-            keyStateMap.put(KeyEvent.VK_X, false);
-        };
-    }
-    private double mouseEventToScale(MouseEvent e){
-        int mouseX = e.getX();
-        int mouseY = e.getY();
+    private double mouseEventToScale(){
+        double distance = mouseState.getPointerDistance();
         int halfHeight = view.getHeight()/2;
-        double distance = Point2D.distance(
-                mouseX, mouseY,
-                view.getWidth()/2, halfHeight
-        );
-
         double scale = distance / halfHeight;
         return (scale - 0.5) * 2;
     }
@@ -93,13 +152,9 @@ public class SpaceController extends GameController implements KeyListener, Mous
     public SpaceController(SpaceModel model, SpaceView view) {
         super(model, view);
         this.model = model;
-        isUpperAngle = true;
+
         spf = 1000 / 50;
-
-        acceleration = 0.0;
-        accelerateByMouseTimer = new Timer(spf, e -> rocket.accelerate(acceleration));
-        faceToGradientTimer = new Timer(spf, o -> faceToGradient());
-
+        mouseState = new MouseState();
         keyStateMap = new HashMap<Integer, Boolean>();
         stepTimer = new Timer(spf, e -> step());
         stepTimer.start();
@@ -117,9 +172,8 @@ public class SpaceController extends GameController implements KeyListener, Mous
     @Override
     public void suspend() {
         keyStateMap.clear();
+        mouseState.clear();
         stepTimer.stop();
-        accelerateByMouseTimer.stop();
-        faceToGradientTimer.stop();
     }
 
     @Override
@@ -149,20 +203,13 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void mousePressed(MouseEvent e) {
-        acceleration = 2.0 * mouseEventToScale(e);
-
-        PointerInfo pi = MouseInfo.getPointerInfo();
-        pointerLocation = pi.getLocation();
-        SwingUtilities.convertPointFromScreen(pointerLocation, MainView.getInstance().getContentPane());
-
-        faceToGradientTimer.start();
-        accelerateByMouseTimer.start();
+        mouseState.onClick();
+        mouseState.pointerLocationUpdate();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        faceToGradientTimer.stop();
-        accelerateByMouseTimer.stop();
+        mouseState.offClick();
     }
 
     @Override
@@ -178,16 +225,13 @@ public class SpaceController extends GameController implements KeyListener, Mous
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         int dz = e.getWheelRotation();
-        moveDepth(dz);
+        boolean isUp = 0 < dz;
+        mouseState.onWheel(isUp);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        acceleration = 2.0 * mouseEventToScale(e);
-
-        PointerInfo pi = MouseInfo.getPointerInfo();
-        pointerLocation = pi.getLocation();
-        SwingUtilities.convertPointFromScreen(pointerLocation, MainView.getInstance().getContentPane());
+        mouseState.pointerLocationUpdate();
     }
 
     @Override
