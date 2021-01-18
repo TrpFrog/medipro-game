@@ -15,6 +15,7 @@ public class MiniGameScene extends GameScene {
     private String creatorName = "";
 
     private Image starImage = null;
+    private static Path defaultStarImagePath = Paths.get(".","resource","mini_game","defaultEventStar.png");
 
     /**
      * ミニゲームのタイトルを取得します。
@@ -101,16 +102,17 @@ public class MiniGameScene extends GameScene {
     }
 
     public Image getStarImage() {
-        return starImage;
+        if(this.starImage != null){
+            return starImage;
+        }else{
+            this.starImage = Toolkit.getDefaultToolkit().getImage(defaultStarImagePath.toString());
+            return starImage;
+        }
+
     }
 
     protected void setStarImage(Path imagePath) {
-        if(imagePath.toString().equals("")){
-            Path path = Paths.get(".","resource","mini_game","defaultEventStar.png");
-            starImage = Toolkit.getDefaultToolkit().getImage(path.toString());
-        }else{
-            starImage = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
-        }
+        starImage = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
     }
 
     /**

@@ -27,7 +27,6 @@ public class ShootingStarScene extends MiniGameScene {
                 "30秒間でできるだけ多くの星を流しましょう。",
                 "ただし、流れ星を見られてしまうと10点減点です。"
         );
-        setStarImage(Paths.get(""));
         makeDescriptionDialog();
     }
 

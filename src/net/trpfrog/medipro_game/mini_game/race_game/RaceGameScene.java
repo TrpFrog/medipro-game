@@ -23,7 +23,6 @@ public class RaceGameScene extends MiniGameScene {
                 "移動中のみ曲がることができます。",
                 "ブレーキはありません。勝手に止まるので待ってください。"
         );
-        setStarImage(Paths.get(""));
         makeDescriptionDialog();
     }
 
