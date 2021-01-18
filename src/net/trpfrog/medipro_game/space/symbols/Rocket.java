@@ -2,7 +2,6 @@ package net.trpfrog.medipro_game.space.symbols;
 
 import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.MainView;
-import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.Suspendable;
 import net.trpfrog.medipro_game.space.SpaceModel;
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
@@ -106,7 +105,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
         invincibleTimeUntil = System.currentTimeMillis() + 5000;
         astronautTimer.start();
         start();
-        animation.damaged();
+        animation.invincible();
     }
 
     public boolean isInvincible() {
