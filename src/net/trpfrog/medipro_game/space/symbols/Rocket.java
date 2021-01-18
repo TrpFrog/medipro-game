@@ -105,7 +105,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
         invincibleTimeUntil = System.currentTimeMillis() + 5000;
         astronautTimer.start();
         start();
-        animation.invincible();
     }
 
     public boolean isInvincible() {
@@ -128,6 +127,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
 
         public RocketAnimation(Rocket rocket) {
             this.rocket = rocket;
+
             damageTimer = new Timer(10,e->{
                 rocket.setAngleDegrees(rocket.getAngleDegrees()+8);
                 damageCounter++;
