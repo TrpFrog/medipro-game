@@ -62,11 +62,11 @@ public class SpaceController extends GameController {
         if(keyState.isPressed(KeyEvent.VK_Z) || keyState.isPressed(KeyEvent.VK_X)){
             if(keyState.isPressed(KeyEvent.VK_Z)){
                 depthVec += 1;
-                keyState.isPressed(KeyEvent.VK_Z);
+                keyState.remove(KeyEvent.VK_Z);
             }
             if(keyState.isPressed(KeyEvent.VK_X)){
                 depthVec -= 1;
-                keyState.isPressed(KeyEvent.VK_X);
+                keyState.remove(KeyEvent.VK_X);
             }
         }else if(mouseState.isWheeled()){
             depthVec = mouseState.getWheelVec();

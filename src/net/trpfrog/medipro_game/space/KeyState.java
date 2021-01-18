@@ -10,6 +10,9 @@ public class KeyState implements KeyListener {
     private Component view;
     private Set<Integer> states;
 
+    public void remove(int keyCode){
+        states.remove(keyCode);
+    }
     public boolean isPressed(int keyCode){
         return states.contains(keyCode);
     }
