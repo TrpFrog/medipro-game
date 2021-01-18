@@ -17,13 +17,22 @@ public class SpaceController extends GameController {
     private MouseState mouseState;
     private KeyState keyState;
 
+    // ===(一連の流れ)===
+    // キー入力があるか判定
+    // ある => キー操作して終わり
+    // ない => マウス入力があるか判定
+    //        ある => マウス操作して終わり
+    //        ない => 終わり
+
     private void step(){
         // W: 加速, S: 減速, クリック: 加減速
         double acceleration = 2.0; // 250f(5s)で最高速度到達
-        if(keyState.isPressed(KeyEvent.VK_W) || keyState.isPressed(KeyEvent.VK_S)){
+        boolean isPressedW = keyState.isPressed(KeyEvent.VK_W);
+        boolean isPressedS = keyState.isPressed(KeyEvent.VK_S);
+        if(isPressedW || isPressedS){
             int accelerationVec = 0;
-            if(keyState.isPressed(KeyEvent.VK_W)) accelerationVec += 1;
-            if(keyState.isPressed(KeyEvent.VK_S)) accelerationVec -= 1;
+            if(isPressedW) accelerationVec += 1;
+            if(isPressedS) accelerationVec -= 1;
             rocket.accelerate(acceleration * (double) accelerationVec);
         }else if(mouseState.isClicked()){
             rocket.accelerate(acceleration * mouseEventToScale());
@@ -31,10 +40,12 @@ public class SpaceController extends GameController {
 
         // A: 左旋回, D: 右旋回, 長押し: 向かって旋回
         double dAngleDegrees = 3.6; // 100f(2s)で1周
-        if(keyState.isPressed(KeyEvent.VK_A) || keyState.isPressed(KeyEvent.VK_D)){
+        boolean isPressedA = keyState.isPressed(KeyEvent.VK_A);
+        boolean isPressedD = keyState.isPressed(KeyEvent.VK_D);
+        if(isPressedA || isPressedD){
             int rotateVec = 0;
-            if(keyState.isPressed(KeyEvent.VK_A)) rotateVec -= 1;
-            if(keyState.isPressed(KeyEvent.VK_D)) rotateVec += 1;
+            if(isPressedA) rotateVec -= 1;
+            if(isPressedD) rotateVec += 1;
             rocket.turnAnticlockwiseDegrees(dAngleDegrees * (double) rotateVec);
         }else if(mouseState.isClicked()){
             double mouseX = mouseState.getPointerX();
@@ -59,12 +70,14 @@ public class SpaceController extends GameController {
         // Z: 上昇, X: 下降, ホイール(ピンチイン/アウト): 上下移動
         int dz = 1;
         int depthVec = 0;
-        if(keyState.isPressed(KeyEvent.VK_Z) || keyState.isPressed(KeyEvent.VK_X)){
-            if(keyState.isPressed(KeyEvent.VK_Z)){
+        boolean isPressedZ = keyState.isPressed(KeyEvent.VK_Z);
+        boolean isPressedX = keyState.isPressed(KeyEvent.VK_X);
+        if(isPressedZ || isPressedX){
+            if(isPressedZ){
                 depthVec += 1;
                 keyState.remove(KeyEvent.VK_Z);
             }
-            if(keyState.isPressed(KeyEvent.VK_X)){
+            if(isPressedX){
                 depthVec -= 1;
                 keyState.remove(KeyEvent.VK_X);
             }
