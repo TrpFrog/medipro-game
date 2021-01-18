@@ -106,7 +106,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
         invincibleTimeUntil = System.currentTimeMillis() + 5000;
         astronautTimer.start();
         start();
-        animation.damaged();
     }
 
     public boolean isInvincible() {
@@ -118,12 +117,14 @@ public class Rocket extends MovableSymbol implements Suspendable{
      */
     public class RocketAnimation implements Drawable{
         private final Rocket rocket;
-        private Timer damageTimer,invincibleTimer;
+        private Timer damageTimer;
         private int damageCounter;
         private Image rocketNow;
         private Image rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
         private Image invincibleImage = getImagePath(Paths.get(".","resource","space_game","invincibleRocket.png"));
         private Image damagedImage = getImagePath(Paths.get(".","resource","space_game","rocket_damaged.png"));
+        private Image rocketStopImage = getImagePath(Paths.get(".","resource","space_game","rocket_stop.png"));
+        private Image invincibleStopImage = getImagePath(Paths.get(".","resource","space_game","invincibleRocketStop.png"));
 
         public RocketAnimation(Rocket rocket) {
             this.rocket = rocket;
@@ -132,13 +133,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
                 damageCounter++;
                 if(damageCounter >= 45){
                     damageTimer.stop();
-                    invincible();
-                }
-            });
-            invincibleTimer = new Timer(100,e -> {
-                if(!rocket.isInvincible()){
-                    rocketNow = rocketImage;
-                    invincibleTimer.stop();
                 }
             });
         }
@@ -149,17 +143,23 @@ public class Rocket extends MovableSymbol implements Suspendable{
             damageCounter = 0;
         }
 
-        public void invincible(){
-            rocketNow = invincibleImage;
-            invincibleTimer.start();
-        }
-
         @Override
         public void draw(Graphics2D g) {
             MainView mainView = MainView.getInstance();
             int drawX = mainView.getWidth()/2;
             int drawY = mainView.getHeight()/2;
             double angle = getAngleRadians();
+            // ロケットの画像選択
+            if(rocket.getSpeedPxPerSecond() < 1 && rocket.isInvincible()){
+                rocketNow = invincibleStopImage;
+            }else if(rocket.getSpeedPxPerSecond() >= 1 && rocket.isInvincible()){
+                rocketNow = invincibleImage;
+            }else if(rocket.getSpeedPxPerSecond() < 1){
+                rocketNow = rocketStopImage;
+            }else{
+                rocketNow = rocketImage;
+            }
+
             g.rotate(angle,drawX,drawY);
             g.drawImage(rocketNow,drawX-imageWidth/2,drawY-imageHeight/2,imageWidth,imageHeight,null);
             g.rotate(-angle,drawX,drawY);
