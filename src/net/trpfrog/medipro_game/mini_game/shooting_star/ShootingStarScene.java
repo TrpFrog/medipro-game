@@ -3,8 +3,6 @@ package net.trpfrog.medipro_game.mini_game.shooting_star;
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.mini_game.MiniGameScene;
 
-import java.nio.file.Paths;
-
 public class ShootingStarScene extends MiniGameScene {
     public ShootingStarScene() {
         setModel(new ShootingStarModel());
