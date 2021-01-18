@@ -58,10 +58,10 @@ public class SpaceController extends GameController implements KeyListener, Mous
         rocket.setDepth(currentDepth);
     }
     private void step(){
-        rocket.accelerate(-2.0);
-
         // W: 加速
-        if(keyStateMap.getOrDefault(KeyEvent.VK_W, false)) rocket.accelerate(50.0);
+        if(keyStateMap.getOrDefault(KeyEvent.VK_W, false)) rocket.accelerate(2.0);
+        // S: 減速
+        if(keyStateMap.getOrDefault(KeyEvent.VK_S, false)) rocket.accelerate(-2.0);
         // A: 左旋回
         if(keyStateMap.getOrDefault(KeyEvent.VK_A, false)) rotateTimerFunc(true);
         // D: 右旋回
@@ -87,7 +87,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         );
 
         double scale = distance / halfHeight;
-        return scale;
+        return (scale - 0.5) * 2;
     }
 
     public SpaceController(SpaceModel model, SpaceView view) {
@@ -97,7 +97,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         spf = 1000 / 50;
 
         acceleration = 0.0;
-        accelerateByMouseTimer = new Timer(spf, e -> rocket.accelerate(2.0 + acceleration));
+        accelerateByMouseTimer = new Timer(spf, e -> rocket.accelerate(acceleration));
         faceToGradientTimer = new Timer(spf, o -> faceToGradient());
 
         keyStateMap = new HashMap<Integer, Boolean>();
