@@ -3,21 +3,15 @@ package net.trpfrog.medipro_game.space;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class KeyState implements KeyListener {
     private Component view;
-    private Map<Integer, Boolean> states;
+    private Set<Integer> states;
 
-    private void add(int keyCode){
-        states.put(keyCode, true);
-    }
-    private void remove(int keyCode){
-        states.put(keyCode, false);
-    }
     public boolean isPressed(int keyCode){
-        return states.getOrDefault(keyCode, false);
+        return states.contains(keyCode);
     }
     public void clear(){
         states.clear();
@@ -26,7 +20,7 @@ public class KeyState implements KeyListener {
     public KeyState(Component component){
         view = component;
         view.addKeyListener(this);
-        states = new HashMap<Integer, Boolean>();
+        states = new HashSet<Integer>();
     }
 
     @Override
@@ -36,11 +30,11 @@ public class KeyState implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        add(e.getKeyCode());
+        states.add(e.getKeyCode());
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        remove(e.getKeyCode());
+        states.remove(e.getKeyCode());
     }
 }
