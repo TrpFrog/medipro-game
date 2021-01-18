@@ -22,17 +22,17 @@ public class MouseState implements MouseListener, MouseMotionListener, MouseWhee
         wheelUp = true;
     }
 
-    public void onClick(){
+    private void onClick(){
         clicked = true;
     }
-    public void offClick(){
+    private void offClick(){
         clicked = false;
     }
     public boolean isClicked(){
         return clicked;
     }
 
-    public void pointerLocationUpdate(){
+    private void pointerLocationUpdate(){
         PointerInfo pi = MouseInfo.getPointerInfo();
         pointerLocation = pi.getLocation();
         SwingUtilities.convertPointFromScreen(pointerLocation, MainView.getInstance().getContentPane());
@@ -53,7 +53,7 @@ public class MouseState implements MouseListener, MouseMotionListener, MouseWhee
         return distance;
     };
 
-    public void onWheel(boolean isUp){
+    private void onWheel(boolean isUp){
         wheeled = true;
         wheelUp = isUp;
     }
