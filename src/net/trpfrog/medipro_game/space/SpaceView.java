@@ -10,6 +10,7 @@ import net.trpfrog.medipro_game.space.map.SpaceMap2D;
 import net.trpfrog.medipro_game.space.map.SpaceMapDrawer;
 import net.trpfrog.medipro_game.space.symbols.EventStar;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
+import net.trpfrog.medipro_game.space.ui.IndicatorUI;
 import net.trpfrog.medipro_game.space.ui.MiniMapUI;
 import net.trpfrog.medipro_game.space.ui.SpeedIndicatorUI;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
@@ -33,6 +34,7 @@ public class SpaceView extends GameView{
     private SpaceMapDrawer spaceMapDrawer;
     private MiniMapUI miniMap;
     private SpeedIndicatorUI speedIndicator;
+    private IndicatorUI indicator;
 
     public SpaceView(SpaceModel model) {
         super(model);
@@ -55,6 +57,7 @@ public class SpaceView extends GameView{
 
         miniMap = new MiniMapUI(model, 7, MiniMapUI.LOWER_RIGHT);
         speedIndicator = new SpeedIndicatorUI(model.getRocket(), SpeedIndicatorUI.LOWER_LEFT);
+        indicator = new IndicatorUI(model);
 
         spaceMapDrawer = new SpaceMapDrawer(model);
     }
@@ -79,6 +82,7 @@ public class SpaceView extends GameView{
         spaceMapDrawer.draw(g2);
         miniMap.draw(g2);
         speedIndicator.draw(g2);
+        indicator.draw(g2);
     }
 
     @Override
