@@ -1,19 +1,16 @@
 package net.trpfrog.medipro_game.space;
 
 
-import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.scene.GameController;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
 import net.trpfrog.medipro_game.pause.EscapeToPause;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SpaceController extends GameController implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
+public class SpaceController extends GameController implements KeyListener {
     private SpaceModel model;
     private SpaceView view;
     private Rocket rocket;
@@ -21,67 +18,6 @@ public class SpaceController extends GameController implements KeyListener, Mous
     private Timer stepTimer;
     private int spf;
     private MouseState mouseState;
-
-    public class MouseState {
-        private boolean clicked, wheeled, wheelUp;
-        private Point pointerLocation;
-
-        public MouseState(){
-            clicked = false;
-            wheeled = false;
-            wheelUp = true;
-        }
-
-        public void onClick(){
-            clicked = true;
-        }
-        public void offClick(){
-            clicked = false;
-        }
-        public boolean isClicked(){
-            return clicked;
-        }
-
-        public void pointerLocationUpdate(){
-            PointerInfo pi = MouseInfo.getPointerInfo();
-            pointerLocation = pi.getLocation();
-            SwingUtilities.convertPointFromScreen(pointerLocation, MainView.getInstance().getContentPane());
-        }
-        public double getPointerX(){
-            return pointerLocation.getX();
-        }
-        public double getPointerY(){
-            return pointerLocation.getY();
-        }
-        public double getPointerDistance(){
-            double mouseX = getPointerX();
-            double mouseY = getPointerY();
-            double distance = Point2D.distance(
-                    mouseX, mouseY,
-                    view.getWidth()/2, view.getHeight()/2
-            );
-            return distance;
-        };
-
-        public void onWheel(boolean isUp){
-            wheeled = true;
-            wheelUp = isUp;
-        }
-        public void offWheel(){
-            wheeled = false;
-        }
-        public boolean isWheeled(){
-            return wheeled;
-        }
-        public int getWheelVec(){
-            return wheelUp ? 1 : -1;
-        }
-
-        public void clear(){
-            offClick();
-            offWheel();
-        }
-    }
 
     private void step(){
         // W: 加速, S: 減速, クリック: 加減速
@@ -156,7 +92,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         this.model = model;
 
         spf = 1000 / 50;
-        mouseState = new MouseState();
+        mouseState = new MouseState(view);
         keyStateMap = new HashMap<Integer, Boolean>();
         stepTimer = new Timer(spf, e -> step());
         stepTimer.start();
@@ -165,9 +101,6 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
         this.view = view;
         this.view.addKeyListener(this);
-        this.view.addMouseListener(this);
-        this.view.addMouseMotionListener(this);
-        this.view.addMouseWheelListener(this);
         this.view.addKeyListener(new EscapeToPause(false));
     }
 
@@ -196,48 +129,5 @@ public class SpaceController extends GameController implements KeyListener, Mous
     @Override
     public void keyReleased(KeyEvent e) {
         keyStateMap.put(e.getKeyCode(), false);
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        mouseState.onClick();
-        mouseState.pointerLocationUpdate();
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        mouseState.offClick();
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
-        int dz = e.getWheelRotation();
-        boolean isUp = 0 < dz;
-        mouseState.onWheel(isUp);
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        mouseState.pointerLocationUpdate();
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
     }
 }
