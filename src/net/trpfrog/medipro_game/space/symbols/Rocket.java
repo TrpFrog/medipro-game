@@ -36,7 +36,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
         this.animation = new RocketAnimation(this);
         this.setDrawer(animation);
         astronautTimer = new Timer(100, e -> warpToTouchingStar());
-        this.setMaxSpeed(2000.0);
+        this.setMaxSpeed(500.0);
         this.setMinSpeed(0.0);
     }
 

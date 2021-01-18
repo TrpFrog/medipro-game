@@ -26,7 +26,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
     private Point pointerLocation;
 
     private void rotateTimerFunc(boolean isLeft){
-        double dAngleDegrees = 5.0; // とりあえず
+        double dAngleDegrees = 3.6; // 100f(2s)で1周
         if(!isUpperAngle) dAngleDegrees *= -1;
         if(isLeft) dAngleDegrees *= -1;
         rocket.turnAnticlockwiseDegrees(dAngleDegrees);
@@ -41,8 +41,8 @@ public class SpaceController extends GameController implements KeyListener, Mous
         double currentAngleDegrees = rocket.getAngleDegrees();
         double rocketToOtherAngleDegrees = ((toOtherAngleDegrees - currentAngleDegrees) % 360 + 360) % 360;
 
-        double dAngleDegrees = 5.0;
-        double fastDAngleDegrees = 20.0;
+        double dAngleDegrees = 3.6;
+        double fastDAngleDegrees = 14.4;
         double slowDAngleDegrees = 1.0;
         if(Math.abs(rocketToOtherAngleDegrees) < fastDAngleDegrees) dAngleDegrees = slowDAngleDegrees;
         if(Math.abs(rocketToOtherAngleDegrees) < slowDAngleDegrees) return;
@@ -58,7 +58,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         rocket.setDepth(currentDepth);
     }
     private void step(){
-        rocket.accelerate(-25.0);
+        rocket.accelerate(-2.0);
 
         // W: 加速
         if(keyStateMap.getOrDefault(KeyEvent.VK_W, false)) rocket.accelerate(50.0);
@@ -97,7 +97,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         spf = 1000 / 50;
 
         acceleration = 0.0;
-        accelerateByMouseTimer = new Timer(spf, e -> rocket.accelerate(25.0 + acceleration));
+        accelerateByMouseTimer = new Timer(spf, e -> rocket.accelerate(2.0 + acceleration));
         faceToGradientTimer = new Timer(spf, o -> faceToGradient());
 
         keyStateMap = new HashMap<Integer, Boolean>();
@@ -149,7 +149,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void mousePressed(MouseEvent e) {
-        acceleration = 25 * mouseEventToScale(e);
+        acceleration = 2.0 * mouseEventToScale(e);
 
         PointerInfo pi = MouseInfo.getPointerInfo();
         pointerLocation = pi.getLocation();
@@ -183,7 +183,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        acceleration = 25 * mouseEventToScale(e);
+        acceleration = 2.0 * mouseEventToScale(e);
 
         PointerInfo pi = MouseInfo.getPointerInfo();
         pointerLocation = pi.getLocation();
