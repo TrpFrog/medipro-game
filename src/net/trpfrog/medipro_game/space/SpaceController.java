@@ -21,7 +21,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
     private Timer keyTimer;
     private Timer accelerateByMouseTimer, faceToGradientTimer;
     private double acceleration;
-    private int fps, spf;
+    private int spf;
     private boolean isUpperAngle;
     private Point pointerLocation;
 
@@ -94,8 +94,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         super(model, view);
         this.model = model;
         isUpperAngle = true;
-        fps = 50;
-        spf = 1000 / fps;
+        spf = 1000 / 50;
 
         acceleration = 0.0;
         accelerateByMouseTimer = new Timer(spf, e -> rocket.accelerate(25.0 + acceleration));
