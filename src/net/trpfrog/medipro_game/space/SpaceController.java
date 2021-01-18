@@ -17,8 +17,8 @@ public class SpaceController extends GameController implements KeyListener, Mous
     private SpaceModel model;
     private SpaceView view;
     private Rocket rocket;
-    private Map<Integer, Boolean> keyMap;
-    private Timer keyTimer;
+    private Map<Integer, Boolean> keyStateMap;
+    private Timer stepTimer;
     private Timer accelerateByMouseTimer, faceToGradientTimer;
     private double acceleration;
     private int fps, spf;
@@ -61,20 +61,20 @@ public class SpaceController extends GameController implements KeyListener, Mous
         rocket.accelerate(-25.0);
 
         // W: 加速
-        if(keyMap.getOrDefault(KeyEvent.VK_W, false)) rocket.accelerate(50.0);
+        if(keyStateMap.getOrDefault(KeyEvent.VK_W, false)) rocket.accelerate(50.0);
         // A: 左旋回
-        if(keyMap.getOrDefault(KeyEvent.VK_A, false)) rotateTimerFunc(true);
+        if(keyStateMap.getOrDefault(KeyEvent.VK_A, false)) rotateTimerFunc(true);
         // D: 右旋回
-        if(keyMap.getOrDefault(KeyEvent.VK_D, false)) rotateTimerFunc(false);
+        if(keyStateMap.getOrDefault(KeyEvent.VK_D, false)) rotateTimerFunc(false);
         // Z: 上昇
-        if(keyMap.getOrDefault(KeyEvent.VK_Z, false)){
+        if(keyStateMap.getOrDefault(KeyEvent.VK_Z, false)){
             moveDepth(1);
-            keyMap.put(KeyEvent.VK_Z, false);
+            keyStateMap.put(KeyEvent.VK_Z, false);
         };
         // X: 下降
-        if(keyMap.getOrDefault(KeyEvent.VK_X, false)){
+        if(keyStateMap.getOrDefault(KeyEvent.VK_X, false)){
             moveDepth(-1);
-            keyMap.put(KeyEvent.VK_X, false);
+            keyStateMap.put(KeyEvent.VK_X, false);
         };
     }
     private double mouseEventToScale(MouseEvent e){
@@ -101,9 +101,9 @@ public class SpaceController extends GameController implements KeyListener, Mous
         accelerateByMouseTimer = new Timer(spf, e -> rocket.accelerate(25.0 + acceleration));
         faceToGradientTimer = new Timer(spf, o -> faceToGradient());
 
-        keyMap = new HashMap<Integer, Boolean>();
-        keyTimer = new Timer(spf, e -> step());
-        keyTimer.start();
+        keyStateMap = new HashMap<Integer, Boolean>();
+        stepTimer = new Timer(spf, e -> step());
+        stepTimer.start();
 
         rocket = model.getRocket();
 
@@ -117,15 +117,15 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void suspend() {
-        keyMap.clear();
-        keyTimer.stop();
+        keyStateMap.clear();
+        stepTimer.stop();
         accelerateByMouseTimer.stop();
         faceToGradientTimer.stop();
     }
 
     @Override
     public void resume() {
-        keyTimer.start();
+        stepTimer.start();
     }
 
     @Override
@@ -135,12 +135,12 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
     @Override
     public void keyPressed(KeyEvent e) {
-        keyMap.put(e.getKeyCode(), true);
+        keyStateMap.put(e.getKeyCode(), true);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        keyMap.put(e.getKeyCode(), false);
+        keyStateMap.put(e.getKeyCode(), false);
     }
 
     @Override
