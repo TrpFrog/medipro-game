@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SpaceController extends GameController implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener {
+public class SpaceController extends GameController implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
     private SpaceModel model;
     private SpaceView view;
     private Rocket rocket;
@@ -29,6 +29,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
         public MouseState(){
             clicked = false;
             wheeled = false;
+            wheelUp = true;
         }
 
         public void onClick(){
@@ -78,6 +79,7 @@ public class SpaceController extends GameController implements KeyListener, Mous
 
         public void clear(){
             offClick();
+            offWheel();
         }
     }
 
