@@ -33,8 +33,8 @@ public class IndicatorUI implements Drawable {
         calendar = Calendar.getInstance();
 
         //描画する文字列
-        contentStr = sdf.format(calendar.getTime())+ "MapNo."+ rocket.getDepth()+" CLEARED:0"+
-                " (x,y) = ("+ (int)rocket.getX() +","+ (int)rocket.getY()+")";
+        contentStr = sdf.format(calendar.getTime())+ "MapNo."+ rocket.getDepth()+"  CLEARED:0"+
+                "   (x,y) = ("+ (int)rocket.getX() +","+ (int)rocket.getY()+")";
 
         drawRange = new Rectangle(10,10,contentStr.length()*10,25);
 
