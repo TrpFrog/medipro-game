@@ -1,5 +1,8 @@
 package net.trpfrog.medipro_game.space.map;
 
+import java.awt.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +12,16 @@ import java.util.List;
  */
 public class SpaceMap3D {
     private List<SpaceMap2D> list;
+
+    private static final Image[] backgroundImages = new Image[5];
+
+    static {
+        for(int i = 0; i < backgroundImages.length; i++) {
+            String fileName = "bkg" + (i % backgroundImages.length) + ".jpg";
+            Path path = Paths.get(".", "resource", "space_game", "backgrounds", fileName);
+            backgroundImages[i] = Toolkit.getDefaultToolkit().getImage(path.toString());
+        }
+    }
 
     /**
      * マップの深さを返します。
@@ -30,7 +43,9 @@ public class SpaceMap3D {
     public SpaceMap3D(int chunkW, int chunkH, int chunkSize, int depth) {
         list = new ArrayList<>(depth);
         for(int i = 0; i < depth; i++) {
-            list.add(new SpaceMap2D(chunkH, chunkW, chunkSize));
+            var map2d = new SpaceMap2D(chunkH, chunkW, chunkSize);
+            map2d.setBackgroundImage(backgroundImages[i % backgroundImages.length]);
+            list.add(map2d);
         }
     }
 
