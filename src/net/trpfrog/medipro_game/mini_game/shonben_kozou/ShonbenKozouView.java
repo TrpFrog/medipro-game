@@ -12,6 +12,8 @@ public class ShonbenKozouView extends GameView {
     private final Timer drawTimer = new Timer(10, e->{
         if(model.isPlaying()) repaint();
         model.getKozou().move();
+        model.getCircles().move();
+        model.getCircles().addCircle();
     });
 
     public ShonbenKozouView(ShonbenKozouModel model){
@@ -29,8 +31,9 @@ public class ShonbenKozouView extends GameView {
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        model.getCup().getDrawer().draw(g2);
         model.getKozou().getDrawer().draw(g2);
+        model.getCircles().draw(g2);
+        model.getCup().getDrawer().draw(g2);
     }
 
     @Override

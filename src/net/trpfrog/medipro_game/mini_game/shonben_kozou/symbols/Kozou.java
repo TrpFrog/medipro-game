@@ -18,6 +18,7 @@ public class Kozou extends Symbol {
     private int direction;
     private double vx;
     private MainView mv;
+    private Point p;
 
 
     public Kozou(ShonbenKozouModel model){
@@ -28,6 +29,7 @@ public class Kozou extends Symbol {
         vx = 5;
         setLocation(sizeX, 0);
         mv = MainView.getInstance();
+        p = new Point();
 
         Path imagePath = Paths.get(".", "resource", "mini_game", "shonben_kozou", "kozou.png");
         image = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
@@ -54,5 +56,16 @@ public class Kozou extends Symbol {
         }
     }
 
+    public Point getP(){
+        if(direction == 1) p.x = (int)getX() + 20;
+        else p.x = (int)getX() - 35;
+        p.y = (int)getY() + 190;
+
+        return p;
+    }
+
+    public int getdirection(){
+        return direction;
+    }
 
 }
