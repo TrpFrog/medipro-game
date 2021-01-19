@@ -30,7 +30,6 @@ public class SpaceModel extends GameModel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        bgm.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     /**
