@@ -19,23 +19,13 @@ public class SpaceMap2D extends FieldMap {
 
     private boolean[][] visited;
     private List<EventStar> eventStars = new LinkedList<>();
+    private Image backgroundImage;
 
     public SpaceMap2D(int numberOfVerticalChunks,
                       int numberOfHorizontalChunks,
                       int chunkSquareLength) {
 
         super(numberOfHorizontalChunks, numberOfVerticalChunks, chunkSquareLength);
-        visited = new boolean[numberOfHorizontalChunks][numberOfVerticalChunks];
-
-        for (boolean[] booleans : visited) {
-            Arrays.fill(booleans, false);
-        }
-    }
-
-    public SpaceMap2D(int numberOfHorizontalChunks,
-                      int numberOfVerticalChunks) {
-
-        super(numberOfHorizontalChunks, numberOfVerticalChunks);
         visited = new boolean[numberOfHorizontalChunks][numberOfVerticalChunks];
 
         for (boolean[] booleans : visited) {
@@ -77,6 +67,14 @@ public class SpaceMap2D extends FieldMap {
 
     public List<EventStar> getEventStars() {
         return eventStars;
+    }
+
+    public Image getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    public void setBackgroundImage(Image backgroundImage) {
+        this.backgroundImage = backgroundImage;
     }
 
     /**
