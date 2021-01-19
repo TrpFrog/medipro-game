@@ -83,11 +83,14 @@ public class SpaceView extends GameView{
 
     @Override
     public void suspend() {
+        model.getBGMClip().stop();
         timer.stop();
     }
 
     @Override
     public void resume() {
+        model.getBGMClip().setFramePosition(0);
+        model.getBGMClip().start();
         timer.start();
     }
 }
