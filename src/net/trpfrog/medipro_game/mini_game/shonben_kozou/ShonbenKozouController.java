@@ -23,11 +23,12 @@ public class ShonbenKozouController extends GameController implements MouseMotio
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        model.getCup().setX(e.getX());
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        model.getCup().setX(e.getX());
     }
 
     @Override
