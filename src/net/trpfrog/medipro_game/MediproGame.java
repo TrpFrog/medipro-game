@@ -16,5 +16,22 @@ public class MediproGame {
         MainView view = MainView.getInstance();
         sceneManager.push(MainMenuScene.getInstance());
     }
+    /*
+    　　_＿
+　 / )))　　　＿
+`／ イ~　　　(((ヽ
+(　 ﾉ　　　　 ￣Ｙ＼
+|　(＼　∧＿∧　｜　)
+ヽ　ヽ`(´･ω･)／ノ/
+　＼ |　⌒Ｙ⌒　/ /
+　 ｜ヽ　 ｜　 ﾉ／
+　　＼トー仝ーイ
+　　 ｜ ミ土彡/
+　　　)　　　｜
+　　 /　　_　 ＼
+　　/　 ／ ＼　 ヽ
+　 /　 /　　 ヽ　|
+
+     */
 
 }
