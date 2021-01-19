@@ -26,11 +26,11 @@ public class SpaceModel extends GameModel {
             var stream = AudioSystem.getAudioInputStream(new File(path));
             var info = new DataLine.Info(Clip.class, stream.getFormat());
             bgm = (Clip) AudioSystem.getLine(info);
-            bgm.loop(Clip.LOOP_CONTINUOUSLY);
             bgm.open(stream);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        bgm.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     /**
