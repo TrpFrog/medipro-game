@@ -15,6 +15,7 @@ import net.trpfrog.medipro_game.space.ui.MiniMapUI;
 import net.trpfrog.medipro_game.space.ui.SpeedIndicatorUI;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Paths;
@@ -82,7 +83,7 @@ public class SpaceView extends GameView{
     @Override
     public void resume() {
         model.getBGMClip().setFramePosition(0);
-        model.getBGMClip().start();
+        model.getBGMClip().loop(Clip.LOOP_CONTINUOUSLY);
         timer.start();
     }
 }
