@@ -10,6 +10,7 @@ import net.trpfrog.medipro_game.space.map.SpaceMap2D;
 import net.trpfrog.medipro_game.space.map.SpaceMapDrawer;
 import net.trpfrog.medipro_game.space.symbols.EventStar;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
+import net.trpfrog.medipro_game.space.symbols.zodiac.ZodiacSign;
 import net.trpfrog.medipro_game.space.ui.IndicatorUI;
 import net.trpfrog.medipro_game.space.ui.MiniMapUI;
 import net.trpfrog.medipro_game.space.ui.SpeedIndicatorUI;
@@ -49,6 +50,8 @@ public class SpaceView extends GameView{
         raceGameStar      = EventStar.createSceneTransitionStar(60, RaceGameScene.class);
         shootingStarStar  = EventStar.createSceneTransitionStar(60, ShootingStarScene.class);
         galaxyExpressStar = EventStar.createSceneTransitionStar(60, GalaxyExpressScene.class);
+        ZodiacSign.buildAndRegister(new Rectangle(500, 500, 2000, 2000),
+                12, model.get3DMap().get2DMap(1));
 
         // マップにEventStarのSymbolを追加
         spaceMap2D.addSymbol(-300,0,moonWorkStar);
