@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 public class SpaceModel extends GameModel {
 
-    private SpaceMap3D map = new SpaceMap3D(16, 16, 128, 10);
+    private SpaceMap3D map = new SpaceMap3D(24, 24, 128, 10);
     private Rocket rocket = new Rocket(this);
     private Clip bgm;
 
