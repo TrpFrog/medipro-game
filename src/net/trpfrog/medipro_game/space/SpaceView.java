@@ -15,8 +15,8 @@ import net.trpfrog.medipro_game.space.ui.IndicatorUI;
 import net.trpfrog.medipro_game.space.ui.MiniMapUI;
 import net.trpfrog.medipro_game.space.ui.SpeedIndicatorUI;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
+import net.trpfrog.medipro_game.util.MusicPlayer;
 
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Paths;
@@ -45,6 +45,8 @@ public class SpaceView extends GameView{
         this.rocket = this.model.getRocket();
         rocket.setRelativeHitBox(RelativeHitBox.makeCircle(60));
         spaceMap2D = this.model.getRocketFloorMap();
+
+        setBGM(MusicPlayer.SPACE_GAME_THEME);
 
         mapCenterX = spaceMap2D.getWidth()/2;
         mapCenterY = spaceMap2D.getHeight()/2;
@@ -90,14 +92,11 @@ public class SpaceView extends GameView{
 
     @Override
     public void suspend() {
-        model.getBGMClip().stop();
         timer.stop();
     }
 
     @Override
     public void resume() {
-        model.getBGMClip().setFramePosition(0);
-        model.getBGMClip().loop(Clip.LOOP_CONTINUOUSLY);
         timer.start();
         rocket.setSpeedPxPerSecond(0);
     }

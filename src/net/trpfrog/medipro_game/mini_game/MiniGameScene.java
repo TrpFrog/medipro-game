@@ -2,6 +2,8 @@ package net.trpfrog.medipro_game.mini_game;
 
 import net.trpfrog.medipro_game.dialog_background.DialogBackgroundScene;
 import net.trpfrog.medipro_game.scene.GameScene;
+import net.trpfrog.medipro_game.scene.GameView;
+import net.trpfrog.medipro_game.util.MusicPlayer;
 
 import java.awt.*;
 import java.nio.file.Path;
@@ -17,6 +19,12 @@ public class MiniGameScene extends GameScene {
     private Image starImage = null;
     private final static Image defaultStarImage = Toolkit.getDefaultToolkit().getImage(
             Paths.get(".","resource","mini_game","defaultEventStar.png").toString());
+
+    @Override
+    protected void setView(GameView view) {
+        super.setView(view);
+        view.setBGM(MusicPlayer.MINI_GAME_THEME);
+    }
 
     /**
      * ミニゲームのタイトルを取得します。

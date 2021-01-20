@@ -1,9 +1,7 @@
 package net.trpfrog.medipro_game.scene;
 
-import net.trpfrog.medipro_game.Drawable;
-
+import javax.sound.sampled.Clip;
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * ゲームシーンのViewを定義する抽象クラス。
@@ -13,6 +11,7 @@ import java.awt.*;
 public abstract class GameView extends JPanel implements GameMVC {
 
     private final GameModel model;
+    private Clip bgm;
 
     public GameView(GameModel model) {
         this.model = model;
@@ -27,5 +26,14 @@ public abstract class GameView extends JPanel implements GameMVC {
      */
     public boolean hasTransparency() {
         return !isOpaque();
+    }
+
+
+    public Clip getBGM() {
+        return bgm;
+    }
+
+    public void setBGM(Clip bgm) {
+        this.bgm = bgm;
     }
 }

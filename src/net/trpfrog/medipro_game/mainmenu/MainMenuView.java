@@ -5,6 +5,7 @@ import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.scene.GameModel;
 import net.trpfrog.medipro_game.scene.GameView;
 import net.trpfrog.medipro_game.space.SpaceScene;
+import net.trpfrog.medipro_game.util.MusicPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +31,7 @@ public class MainMenuView extends GameView {
 
     public MainMenuView(GameModel model) {
         super(model);
+        setBGM(MusicPlayer.MENU_THEME);
 
         Rectangle buttonArea = new Rectangle(400, 300);
         int w = MainView.getInstance().getWidth();
