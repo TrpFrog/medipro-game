@@ -45,6 +45,10 @@ public class SpaceView extends GameView{
         rocket.setRelativeHitBox(RelativeHitBox.makeCircle(60));
         spaceMap2D = this.model.getRocketFloorMap();
 
+        // ロケットをマップの真ん中に配置
+        rocket.setX((double)spaceMap2D.getWidth()/2);
+        rocket.setY((double)spaceMap2D.getHeight()/2);
+
         // EventStarの作成
         moonWorkStar      = EventStar.createSceneTransitionStar(60, MoonsWorkScene.class);
         raceGameStar      = EventStar.createSceneTransitionStar(60, RaceGameScene.class);
