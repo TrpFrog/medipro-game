@@ -88,5 +88,6 @@ public class SpaceView extends GameView{
         model.getBGMClip().setFramePosition(0);
         model.getBGMClip().loop(Clip.LOOP_CONTINUOUSLY);
         timer.start();
+        rocket.setSpeedPxPerSecond(0);
     }
 }
