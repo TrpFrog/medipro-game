@@ -75,6 +75,7 @@ public class SpaceView extends GameView{
         miniMap.draw(g2);
         speedIndicator.draw(g2);
         indicator.draw(g2);
+        rocket.getDrawer().draw(g2);
     }
 
     @Override
