@@ -19,6 +19,12 @@ public class EventStar extends Star {
         this(starImage, 300, event);
     }
 
+    public EventStar() {}
+
+    public void setEvent(RocketEvent event) {
+        this.event = event;
+    }
+
     public RocketEvent getEvent() {
         return event;
     }
@@ -30,7 +36,7 @@ public class EventStar extends Star {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        RocketEvent event = rocket -> {
+        RocketEvent event = (rocket, star) -> {
             try {
                 var scene = sceneClass.getDeclaredConstructor().newInstance();
                 SceneManager.getInstance().push(scene, true);
@@ -42,6 +48,6 @@ public class EventStar extends Star {
     }
 
     public interface RocketEvent {
-        void run(Rocket rocket);
+        void run(Rocket rocket, Star star);
     }
 }

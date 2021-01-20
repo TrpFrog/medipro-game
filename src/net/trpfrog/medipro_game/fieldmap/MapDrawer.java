@@ -71,7 +71,7 @@ public class MapDrawer implements Drawable {
         var rect = createDrawRangeRectangle();
         int x = rect.x;
         int y = rect.y;
-        rect.grow(500, 500);
+        rect.grow(5000, 5000);
 
         player.createTranslatedDrawer((int)player.getX(), (int)player.getY()).draw(g);
 
