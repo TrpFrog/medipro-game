@@ -49,7 +49,7 @@ public class Symbol {
      */
     public final Drawable getDrawer() {
         if(!DEBUG) {
-            return drawer;
+            return drawer == null ? g -> {} : drawer;
         } else {
             return createDrawerWithCollisionShape();
         }

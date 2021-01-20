@@ -12,10 +12,10 @@ import java.nio.file.Paths;
  * 背景としての星の情報を持つクラス。
  */
 public class Star extends Symbol{
-    public static Image starImage1 = getImagePath(Paths.get(".","resource","space_game","star1.png"));
-    public static Image starImage2 = getImagePath(Paths.get(".","resource","space_game","star2.png"));
+    public static final Image STAR_IMAGE_LIGHTED = getImagePath(Paths.get(".","resource","space_game","star1.png"));
+    public static final Image STAR_IMAGE_DARKENED = getImagePath(Paths.get(".","resource","space_game","star2.png"));
     private static int starIndex;
-    public static Image[] starImageArray = {starImage1,starImage2};
+    public static Image[] starImageArray = {STAR_IMAGE_LIGHTED, STAR_IMAGE_DARKENED};
     private MainView mainView = MainView.getInstance();
     private Image drawStarImage;
     private int STAR_NUM = 0;
@@ -28,6 +28,10 @@ public class Star extends Symbol{
     }
 
     public Star(Image starImage, int radiusPx) {
+        setImage(starImage, radiusPx);
+    }
+
+    public void setImage(Image starImage, int radiusPx) {
         setDrawer(g -> g.drawImage(starImage,
                 (int)getX() - radiusPx, (int)getY() - radiusPx,
                 2 * radiusPx, 2 * radiusPx, null));
