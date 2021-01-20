@@ -22,11 +22,11 @@ public class SpaceModel extends GameModel {
     private void initBGM() {
         String path = Paths.get(".", "resource", "space_game", "bgm.wav").toString();
         try {
-            bgm = AudioSystem.getClip();
             var stream = AudioSystem.getAudioInputStream(new File(path));
             var info = new DataLine.Info(Clip.class, stream.getFormat());
             bgm = (Clip) AudioSystem.getLine(info);
             bgm.open(stream);
+            bgm.setLoopPoints(67776, -1);
         } catch (Exception e) {
             e.printStackTrace();
         }
