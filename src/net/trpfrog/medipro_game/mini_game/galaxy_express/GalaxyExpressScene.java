@@ -15,16 +15,16 @@ public class GalaxyExpressScene extends MiniGameScene {
         setGameTitle("Galaxy Express");
         setCreatorName("わくわくぎんがだん");
         setGameDescription(
-                "電車をゴールまで導こう！"
+                "電車の数をおしえてあげよう！"
         );
         setHowToPlay(
                 "わくわくぎんがだんのボスです",
-                "最近ものわすれがひどく、行き先を忘れてしまいました...",
+                "最近ものわすれがひどく、出発させた電車の数を忘れてしまいました...",
                 "お願いします！わたしたちをたすけて！",
-                "道を間違えると脱線します"
+                "数を間違えると電車が脱線するかもしれません"
         );
         makeDescriptionDialog();
-        setStarImage(Paths.get(".","resource","space_game","EventStar.png"));
+        setStarImage(Paths.get(".","resource","mini_game","galaxy_express","starImage.png"));
     }
 
     // テスト用
