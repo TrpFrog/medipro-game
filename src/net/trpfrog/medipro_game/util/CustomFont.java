@@ -12,10 +12,16 @@ import java.nio.file.Paths;
 public class CustomFont {
 
     // Usage : new Font(CustomFont.LETS_GO_DIGITAL, Font.PLAIN, 30);
-    public final static String LETS_GO_DIGITAL;
+    public final static String DSEG7_CLASSIC;
+    public final static String DSEG7_CLASSIC_MINI;
+    public final static String BUNGEE_SHADE;
 
     static {
-        LETS_GO_DIGITAL = innerLoad("Let_s_go_Digital_Regular.ttf");
+        DSEG7_CLASSIC = innerLoad("DSEG7Classic-Bold.ttf");
+        innerLoad("DSEG7Classic-BoldItalic.ttf");
+        DSEG7_CLASSIC_MINI = innerLoad("DSEG7ClassicMini-Bold.ttf");
+        innerLoad("DSEG7ClassicMini-BoldItalic.ttf");
+        BUNGEE_SHADE = innerLoad("BungeeShade-Regular.ttf");
     }
 
     private static String innerLoad(String fontFileName) {
