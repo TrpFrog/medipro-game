@@ -22,4 +22,8 @@ public class Player {
     public boolean hasMedal(Medal medal) {
         return gotMedals.contains(medal);
     }
+
+    public int numberOfMedals() {
+        return gotMedals.size();
+    }
 }

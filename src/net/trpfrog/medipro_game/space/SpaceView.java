@@ -99,11 +99,11 @@ public class SpaceView extends GameView{
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         spaceMapDrawer.draw(g2);
+        rocket.getDrawer().draw(g2);
+        mouseTwinkleManager.draw(g2);
         miniMap.draw(g2);
         speedIndicator.draw(g2);
         indicator.draw(g2);
-        rocket.getDrawer().draw(g2);
-        mouseTwinkleManager.draw(g2);
     }
 
     @Override

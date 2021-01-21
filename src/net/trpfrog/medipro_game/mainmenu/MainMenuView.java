@@ -30,7 +30,7 @@ public class MainMenuView extends GameView {
             };
     private Path mainMenuImagePath = imagePath[(int)(Math.random()*imagePath.length)];
     private Image mainMenuImage = Toolkit.getDefaultToolkit().getImage(mainMenuImagePath.toString());
-    private Font titleFont = new Font(CustomFont.LETS_GO_DIGITAL, Font.PLAIN, 50);
+    private Font titleFont = new Font(CustomFont.BUNGEE_SHADE, Font.BOLD, 50);
 
     public MainMenuView(GameModel model) {
         super(model);
@@ -72,14 +72,15 @@ public class MainMenuView extends GameView {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         // ローディングの文字と背景画像の描画
+
         g.drawString(loadingMessage,mainView.getWidth()/2,mainView.getHeight()/2+200);
         g.drawImage(mainMenuImage,0,0,mvWidth+=1,mvHeight+=1,null);
 
         // タイトル描画エリア
-        int titleWidth = 450;
+        int titleWidth = mainView.getWidth();
         int titleHeight = 200;
-        g.setColor(Color.GRAY);
-        g.fill3DRect(mainView.getWidth()/2-titleWidth/2,100,titleWidth,titleHeight,false);
+        g.setColor(new Color(0, 0, 0, 181));
+        g.fillRect(0,100 - titleFont.getSize() / 2 + 10, titleWidth, titleHeight);
         // タイトルに星をキラキラさせる
         Star star = new Star();
         star.setX(Math.random()*mainView.getWidth());
@@ -88,11 +89,12 @@ public class MainMenuView extends GameView {
 
         // タイトルの枠線
         g.setColor(Color.BLACK);
-        g.drawRect(mainView.getWidth()/2-titleWidth/2,100,titleWidth,titleHeight);
-        setFont(titleFont);
+//        g.drawRect(mainView.getWidth()/2-titleWidth/2,100,titleWidth,titleHeight);
+        g.setFont(titleFont);
         g.setColor(Color.WHITE);
-        g.drawString("Space Wandering!!",mainView.getWidth()/2-titleWidth/2+30,200);
-
+        String title = "Space Wandering!!";
+        int strWidth = g.getFontMetrics().stringWidth(title);
+        g.drawString(title,(mainView.getWidth() - strWidth)/2,200);
 
     }
 
