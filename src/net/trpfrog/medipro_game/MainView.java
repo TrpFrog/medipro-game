@@ -42,7 +42,6 @@ public class MainView extends JFrame implements SceneDequeListener {
     private void stopBgmNowRunning() {
         if(runningBGM != null && runningBGM.isRunning()) {
             runningBGM.stop();
-            runningBGM.setFramePosition(0);
         }
         runningBGM = null;
     }
@@ -53,6 +52,7 @@ public class MainView extends JFrame implements SceneDequeListener {
             if(bgm != null) {
                 if(bgm.isRunning()) return;
                 stopBgmNowRunning();
+                bgm.setMicrosecondPosition(0);
                 bgm.loop(Clip.LOOP_CONTINUOUSLY);
                 runningBGM = bgm;
                 return;
