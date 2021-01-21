@@ -7,7 +7,7 @@ import javax.swing.*;
 /**
  * {@link MovableSymbol} の集合を管理するクラス
  */
-public class MovableSymbolManager extends SymbolManager<MovableSymbol> {
+public class MovableSymbolManager<T extends MovableSymbol> extends SymbolManager<MovableSymbol> {
 
     private Timer timer;
     private boolean autoCleanup = true;

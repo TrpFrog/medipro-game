@@ -6,7 +6,9 @@ import net.trpfrog.medipro_game.Suspendable;
 import net.trpfrog.medipro_game.space.SpaceModel;
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
 import net.trpfrog.medipro_game.symbol.Symbol;
+import net.trpfrog.medipro_game.util.MusicPlayer;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 
@@ -99,6 +101,8 @@ public class Rocket extends MovableSymbol implements Suspendable{
     @Override
     public void suspend() {
         astronautTimer.stop();
+        MusicPlayer.ROCKET_SE.stop();
+        MusicPlayer.ROCKET_SE.setFramePosition(0);
         stop();
     }
 
@@ -106,6 +110,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
     public void resume() {
         invincibleTimeUntil = System.currentTimeMillis() + 5000;
         astronautTimer.start();
+        MusicPlayer.ROCKET_SE.loop(Clip.LOOP_CONTINUOUSLY);
         start();
     }
 

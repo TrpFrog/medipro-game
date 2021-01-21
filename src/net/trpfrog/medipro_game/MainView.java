@@ -3,10 +3,10 @@ package net.trpfrog.medipro_game;
 import net.trpfrog.medipro_game.scene.GameScene;
 import net.trpfrog.medipro_game.scene.GameView;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Deque;
-import java.util.Stack;
 
 /**
  * ゲームのメインのウィンドウ。
@@ -16,6 +16,8 @@ public class MainView extends JFrame implements SceneDequeListener {
     private final SceneManager sceneManager = SceneManager.getInstance();
 
     private static final MainView view = new MainView();
+
+    private Clip runningBGM;
 
     /**
      * MainViewの唯一のインスタンスを返します。
@@ -35,6 +37,32 @@ public class MainView extends JFrame implements SceneDequeListener {
         setResizable(false);
         add(pane);
         setVisible(true);
+    }
+
+    private void stopBgmNowRunning() {
+        if(runningBGM != null && runningBGM.isRunning()) {
+            runningBGM.stop();
+        }
+        runningBGM = null;
+    }
+
+    private void changeBGM(Deque<GameScene> changedDeque) {
+        for(var scene : changedDeque) {
+            var bgm = scene.getView().getBGM();
+            if(bgm != null) {
+                if(bgm.isRunning()) return;
+                stopBgmNowRunning();
+                bgm.setMicrosecondPosition(0);
+                bgm.loop(Clip.LOOP_CONTINUOUSLY);
+                runningBGM = bgm;
+                return;
+            }
+            if(!scene.getView().hasTransparency()) {
+                stopBgmNowRunning();
+                break;
+            }
+        }
+        stopBgmNowRunning();
     }
 
     /**
@@ -65,5 +93,6 @@ public class MainView extends JFrame implements SceneDequeListener {
     @Override
     public void sceneDequeChanged(Deque<GameScene> changedDeque) {
         reAddPanels(changedDeque);
+        changeBGM(changedDeque);
     }
 }

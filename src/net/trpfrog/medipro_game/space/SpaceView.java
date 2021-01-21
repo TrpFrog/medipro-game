@@ -15,8 +15,8 @@ import net.trpfrog.medipro_game.space.ui.IndicatorUI;
 import net.trpfrog.medipro_game.space.ui.MiniMapUI;
 import net.trpfrog.medipro_game.space.ui.SpeedIndicatorUI;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
+import net.trpfrog.medipro_game.util.MusicPlayer;
 
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Paths;
@@ -37,6 +37,7 @@ public class SpaceView extends GameView{
     private MiniMapUI miniMap;
     private SpeedIndicatorUI speedIndicator;
     private IndicatorUI indicator;
+    private int mapCenterX,mapCenterY;
 
     public SpaceView(SpaceModel model) {
         super(model);
@@ -44,6 +45,15 @@ public class SpaceView extends GameView{
         this.rocket = this.model.getRocket();
         rocket.setRelativeHitBox(RelativeHitBox.makeCircle(60));
         spaceMap2D = this.model.getRocketFloorMap();
+
+        setBGM(MusicPlayer.SPACE_GAME_THEME);
+
+        mapCenterX = spaceMap2D.getWidth()/2;
+        mapCenterY = spaceMap2D.getHeight()/2;
+
+        // ロケットをマップの真ん中に配置
+        rocket.setX(mapCenterX);
+        rocket.setY(mapCenterY);
 
         // EventStarの作成
         moonWorkStar      = EventStar.createSceneTransitionStar(60, MoonsWorkScene.class);
@@ -54,10 +64,12 @@ public class SpaceView extends GameView{
                 12, model.get3DMap().get2DMap(1));
 
         // マップにEventStarのSymbolを追加
-        spaceMap2D.addSymbol(-300,0,moonWorkStar);
-        spaceMap2D.addSymbol(300,0,raceGameStar);
-        spaceMap2D.addSymbol(0,200,shootingStarStar);
-        spaceMap2D.addSymbol(0,-200,galaxyExpressStar);
+        int rX = (int)(Math.random()*mapCenterX)+1;
+        int rY = (int)(Math.random()*mapCenterY)+1;
+        spaceMap2D.addSymbol(mapCenterX+rX,mapCenterY-rY,moonWorkStar);
+        spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY-rY,raceGameStar);
+        spaceMap2D.addSymbol(mapCenterX+rX,mapCenterY+rY,shootingStarStar);
+        spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY+rX,galaxyExpressStar);
 
         miniMap = new MiniMapUI(model, 7, MiniMapUI.LOWER_RIGHT);
         speedIndicator = new SpeedIndicatorUI(model.getRocket(), SpeedIndicatorUI.LOWER_LEFT);
@@ -75,18 +87,17 @@ public class SpaceView extends GameView{
         miniMap.draw(g2);
         speedIndicator.draw(g2);
         indicator.draw(g2);
+        rocket.getDrawer().draw(g2);
     }
 
     @Override
     public void suspend() {
-        model.getBGMClip().stop();
         timer.stop();
     }
 
     @Override
     public void resume() {
-        model.getBGMClip().setFramePosition(0);
-        model.getBGMClip().loop(Clip.LOOP_CONTINUOUSLY);
         timer.start();
+        rocket.setSpeedPxPerSecond(0);
     }
 }

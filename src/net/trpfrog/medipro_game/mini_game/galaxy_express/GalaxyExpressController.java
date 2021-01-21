@@ -19,7 +19,6 @@ public class GalaxyExpressController extends GameController implements KeyListen
         super(model,view);
         this.model = model;
         this.view = view;
-        this.train = model.getTrain();
         view.addKeyListener(new EscapeToPause());
     }
 

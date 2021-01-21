@@ -1,6 +1,7 @@
 package net.trpfrog.medipro_game.mini_game.galaxy_express.symbols;
 
 import net.trpfrog.medipro_game.Drawable;
+import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.Suspendable;
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
 
@@ -11,17 +12,20 @@ import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Train extends MovableSymbol implements Drawable, Suspendable,ActionListener{
+public class Train extends MovableSymbol implements Drawable, Suspendable{
 
-    private Image image;
-    private final Timer trainTimer = new Timer(10,this);
-    private final int imageWidth = 170;
-    private final int imageHeight = 140;
+    private final int imageWidth = (int)(90*Math.random()) + 30;
+    private final int imageHeight =imageWidth*2/3;
+    private MainView mainView;
+    private int mvWidth,mvHeight;
+    private Path path = Paths.get(".","resource","mini_game","galaxy_express","train.png");
+    private Image image = Toolkit.getDefaultToolkit().getImage(String.valueOf(path));
 
     public Train(){
-        setLocation(400,400);
-        Path imagePath = Paths.get(".","resource","mini_game","galaxy_express","train.png");
-        image = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
+        mainView = MainView.getInstance();
+        mvWidth = mainView.getWidth();
+        mvHeight = mainView.getHeight();
+        setLocation(Math.random()*(mvWidth/2),Math.random()*(mvHeight/2));
         setDrawer(this);
     }
 
@@ -32,16 +36,12 @@ public class Train extends MovableSymbol implements Drawable, Suspendable,Action
 
     @Override
     public void suspend() {
-        trainTimer.stop();
+
     }
 
     @Override
     public void resume() {
-        trainTimer.start();
+
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // timerの度に呼び出される
-    }
 }
