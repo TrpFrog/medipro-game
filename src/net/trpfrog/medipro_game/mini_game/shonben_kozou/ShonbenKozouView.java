@@ -9,14 +9,13 @@ import java.awt.*;
 public class ShonbenKozouView extends GameView {
 
     private ShonbenKozouModel model;
-    private int count;
     private final Timer drawTimer = new Timer(10, e->{
-        if(model.isPlaying()) repaint();
-        /*model.getKozou().move();*/
+        repaint();
+        model.getKozou().move();
         model.getCircles().move();
         model.getCircles().check();
-        /*if(count >= 300 && count % 5 == 0)*/ model.getCircles().addCircle();
-        count++;
+        model.getCircles().addCircle();
+        model.getGameTimer().move();
     });
 
     public ShonbenKozouView(ShonbenKozouModel model){

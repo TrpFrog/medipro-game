@@ -1,11 +1,8 @@
 package net.trpfrog.medipro_game.mini_game.shonben_kozou;
 
 import net.trpfrog.medipro_game.MainView;
+import net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols.*;
 import net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols.Character;
-import net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols.Circle;
-import net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols.CircleManager;
-import net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols.Cup;
-import net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols.Kozou;
 import net.trpfrog.medipro_game.scene.GameModel;
 
 import javax.swing.*;
@@ -18,8 +15,7 @@ public class ShonbenKozouModel extends GameModel {
     private Kozou kozou;
     private CircleManager circles;
     private Character character;
-
-    private boolean playing = true;
+    private GameTimer gameTimer;
 
     public ShonbenKozouModel(){
         MainView mv = MainView.getInstance();
@@ -28,6 +24,7 @@ public class ShonbenKozouModel extends GameModel {
         kozou = new Kozou(this);
         circles = new CircleManager(this);
         character = new Character(this);
+        gameTimer = new GameTimer(this);
     }
 
     public Cup getCup() {
@@ -44,9 +41,7 @@ public class ShonbenKozouModel extends GameModel {
 
     public Character getCharacter() { return character; }
 
-    public boolean isPlaying(){
-        return playing;
-    }
+    public GameTimer getGameTimer() { return gameTimer; }
 
     @Override
     public void suspend() {

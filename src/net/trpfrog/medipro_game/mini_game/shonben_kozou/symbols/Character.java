@@ -10,7 +10,6 @@ import java.awt.*;
 
 public class Character extends Symbol {
     private ShonbenKozouModel model;
-    private String time, score;
     private MainView mv;
 
     public Character(ShonbenKozouModel model) {
@@ -19,8 +18,9 @@ public class Character extends Symbol {
 
         setDrawer(g -> {
             g.setColor(Color.WHITE);
-            g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-            g.drawString("score  " + model.getCircles().getScore(), mv.getWidth() - 120, 20);
+            g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
+            g.drawString("score  " + model.getCircles().getScore(), mv.getWidth() - 150, 20);
+            g.drawString(String.format("time  %d.%02d",model.getGameTimer().getRemain()/100, model.getGameTimer().getRemain() % 100 ), 0, 20);
         });
     }
 }

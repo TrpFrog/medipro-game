@@ -24,8 +24,10 @@ public class CircleManager {
     }
 
     public void addCircle(){
-        c = new Circle(model);
-        circles.add(c);
+        if(model.getGameTimer().getCount() >= 300 && model.getGameTimer().getCount() % 5 == 0 && model.getGameTimer().getCount() < 1300) {
+            c = new Circle(model);
+            circles.add(c);
+        }
     }
 
     public void move(){
