@@ -1,6 +1,7 @@
 package net.trpfrog.medipro_game.mini_game.shonben_kozou;
 
 import net.trpfrog.medipro_game.MainView;
+import net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols.Character;
 import net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols.Circle;
 import net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols.CircleManager;
 import net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols.Cup;
@@ -16,6 +17,7 @@ public class ShonbenKozouModel extends GameModel {
     private Cup cup;
     private Kozou kozou;
     private CircleManager circles;
+    private Character character;
 
     private boolean playing = true;
 
@@ -25,6 +27,7 @@ public class ShonbenKozouModel extends GameModel {
         cup = new Cup(this);
         kozou = new Kozou(this);
         circles = new CircleManager(this);
+        character = new Character(this);
     }
 
     public Cup getCup() {
@@ -38,6 +41,8 @@ public class ShonbenKozouModel extends GameModel {
     public CircleManager getCircles(){
         return circles;
     }
+
+    public Character getCharacter() { return character; }
 
     public boolean isPlaying(){
         return playing;

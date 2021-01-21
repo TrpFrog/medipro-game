@@ -9,12 +9,14 @@ import java.awt.*;
 public class ShonbenKozouView extends GameView {
 
     private ShonbenKozouModel model;
+    private int count;
     private final Timer drawTimer = new Timer(10, e->{
         if(model.isPlaying()) repaint();
-        model.getKozou().move();
+        /*model.getKozou().move();*/
         model.getCircles().move();
         model.getCircles().check();
-        model.getCircles().addCircle();
+        /*if(count >= 300 && count % 5 == 0)*/ model.getCircles().addCircle();
+        count++;
     });
 
     public ShonbenKozouView(ShonbenKozouModel model){
@@ -35,6 +37,7 @@ public class ShonbenKozouView extends GameView {
         model.getKozou().getDrawer().draw(g2);
         model.getCircles().draw(g2);
         model.getCup().getDrawer().draw(g2);
+        model.getCharacter().getDrawer().draw(g2);
     }
 
     @Override

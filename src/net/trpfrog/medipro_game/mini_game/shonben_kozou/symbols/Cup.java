@@ -29,6 +29,6 @@ public class Cup extends Symbol {
         image = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
 
         setDrawer(g -> g.drawImage(image, (int)getX()-sizeX/2, mv.getHeight() - 200, sizeX, sizeY, null));
-        setRelativeHitBox(RelativeHitBox.makeRectangle((double)sizeX/2, 5, sizeX, 10));
+        setRelativeHitBox(RelativeHitBox.makeRectangle(0, 25, sizeX, 50));
     }
 }
