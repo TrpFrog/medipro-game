@@ -96,6 +96,8 @@ public class Rocket extends MovableSymbol implements Suspendable{
         this.depth = depth;
     }
 
+    public RocketAnimation getAnimation(){ return animation;}
+
     @Override
     public void suspend() {
         astronautTimer.stop();
@@ -136,8 +138,9 @@ public class Rocket extends MovableSymbol implements Suspendable{
             damageTimer = new Timer(10,e->{
                 rocket.setAngleDegrees(rocket.getAngleDegrees()+8);
                 damageCounter++;
-                if(damageCounter >= 45){
+                if(damageCounter >= 16){
                     damageTimer.stop();
+                    damageCounter = 0;
                 }
             });
         }
@@ -163,6 +166,9 @@ public class Rocket extends MovableSymbol implements Suspendable{
                 rocketNow = rocketStopImage;
             }else{
                 rocketNow = rocketImage;
+            }
+            if(damageCounter != 0){
+                rocketNow = damagedImage;
             }
 
             g.rotate(angle,drawX,drawY);
