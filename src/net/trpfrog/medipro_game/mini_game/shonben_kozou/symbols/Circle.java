@@ -2,6 +2,7 @@ package net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols;
 
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.mini_game.shonben_kozou.ShonbenKozouModel;
+import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
 
 import javax.swing.*;
@@ -29,6 +30,7 @@ public class Circle extends Symbol {
         });
 
         setLocation(model.getKozou().getP().x, model.getKozou().getP().y);
+        setRelativeHitBox(RelativeHitBox.makeCircle((double)size/2, (double)size/2, (double)size/2));
     }
 
     public void move(){

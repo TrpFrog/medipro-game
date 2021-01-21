@@ -2,6 +2,7 @@ package net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols;
 
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.mini_game.shonben_kozou.ShonbenKozouModel;
+import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
 
 import javax.swing.*;
@@ -28,5 +29,6 @@ public class Cup extends Symbol {
         image = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
 
         setDrawer(g -> g.drawImage(image, (int)getX()-sizeX/2, mv.getHeight() - 200, sizeX, sizeY, null));
+        setRelativeHitBox(RelativeHitBox.makeRectangle((double)sizeX/2, 5, sizeX, 10));
     }
 }

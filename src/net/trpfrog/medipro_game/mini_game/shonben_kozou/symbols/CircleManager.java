@@ -11,11 +11,13 @@ import java.util.List;
 public class CircleManager {
 
     private ShonbenKozouModel model;
-    private List<Circle> circles = new ArrayList<Circle>();
+    private List<Circle> circles = new ArrayList<>();
     private Circle c;
+    private int score;
 
     public CircleManager(ShonbenKozouModel model){
         this.model = model;
+        score = 0;
     }
 
     public void addCircle(){
@@ -33,6 +35,19 @@ public class CircleManager {
         for(int i = 0; i < circles.size(); i++){
             circles.get(i).getDrawer().draw(g2);
         }
+    }
+
+    public void check(){
+        for(int i = 0; i < circles.size(); i++){
+            if(circles.get(i).touches(model.getCup())){
+                circles.remove(i);
+                score++;
+            }
+        }
+    }
+
+    public int getScore(){
+        return score;
     }
 
 }

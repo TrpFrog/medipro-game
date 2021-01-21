@@ -13,6 +13,7 @@ public class ShonbenKozouView extends GameView {
         if(model.isPlaying()) repaint();
         model.getKozou().move();
         model.getCircles().move();
+        model.getCircles().check();
         model.getCircles().addCircle();
     });
 
