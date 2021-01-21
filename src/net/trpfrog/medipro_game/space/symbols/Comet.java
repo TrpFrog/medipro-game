@@ -1,35 +1,32 @@
 package net.trpfrog.medipro_game.space.symbols;
 
-import net.trpfrog.medipro_game.Drawable;
-import net.trpfrog.medipro_game.MainView;
-import net.trpfrog.medipro_game.space.SpaceModel;
-import net.trpfrog.medipro_game.symbol.RelativeHitBox;
+import net.trpfrog.medipro_game.symbol.MovableSymbol;
 
 import java.awt.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Comet extends EventStar implements Drawable {
-    private SpaceModel model;
-    private Path path = Paths.get(".","resource","space_game","comet.png");
-    private Image cometImage = Toolkit.getDefaultToolkit().getImage(path.toString());
-    private int cometWidth;
-    private int cometHeight;
-    private MainView mainView;
+public class Comet extends MovableSymbol {
 
-    public Comet(int radius,SpaceModel model) {
-        this.model = model;
-        this.cometWidth = radius;
-        this.cometHeight = radius;
-        this.mainView = MainView.getInstance();
+    public static final Image cometImage = getImage(Paths.get(".","resource","space_game","comet.png"));
 
-        setDrawer(this);
-        setRelativeHitBox(RelativeHitBox.makeRectangle(cometWidth,cometHeight));
-        setEvent((rocket1, star) -> rocket1.getAnimation().damaged());
+    private static Image getImage(Path path){
+        return Toolkit.getDefaultToolkit().getImage(path.toString());
     }
 
-    @Override
-    public void draw(Graphics2D g) {
-        g.drawImage(cometImage,(int)(getX()-cometWidth/2),(int)(getY()-cometHeight/2),cometWidth,cometHeight,null);
+    public Comet(int x, int y){
+        super(x,y);
+        setDrawer(g->{
+            Rectangle r = getRelativeHitBox().getBounds();
+            r.translate((int)getX(),(int)getY());
+            double cx = r.getCenterX();
+            double cy = r.getCenterY();
+            r.x -= r.width*1.8;
+            r.width *= 2.8;
+            double angle = Math.toRadians(getAngleDegrees());
+            g.rotate(angle,cx,cy);
+            g.drawImage(cometImage,r.x,r.y,r.width,r.height,null);
+            g.rotate(-angle,cx,cy);
+        });
     }
 }

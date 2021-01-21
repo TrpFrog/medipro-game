@@ -9,6 +9,13 @@ public class SpaceModel extends GameModel {
 
     private SpaceMap3D map = new SpaceMap3D(24, 24, 128, 10);
     private Rocket rocket = new Rocket(this);
+    private CometManager cometManager;
+
+    public SpaceModel(){
+        cometManager = new CometManager(this);
+    }
+
+    public CometManager getCometManager(){ return cometManager;}
 
     /**
      * 宇宙全体のSpaceMap3Dを返します。
@@ -37,10 +44,12 @@ public class SpaceModel extends GameModel {
     @Override
     public void suspend() {
         rocket.suspend();
+        cometManager.suspend();
     }
 
     @Override
     public void resume() {
         rocket.resume();
+        cometManager.resume();
     }
 }
