@@ -10,10 +10,10 @@ import java.nio.file.Paths;
 public class MusicPlayer {
 
     public static final Clip
-            SPACE_GAME_THEME = innerLoad("Lobby",    210120),
+            SPACE_GAME_THEME = innerLoad("Lobby",    67776),
             ROCKET_SE        = innerLoad("Rocket",   384000),
             MINI_GAME_THEME  = innerLoad("MiniGame", 1016448),
-            MENU_THEME       = innerLoad("Menu",     210120);
+            MENU_THEME       = innerLoad("Menu",     0);
 
     private static Clip innerLoad(String name, int repeatStart) {
         Path path = Paths.get(".", "resource", "sound", name + ".wav");
