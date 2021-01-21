@@ -43,17 +43,24 @@ public class SpaceView extends GameView{
         super(model);
         this.model = model;
         this.rocket = this.model.getRocket();
-        rocket.setRelativeHitBox(RelativeHitBox.makeCircle(60));
         spaceMap2D = this.model.getRocketFloorMap();
 
         setBGM(MusicPlayer.SPACE_GAME_THEME);
 
+        // マップの中心座標を設定
         mapCenterX = spaceMap2D.getWidth()/2;
         mapCenterY = spaceMap2D.getHeight()/2;
 
         // ロケットをマップの真ん中に配置
         rocket.setX(mapCenterX);
         rocket.setY(mapCenterY);
+
+        // ロケットのアタリ判定
+        int[] xpoints = {-30,-20,-15, 0,30,60, 30,  0,-15,-20};
+        int[] ypoints = {  0, 20, 40,25,20, 0,-20,-25,-40,-20};
+        Polygon shape = new Polygon(xpoints,ypoints,xpoints.length);
+        var hitbox = new RelativeHitBox(shape);
+        rocket.setRelativeHitBox(hitbox);
 
         // EventStarの作成
         moonWorkStar      = EventStar.createSceneTransitionStar(60, MoonsWorkScene.class);

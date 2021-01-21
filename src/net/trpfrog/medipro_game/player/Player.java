@@ -19,4 +19,7 @@ public class Player {
         return new ArrayList<>(gotMedals);
     }
 
+    public boolean hasMedal(Medal medal) {
+        return gotMedals.contains(medal);
+    }
 }
