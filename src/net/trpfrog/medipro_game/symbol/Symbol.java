@@ -75,8 +75,8 @@ public class Symbol {
     private Drawable createDrawerWithCollisionShape() {
         return g -> {
             drawer.draw(g);
+            if(this.relativeHitBox == null) return;
             Area area = relativeHitBox.createAbsoluteHitBoxArea(this);
-
             if(!relativeHitBox.equals(RelativeHitBox.EMPTY)) {
                 var color = g.getColor();
                 g.setColor(Color.GREEN);
