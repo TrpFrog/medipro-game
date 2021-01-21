@@ -6,6 +6,7 @@ import net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkScene;
 import net.trpfrog.medipro_game.mini_game.race_game.RaceGameScene;
 import net.trpfrog.medipro_game.mini_game.shooting_star.ShootingStarScene;
 import net.trpfrog.medipro_game.scene.GameView;
+import net.trpfrog.medipro_game.space.map.MouseTwinkleManager;
 import net.trpfrog.medipro_game.space.map.SpaceMap2D;
 import net.trpfrog.medipro_game.space.map.SpaceMapDrawer;
 import net.trpfrog.medipro_game.space.symbols.EventStar;
@@ -32,11 +33,16 @@ public class SpaceView extends GameView{
     private Rocket rocket;
     private Timer timer = new Timer(10, e->repaint());
     private EventStar moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar;
+
     private SpaceMap2D spaceMap2D;
     private SpaceMapDrawer spaceMapDrawer;
+
     private MiniMapUI miniMap;
     private SpeedIndicatorUI speedIndicator;
     private IndicatorUI indicator;
+
+    private MouseTwinkleManager mouseTwinkleManager;
+
     private int mapCenterX,mapCenterY;
 
     public SpaceView(SpaceModel model) {
@@ -83,6 +89,8 @@ public class SpaceView extends GameView{
         indicator = new IndicatorUI(model);
 
         spaceMapDrawer = new SpaceMapDrawer(model);
+
+        mouseTwinkleManager = new MouseTwinkleManager(this, 400, rocket);
     }
 
     @Override
@@ -95,6 +103,7 @@ public class SpaceView extends GameView{
         speedIndicator.draw(g2);
         indicator.draw(g2);
         rocket.getDrawer().draw(g2);
+        mouseTwinkleManager.draw(g2);
     }
 
     @Override
