@@ -1,5 +1,6 @@
 package net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols;
 
+import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.mini_game.shonben_kozou.ShonbenKozouModel;
 
 import javax.swing.*;
@@ -14,9 +15,11 @@ public class CircleManager {
     private List<Circle> circles = new ArrayList<>();
     private Circle c;
     private int score;
+    private MainView mv;
 
     public CircleManager(ShonbenKozouModel model){
         this.model = model;
+        mv = MainView.getInstance();
         score = 0;
     }
 
@@ -42,6 +45,10 @@ public class CircleManager {
             if(circles.get(i).touches(model.getCup())){
                 circles.remove(i);
                 score++;
+            }
+
+            if(circles.get(i).getY() > mv.getHeight() + 50){
+                circles.remove(i);
             }
         }
     }

@@ -15,7 +15,7 @@ public class Character extends Symbol {
 
     public Character(ShonbenKozouModel model) {
         this.model = model;
-        MainView mv = MainView.getInstance();
+        mv = MainView.getInstance();
 
         setDrawer(g -> {
             g.setColor(Color.WHITE);
