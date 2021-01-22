@@ -1,15 +1,12 @@
 package net.trpfrog.medipro_game.mini_game.shonben_kozou.symbols;
 
 import net.trpfrog.medipro_game.mini_game.shonben_kozou.ShonbenKozouModel;
-import net.trpfrog.medipro_game.symbol.Symbol;
 
-public class GameTimer extends Symbol {
-    private ShonbenKozouModel model;
+public class GameTimer {
     private int count;
     private int remain;
 
-    public GameTimer(ShonbenKozouModel model){
-        this.model = model;
+    public GameTimer(){
         count = 0;
         remain = 1000;
     }

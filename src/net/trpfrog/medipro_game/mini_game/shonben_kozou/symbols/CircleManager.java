@@ -48,10 +48,6 @@ public class CircleManager {
                 circles.remove(i);
                 score++;
             }
-
-            if(circles.get(i).getY() > mv.getHeight() + 50){
-                circles.remove(i);
-            }
         }
     }
 

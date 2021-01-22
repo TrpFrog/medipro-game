@@ -10,12 +10,13 @@ public class ShonbenKozouView extends GameView {
 
     private ShonbenKozouModel model;
     private final Timer drawTimer = new Timer(10, e->{
-        repaint();
+        if(model.isPlaying()) repaint();
         model.getKozou().move();
         model.getCircles().move();
         model.getCircles().check();
         model.getCircles().addCircle();
         model.getGameTimer().move();
+        if(model.getGameTimer().getCount() > 1400) model.endGame();
     });
 
     public ShonbenKozouView(ShonbenKozouModel model){
@@ -37,6 +38,7 @@ public class ShonbenKozouView extends GameView {
         model.getCircles().draw(g2);
         model.getCup().getDrawer().draw(g2);
         model.getCharacter().getDrawer().draw(g2);
+        model.getCountdown().draw(g2);
     }
 
     @Override
