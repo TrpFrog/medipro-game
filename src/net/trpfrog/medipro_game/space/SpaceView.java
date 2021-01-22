@@ -4,6 +4,7 @@ import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.mini_game.galaxy_express.GalaxyExpressScene;
 import net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkScene;
 import net.trpfrog.medipro_game.mini_game.race_game.RaceGameScene;
+import net.trpfrog.medipro_game.mini_game.shonben_kozou.ShonbenKozouScene;
 import net.trpfrog.medipro_game.mini_game.shooting_star.ShootingStarScene;
 import net.trpfrog.medipro_game.scene.GameView;
 import net.trpfrog.medipro_game.space.map.SpaceMap2D;
@@ -28,7 +29,7 @@ public class SpaceView extends GameView{
     private MainView mainView = MainView.getInstance();
     private Rocket rocket;
     private Timer timer = new Timer(10, e->repaint());
-    private EventStar moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar;
+    private EventStar moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar,shonbenKozouStar;
     private SpaceMap2D spaceMap2D;
     private SpaceMapDrawer spaceMapDrawer;
     private MiniMapUI miniMap;
@@ -46,12 +47,14 @@ public class SpaceView extends GameView{
         raceGameStar      = EventStar.createSceneTransitionStar(60, RaceGameScene.class);
         shootingStarStar  = EventStar.createSceneTransitionStar(60, ShootingStarScene.class);
         galaxyExpressStar = EventStar.createSceneTransitionStar(60, GalaxyExpressScene.class);
+        shonbenKozouStar  = EventStar.createSceneTransitionStar(60, ShonbenKozouScene.class);
 
         // マップにEventStarのSymbolを追加
         spaceMap2D.addSymbol(-300,0,moonWorkStar);
         spaceMap2D.addSymbol(300,0,raceGameStar);
         spaceMap2D.addSymbol(0,200,shootingStarStar);
         spaceMap2D.addSymbol(0,-200,galaxyExpressStar);
+        spaceMap2D.addSymbol(300,300,shonbenKozouStar);
 
         miniMap = new MiniMapUI(model, 7, MiniMapUI.LOWER_RIGHT);
         speedIndicator = new SpeedIndicatorUI(model.getRocket(), SpeedIndicatorUI.LOWER_LEFT);
