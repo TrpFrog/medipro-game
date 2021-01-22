@@ -31,6 +31,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
     private int imageWidth = 120;
     private int imageHeight = 80;
     private long invincibleTimeUntil = 0;
+    private final long invincibleTimeDuration = 5000;
 
     public Rocket(SpaceModel model) {
         this.model = model;
@@ -108,7 +109,7 @@ public class Rocket extends MovableSymbol implements Suspendable{
 
     @Override
     public void resume() {
-        invincibleTimeUntil = System.currentTimeMillis() + 5000;
+        invincibleTimeUntil = System.currentTimeMillis() + invincibleTimeDuration;
         astronautTimer.start();
         MusicPlayer.ROCKET_SE.loop(Clip.LOOP_CONTINUOUSLY);
         start();
@@ -116,6 +117,14 @@ public class Rocket extends MovableSymbol implements Suspendable{
 
     public boolean isInvincible() {
         return System.currentTimeMillis() < invincibleTimeUntil;
+    }
+
+    public float calcInvincibleAlpha() {
+        if(!isInvincible()) return 0;
+        double ratio = (invincibleTimeUntil - System.currentTimeMillis()) / (double) invincibleTimeDuration;
+        // 傾きが徐々に大きくなるような関数を適当に選んだ
+        float ret = (float)((1 - Math.pow(100, -ratio))/(1 - 1f/100));
+        return Math.max(Math.min(1, ret), 0);
     }
 
     /**
@@ -151,29 +160,35 @@ public class Rocket extends MovableSymbol implements Suspendable{
             damageCounter = 0;
         }
 
-        @Override
-        public void draw(Graphics2D g) {
+        public void drawRocket(Graphics2D g, boolean invincible) {
             MainView mainView = MainView.getInstance();
             int drawX = mainView.getWidth()/2;
             int drawY = mainView.getHeight()/2;
             double angle = getAngleRadians();
-            // ロケットの画像選択
-            if(rocket.getSpeedPxPerSecond() < 1 && rocket.isInvincible()){
-                rocketNow = invincibleStopImage;
-            }else if(rocket.getSpeedPxPerSecond() >= 1 && rocket.isInvincible()){
-                rocketNow = invincibleImage;
-            }else if(rocket.getSpeedPxPerSecond() < 1){
-                rocketNow = rocketStopImage;
-            }else{
-                rocketNow = rocketImage;
+
+            Image image;
+            if(rocket.getSpeedPxPerSecond() < 1) {
+                image = invincible ? invincibleStopImage : rocketStopImage;
+            } else {
+                image = invincible ? invincibleImage : rocketImage;
             }
-            if(damageCounter != 0){
-                rocketNow = damagedImage;
-            }
+            if(damageCounter != 0) image = damagedImage;
 
             g.rotate(angle,drawX,drawY);
-            g.drawImage(rocketNow,drawX-imageWidth/2,drawY-imageHeight/2,imageWidth,imageHeight,null);
+            g.drawImage(image,drawX-imageWidth/2,drawY-imageHeight/2,
+                    imageWidth, imageHeight, null);
             g.rotate(-angle,drawX,drawY);
+        }
+
+        @Override
+        public void draw(Graphics2D g) {
+            drawRocket(g, false);
+            if(isInvincible()) {
+                float alpha = calcInvincibleAlpha();
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+                drawRocket(g, true);
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+            }
         }
     }
 }
