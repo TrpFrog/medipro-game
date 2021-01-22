@@ -20,7 +20,7 @@ public class Countdown implements Drawable {
         g.setColor(Color.WHITE);
         g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 60));
         if(model.getGameTimer().getCount() > 1 && model.getGameTimer().getCount() < 300){
-            g.drawString(String.format("%d",3 - (model.getGameTimer().getCount() / 100)), mv.getWidth()/2, mv.getHeight()/2);
+            g.drawString(String.format("%d",3 - (model.getGameTimer().getCount() / 100)), mv.getWidth()/2-45, mv.getHeight()/2);
         }
         else if(model.getGameTimer().getCount() < 400) {
             g.drawString("Start", mv.getWidth() / 2 - 90, mv.getHeight() / 2);

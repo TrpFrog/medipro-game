@@ -20,6 +20,7 @@ public class ShonbenKozouModel extends GameModel {
     private Character character;
     private GameTimer gameTimer;
     private Countdown countdown;
+    private Background background;
     private boolean playing = true;
 
     public ShonbenKozouModel(){
@@ -31,6 +32,7 @@ public class ShonbenKozouModel extends GameModel {
         character = new Character(this);
         gameTimer = new GameTimer();
         countdown = new Countdown(this);
+        background = new Background();
     }
 
     public void endGame() {
@@ -63,6 +65,8 @@ public class ShonbenKozouModel extends GameModel {
     }
 
     public Countdown getCountdown() { return countdown; }
+
+    public Background getBackground() { return background; }
 
     @Override
     public void suspend() {

@@ -34,6 +34,7 @@ public class ShonbenKozouView extends GameView {
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        /*model.getBackground().draw(g2);*/
         model.getKozou().getDrawer().draw(g2);
         model.getCircles().draw(g2);
         model.getCup().getDrawer().draw(g2);
