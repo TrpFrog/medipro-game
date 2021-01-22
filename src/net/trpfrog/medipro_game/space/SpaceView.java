@@ -69,12 +69,12 @@ public class SpaceView extends GameView{
         rocket.setRelativeHitBox(hitbox);
 
         // EventStarの作成
-        moonWorkStar      = EventStar.createSceneTransitionStar(60, MoonsWorkScene.class);
-        raceGameStar      = EventStar.createSceneTransitionStar(60, RaceGameScene.class);
-        shootingStarStar  = EventStar.createSceneTransitionStar(60, ShootingStarScene.class);
-        galaxyExpressStar = EventStar.createSceneTransitionStar(60, GalaxyExpressScene.class);
+        moonWorkStar      = EventStar.createSceneTransitionStar(100, MoonsWorkScene.class);
+        raceGameStar      = EventStar.createSceneTransitionStar(100, RaceGameScene.class);
+        shootingStarStar  = EventStar.createSceneTransitionStar(100, ShootingStarScene.class);
+        galaxyExpressStar = EventStar.createSceneTransitionStar(100, GalaxyExpressScene.class);
         ZodiacSign.buildAndRegister(new Rectangle(500, 500, 2000, 2000),
-                12, model.get3DMap().get2DMap(1));
+                5, model.get3DMap().get2DMap(1));
 
         // マップにEventStarのSymbolを追加
         int rX = (int)(Math.random()*mapCenterX)+1;

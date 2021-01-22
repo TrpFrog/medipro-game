@@ -31,7 +31,7 @@ public class MainView extends JFrame implements SceneDequeListener {
 
     private MainView() {
         sceneManager.addSceneDequeListener(this);
-        setSize(800, 600);
+        setSize(1024, 786);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);

@@ -3,6 +3,8 @@ package net.trpfrog.medipro_game.mini_game.race_game;
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.mini_game.MiniGameScene;
 
+import java.nio.file.Paths;
+
 public class RaceGameScene extends MiniGameScene {
     public RaceGameScene() {
         setModel(new RaceGameModel());
@@ -21,6 +23,9 @@ public class RaceGameScene extends MiniGameScene {
                 "移動中のみ曲がることができます。",
                 "ブレーキはありません。勝手に止まるので待ってください。"
         );
+
+        setStarImage(Paths.get(".","resource","mini_game","race_game","staricon.png"));
+
         makeDescriptionDialog();
     }
 

@@ -8,6 +8,8 @@ import net.trpfrog.medipro_game.mini_game.shooting_star.symbols.Couple;
 import net.trpfrog.medipro_game.mini_game.shooting_star.symbols.GameTimer;
 import net.trpfrog.medipro_game.mini_game.shooting_star.symbols.ScoreCounter;
 import net.trpfrog.medipro_game.mini_game.shooting_star.symbols.ShootingStar;
+import net.trpfrog.medipro_game.player.Medal;
+import net.trpfrog.medipro_game.player.MedalWindow;
 import net.trpfrog.medipro_game.scene.GameModel;
 
 import javax.swing.*;
@@ -79,6 +81,10 @@ public class ShootingStarModel extends GameModel {
         );
         var scene = new DialogBackgroundScene(window, false);
         SceneManager.getInstance().push(scene);
+        if(score >= 100) {
+            MedalWindow.pushMedalWindow(new Medal("Don't show shooting stars!",
+                    new ShootingStarScene().getStarImage()));
+        }
     }
 
     @Override

@@ -1,11 +1,14 @@
 package net.trpfrog.medipro_game.space.symbols.zodiac;
 
+import net.trpfrog.medipro_game.player.Medal;
+import net.trpfrog.medipro_game.player.MedalWindow;
 import net.trpfrog.medipro_game.space.symbols.EventStar;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
 import net.trpfrog.medipro_game.space.symbols.Star;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 
 import java.awt.*;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.stream.IntStream;
 
@@ -53,6 +56,9 @@ public class ZodiacSignStar extends EventStar implements EventStar.RocketEvent {
 
         if (allTouched) {
             zodiacSign.lineColor = Color.WHITE;
+            MedalWindow.pushMedalWindow(new Medal("星座巡り", Toolkit.getDefaultToolkit().getImage(
+                    Paths.get(".", "resource", "space_game", "medal.png").toString()
+            )));
         } else {
             zodiacSign.lineColor = new Color(0.7f, 0.7f, 0.7f,
                     0.25f + 0.5f * clearedStars / zodiacSign.stars);

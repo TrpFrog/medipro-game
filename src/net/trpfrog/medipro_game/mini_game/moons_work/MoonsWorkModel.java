@@ -5,6 +5,8 @@ import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.dialog_background.DialogBackgroundScene;
 import net.trpfrog.medipro_game.mini_game.GameOverWindow;
 import net.trpfrog.medipro_game.mini_game.moons_work.symbols.*;
+import net.trpfrog.medipro_game.player.Medal;
+import net.trpfrog.medipro_game.player.MedalWindow;
 import net.trpfrog.medipro_game.scene.GameModel;
 
 import java.awt.*;
@@ -52,6 +54,9 @@ public class MoonsWorkModel extends GameModel {
                 new Color(0xB5762200, true));
         var scene = new DialogBackgroundScene(window, false);
         SceneManager.getInstance().push(scene);
+        if(counter.getValue() < 30) return;
+        MedalWindow.pushMedalWindow(new Medal(
+                "Moon's work", new MoonsWorkScene().getStarImage()));
     }
 
     public MeteoriteManager getMeteoriteManager() {
