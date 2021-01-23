@@ -2,6 +2,7 @@ package net.trpfrog.medipro_game.space;
 
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.mini_game.galaxy_express.GalaxyExpressScene;
+import net.trpfrog.medipro_game.mini_game.macho_game.MachoScene;
 import net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkScene;
 import net.trpfrog.medipro_game.mini_game.race_game.RaceGameScene;
 import net.trpfrog.medipro_game.mini_game.shooting_star.ShootingStarScene;
@@ -32,7 +33,7 @@ public class SpaceView extends GameView{
     private MainView mainView = MainView.getInstance();
     private Rocket rocket;
     private Timer timer = new Timer(10, e->repaint());
-    private EventStar moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar;
+    private EventStar machoStar,moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar;
 
     private SpaceMap2D spaceMap2D;
     private SpaceMapDrawer spaceMapDrawer;
@@ -73,6 +74,7 @@ public class SpaceView extends GameView{
         raceGameStar      = EventStar.createSceneTransitionStar(100, RaceGameScene.class);
         shootingStarStar  = EventStar.createSceneTransitionStar(100, ShootingStarScene.class);
         galaxyExpressStar = EventStar.createSceneTransitionStar(100, GalaxyExpressScene.class);
+        machoStar         = EventStar.createSceneTransitionStar(100, MachoScene.class);
         ZodiacSign.buildAndRegister(new Rectangle(500, 500, 2000, 2000),
                 5, model.get3DMap().get2DMap(1));
 
@@ -83,6 +85,7 @@ public class SpaceView extends GameView{
         spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY-rY,raceGameStar);
         spaceMap2D.addSymbol(mapCenterX+rX,mapCenterY+rY,shootingStarStar);
         spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY+rX,galaxyExpressStar);
+        spaceMap2D.addSymbol(rX * 2,rY * 2,machoStar);
 
         miniMap = new MiniMapUI(model, 7, MiniMapUI.LOWER_RIGHT);
         speedIndicator = new SpeedIndicatorUI(model.getRocket(), SpeedIndicatorUI.LOWER_LEFT);
