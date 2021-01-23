@@ -73,10 +73,10 @@ public class MapDrawer implements Drawable {
         int y = rect.y;
         rect.grow(5000, 5000);
 
-        player.createTranslatedDrawer((int)player.getX(), (int)player.getY()).draw(g);
-
         drawnMap.rangeSymbolStream(rect)
                 .filter(e -> !player.equals(e))
                 .forEach(e -> e.createTranslatedDrawer((int)player.getX(), (int)player.getY()).draw(g));
+
+        player.createTranslatedDrawer((int)player.getX(), (int)player.getY()).draw(g);
     }
 }
