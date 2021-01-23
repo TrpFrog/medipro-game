@@ -6,12 +6,14 @@ import net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkScene;
 import net.trpfrog.medipro_game.mini_game.race_game.RaceGameScene;
 import net.trpfrog.medipro_game.mini_game.shooting_star.ShootingStarScene;
 import net.trpfrog.medipro_game.scene.GameView;
-import net.trpfrog.medipro_game.space.map.MouseTwinkleManager;
+import net.trpfrog.medipro_game.space.symbols.BlackHole;
+import net.trpfrog.medipro_game.space.symbols.MiniGameStar;
+import net.trpfrog.medipro_game.space.ui.MouseTwinkleManager;
 import net.trpfrog.medipro_game.space.map.SpaceMap2D;
 import net.trpfrog.medipro_game.space.map.SpaceMapDrawer;
 import net.trpfrog.medipro_game.space.symbols.EventStar;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
-import net.trpfrog.medipro_game.space.symbols.zodiac.ZodiacSign;
+import net.trpfrog.medipro_game.space.field_mini_game.zodiac.ZodiacSign;
 import net.trpfrog.medipro_game.space.ui.IndicatorUI;
 import net.trpfrog.medipro_game.space.ui.MiniMapUI;
 import net.trpfrog.medipro_game.space.ui.SpeedIndicatorUI;
@@ -69,10 +71,11 @@ public class SpaceView extends GameView{
         rocket.setRelativeHitBox(hitbox);
 
         // EventStarの作成
-        moonWorkStar      = EventStar.createSceneTransitionStar(100, MoonsWorkScene.class);
-        raceGameStar      = EventStar.createSceneTransitionStar(100, RaceGameScene.class);
-        shootingStarStar  = EventStar.createSceneTransitionStar(100, ShootingStarScene.class);
-        galaxyExpressStar = EventStar.createSceneTransitionStar(100, GalaxyExpressScene.class);
+        moonWorkStar      = new MiniGameStar(100, MoonsWorkScene.class);
+        raceGameStar      = new MiniGameStar(100, RaceGameScene.class);
+        shootingStarStar  = new MiniGameStar(100, ShootingStarScene.class);
+        galaxyExpressStar = new MiniGameStar(100, GalaxyExpressScene.class);
+        blackhole = new BlackHole(500);
         ZodiacSign.buildAndRegister(new Rectangle(500, 500, 2000, 2000),
                 5, model.get3DMap().get2DMap(1));
 
@@ -109,11 +112,13 @@ public class SpaceView extends GameView{
     @Override
     public void suspend() {
         timer.stop();
+        mouseTwinkleManager.suspend();
     }
 
     @Override
     public void resume() {
         timer.start();
         rocket.setSpeedPxPerSecond(0);
+        mouseTwinkleManager.resume();
     }
 }
