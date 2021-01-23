@@ -30,7 +30,5 @@ public class EventStar extends Star {
     }
 
 
-    public interface RocketEvent {
-        void run(Rocket rocket, Star star);
-    }
+
 }
