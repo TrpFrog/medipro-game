@@ -17,7 +17,7 @@ public class MiniGameScene extends GameScene {
     private String creatorName = "";
 
     private Image starImage = null;
-    private final static Image defaultStarImage = Toolkit.getDefaultToolkit().getImage(
+    public final static Image DEFAULT_STAR_IMAGE = Toolkit.getDefaultToolkit().getImage(
             Paths.get(".","resource","mini_game","defaultEventStar.png").toString());
 
     @Override
@@ -114,7 +114,7 @@ public class MiniGameScene extends GameScene {
         if(this.starImage != null){
             return starImage;
         }else{
-            this.starImage = defaultStarImage;
+            this.starImage = DEFAULT_STAR_IMAGE;
             return starImage;
         }
 
