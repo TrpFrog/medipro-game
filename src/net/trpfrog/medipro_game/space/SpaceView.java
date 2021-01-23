@@ -34,7 +34,7 @@ public class SpaceView extends GameView{
     private MainView mainView = MainView.getInstance();
     private Rocket rocket;
     private Timer timer = new Timer(10, e->repaint());
-    private EventStar moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar;
+    private EventStar moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar,blackhole;
 
     private SpaceMap2D spaceMap2D;
     private SpaceMapDrawer spaceMapDrawer;
@@ -86,6 +86,7 @@ public class SpaceView extends GameView{
         spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY-rY,raceGameStar);
         spaceMap2D.addSymbol(mapCenterX+rX,mapCenterY+rY,shootingStarStar);
         spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY+rX,galaxyExpressStar);
+        spaceMap2D.addSymbol(300, 300, blackhole);
 
         miniMap = new MiniMapUI(model, 7, MiniMapUI.LOWER_RIGHT);
         speedIndicator = new SpeedIndicatorUI(model.getRocket(), SpeedIndicatorUI.LOWER_LEFT);
@@ -93,7 +94,7 @@ public class SpaceView extends GameView{
 
         spaceMapDrawer = new SpaceMapDrawer(model);
 
-        mouseTwinkleManager = new MouseTwinkleManager(this, 400, rocket);
+        mouseTwinkleManager = new MouseTwinkleManager(this, rocket);
     }
 
     @Override
@@ -101,11 +102,15 @@ public class SpaceView extends GameView{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         spaceMapDrawer.draw(g2);
-        rocket.getDrawer().draw(g2);
-        mouseTwinkleManager.draw(g2);
+
+        rocket.accessToWarpSystem().draw(g2);
+
         miniMap.draw(g2);
+//        rocket.getDrawer().draw(g2);
         speedIndicator.draw(g2);
+        mouseTwinkleManager.draw(g2);
         indicator.draw(g2);
     }
 
