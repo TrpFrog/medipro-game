@@ -5,6 +5,7 @@ import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.Suspendable;
 import net.trpfrog.medipro_game.space.SpaceModel;
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
+import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
 import net.trpfrog.medipro_game.util.MusicPlayer;
 
@@ -40,6 +41,15 @@ public class Rocket extends MovableSymbol implements Suspendable{
         astronautTimer = new Timer(100, e -> warpToTouchingStar());
         this.setMaxSpeed(500.0);
         this.setMinSpeed(0.0);
+        initHitBox();
+    }
+
+    private void initHitBox() {
+        int[] xPoints = {-30,-20,-15, 0,30,60, 30,  0,-15,-20};
+        int[] yPoints = {  0, 20, 40,25,20, 0,-20,-25,-40,-20};
+        Polygon shape = new Polygon(xPoints, yPoints, xPoints.length);
+        var hitBox = new RelativeHitBox(shape);
+        setRelativeHitBox(hitBox);
     }
 
     private Image getImagePath(Path path) {

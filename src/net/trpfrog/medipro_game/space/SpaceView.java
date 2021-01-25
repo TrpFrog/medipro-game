@@ -15,8 +15,8 @@ import net.trpfrog.medipro_game.space.symbols.zodiac.ZodiacSign;
 import net.trpfrog.medipro_game.space.ui.IndicatorUI;
 import net.trpfrog.medipro_game.space.ui.MiniMapUI;
 import net.trpfrog.medipro_game.space.ui.SpeedIndicatorUI;
-import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.util.MusicPlayer;
+import net.trpfrog.medipro_game.util.SparsePointsBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +32,6 @@ public class SpaceView extends GameView{
     private MainView mainView = MainView.getInstance();
     private Rocket rocket;
     private Timer timer = new Timer(10, e->repaint());
-    private EventStar moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar;
 
     private SpaceMap2D spaceMap2D;
     private SpaceMapDrawer spaceMapDrawer;
@@ -61,28 +60,12 @@ public class SpaceView extends GameView{
         rocket.setX(mapCenterX);
         rocket.setY(mapCenterY);
 
-        // ロケットのアタリ判定
-        int[] xpoints = {-30,-20,-15, 0,30,60, 30,  0,-15,-20};
-        int[] ypoints = {  0, 20, 40,25,20, 0,-20,-25,-40,-20};
-        Polygon shape = new Polygon(xpoints,ypoints,xpoints.length);
-        var hitbox = new RelativeHitBox(shape);
-        rocket.setRelativeHitBox(hitbox);
+        registerEventStars();
 
-        // EventStarの作成
-        moonWorkStar      = EventStar.createSceneTransitionStar(100, MoonsWorkScene.class);
-        raceGameStar      = EventStar.createSceneTransitionStar(100, RaceGameScene.class);
-        shootingStarStar  = EventStar.createSceneTransitionStar(100, ShootingStarScene.class);
-        galaxyExpressStar = EventStar.createSceneTransitionStar(100, GalaxyExpressScene.class);
+        // 星座の登録
         ZodiacSign.buildAndRegister(new Rectangle(500, 500, 2000, 2000),
-                5, model.get3DMap().get2DMap(1));
+                12, model.get3DMap().get2DMap(1));
 
-        // マップにEventStarのSymbolを追加
-        int rX = (int)(Math.random()*mapCenterX)+1;
-        int rY = (int)(Math.random()*mapCenterY)+1;
-        spaceMap2D.addSymbol(mapCenterX+rX,mapCenterY-rY,moonWorkStar);
-        spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY-rY,raceGameStar);
-        spaceMap2D.addSymbol(mapCenterX+rX,mapCenterY+rY,shootingStarStar);
-        spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY+rX,galaxyExpressStar);
 
         miniMap = new MiniMapUI(model, 7, MiniMapUI.LOWER_RIGHT);
         speedIndicator = new SpeedIndicatorUI(model.getRocket(), SpeedIndicatorUI.LOWER_LEFT);
@@ -91,6 +74,29 @@ public class SpaceView extends GameView{
         spaceMapDrawer = new SpaceMapDrawer(model);
 
         mouseTwinkleManager = new MouseTwinkleManager(this, 400, rocket);
+    }
+
+    private void registerEventStars() {
+        // EventStarの作成
+        EventStar[] eventStars = {
+                EventStar.createSceneTransitionStar(100, MoonsWorkScene.class),
+                EventStar.createSceneTransitionStar(100, RaceGameScene.class),
+                EventStar.createSceneTransitionStar(100, ShootingStarScene.class),
+                EventStar.createSceneTransitionStar(100, GalaxyExpressScene.class)
+        };
+
+        // EventStarの座標の決定
+        var eventStarPoints = SparsePointsBuilder.build(
+                new Rectangle(0, 0, spaceMap2D.getWidth(), spaceMap2D.getHeight()),
+                500,
+                eventStars.length
+        );
+
+        // EventStarの登録
+        for(int i = 0; i < eventStars.length; i++) {
+            var p = eventStarPoints.get(i);
+            spaceMap2D.addSymbol(p.x, p.y, eventStars[i]);
+        }
     }
 
     @Override
