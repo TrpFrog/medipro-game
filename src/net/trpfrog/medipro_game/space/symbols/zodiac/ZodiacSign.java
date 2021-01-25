@@ -1,8 +1,8 @@
 package net.trpfrog.medipro_game.space.symbols.zodiac;
 
-import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.fieldmap.FieldMap;
 import net.trpfrog.medipro_game.symbol.Symbol;
+import net.trpfrog.medipro_game.util.SparsePointsBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,34 +20,14 @@ public class ZodiacSign extends Symbol {
 
     public ZodiacSign(int width, int height, int stars) {
         this.stars = stars;
-        var frontStar = new ZodiacSignStar(this, width * Math.random(), height * Math.random());
-        zodiacSignStars.add(frontStar);
 
-        var mv = MainView.getInstance();
-        final double starMaxDistance = Math.min(width, height);
-        final double starMinDistance = Math.min(width, height) / (double)stars;
+        final double starMinDistance = 200;
 
-        for(int i = 1; i < stars; i++) {
-            double x, y;
-            boolean invalidPosition;
-            do {
-                x = starMaxDistance * Math.random();
-                y = starMaxDistance * Math.random();
-
-                invalidPosition = zodiacSignStars.get(0).getPoint2D().distance(x, y) > starMaxDistance;
-
-                if(!invalidPosition) {
-                    for(var star : zodiacSignStars) {
-                        if(star.getPoint2D().distance(x, y) < starMinDistance) {
-                            invalidPosition = true;
-                            break;
-                        }
-                    }
-                }
-
-            } while(invalidPosition);
-            zodiacSignStars.add(0, new ZodiacSignStar(this, x, y));
-        }
+        Rectangle range = new Rectangle(0, 0, width, height);
+        SparsePointsBuilder.build(range, (int)starMinDistance, stars)
+                .stream()
+                .map(e -> new ZodiacSignStar(this, e.x, e.y))
+                .forEach(e -> zodiacSignStars.add(e));
 
         for(int i = 1; i < zodiacSignStars.size(); i++) {
             zodiacSignLines.add(new ZodiacLineSymbol(this,
