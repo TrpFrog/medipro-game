@@ -2,6 +2,7 @@ package net.trpfrog.medipro_game;
 
 import net.trpfrog.medipro_game.scene.GameScene;
 import net.trpfrog.medipro_game.scene.GameView;
+import net.trpfrog.medipro_game.util.MusicPlayer;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -18,6 +19,7 @@ public class MainView extends JFrame implements SceneDequeListener {
     private static final MainView view = new MainView();
 
     private Clip runningBGM;
+    private double runningBGMGainLevel = 0.2;
 
     /**
      * MainViewの唯一のインスタンスを返します。
@@ -53,6 +55,7 @@ public class MainView extends JFrame implements SceneDequeListener {
                 if(bgm.isRunning()) return;
                 stopBgmNowRunning();
                 bgm.setMicrosecondPosition(0);
+                MusicPlayer.setClipGain(bgm, runningBGMGainLevel);
                 bgm.loop(Clip.LOOP_CONTINUOUSLY);
                 runningBGM = bgm;
                 return;
@@ -63,6 +66,22 @@ public class MainView extends JFrame implements SceneDequeListener {
             }
         }
         stopBgmNowRunning();
+    }
+
+    /**
+     * BGMのゲインを設定します。
+     * @param level ゲインを表す0から1の値
+     */
+    public void setBGMGain(double level) {
+        this.runningBGMGainLevel = level;
+    }
+
+    /**
+     * BGMのゲインを返します。
+     * @return BGMのゲイン
+     */
+    public double getBGMGainLevel() {
+        return this.runningBGMGainLevel;
     }
 
     /**
