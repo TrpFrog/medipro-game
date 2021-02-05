@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta name="robots" content="noindex">
+    <script type="text/javascript" src="./analytics.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script type="text/javascript" src="contents_builder.js"></script>
+    <script type="text/javascript" src="stats.js"></script>
+    <script type="text/javascript" src="trpfrogsvg.js"></script>
+    <script type="text/javascript" src="balloon/balloon_script.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <style>
+        ul.rating_list li {
+            margin-bottom: 0.5em;
+        }
+
+        #links .linkButton {
+            width: 180px;
+        }
+
+        #music .linkButton {
+            width: 180px;
+        }
+    </style>
+    <script>
+        onload = function() {
+            initIsSupportedLocalStorage();
+            initStats();
+            initProfileImage();
+        }
+    </script>
+
+    <!-- StyleSheet -->
+    <link rel="stylesheet" type="text/css" href="./stylesheets/main.css">
+    <!---------------->
+    <meta charset="utf-8">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@TrpFrog">
+    <meta property="og:url" content="https://www.trpfrog.net">
+    <meta property="og:title" content="Space Wandering">
+    <meta property="og:description" content="宇宙を旅してコインを集めよう">
+    <meta property="og:image" content="https://www.trpfrog.net/images/TwitterCard.png">
+    <title>Space Wondering</title>
+</head>
+
+<body>
+    <div class="grid">
+        <header></header>
+        <main>
+            <div id="main_wrapper">
+                <div id="about_me">
+                    <h2>Space Wandering</h2>
+                    <p>宇宙を旅してコインを集めよう</p>
+                    <a href="https://github.com/trpfrog/medipro-game/releases" class="btn-circle-flat">↓</a>
+                    <p style="margin-bottom: 120px">
+                        Download latest release
+                    </p>
+                    <h3 style="margin-bottom: 5px">Requirements</h3>
+                    <p style="font-size: 1em; margin-bottom: 5px">
+                        Java 15
+                    </p>
+                </div>
+                <div id="download" class="main_window">
+                    <h2>What is this?</h2>
+                    <p>
+                        これは大学の授業で作成したゲームです。
+                    </p>
+                </div>
+                <div id="gallery" class="main_window">
+                    <h2>Gallery</h2>
+                    <p>
+                        画像です
+                    </p>
+                </div>
+                <!-- <div id="demo" class="main_window">
+                    <h2>Demo Movie</h2>
+                    <p>
+                        プレイ動画です。
+                    </p>
+                    <div class="youtube-outer">
+                        <iframe src="https://www.youtube.com/embed/h5C_yiBEAMg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                    </div>
+                </div> -->
+            </div>
+        </main>
+        <footer></footer>
+    </div>
+</body>
+
+</html>

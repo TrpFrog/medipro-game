@@ -1,0 +1,26 @@
+@media screen and (max-width:800px) {
+    main {
+        padding: 0;
+        text-align: center;
+    }
+
+    @media screen and (max-width:500px) {
+        main {
+            margin: 0.5em;
+        }
+    }
+
+        main #main_wrapper {
+        display: inline-grid;
+        text-align: left;
+    }
+
+    .main_window {
+        margin: 0.5em;
+        border-radius: 22px;
+        text-align: left;
+    }
+    .main_window h2 {
+        margin: 0;
+    }
+}

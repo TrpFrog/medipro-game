@@ -1,0 +1,29 @@
+@import "grid.css";
+@import "header.css";
+@import "footer.css";
+@import "media.css";
+@import "rating_text.css";
+@import "h2icon.css";
+@import "linkbutton_grid.css";
+@import "blocks.css";
+@import "main_grid.css";
+
+body{
+    margin: 0;
+    transition: .5s;
+    color: white;
+}
+
+@media (prefers-color-scheme: dark){
+    body {
+        background: #061300;
+        color: white;
+    }
+    a:link:not(.linkButton) {
+        color: aquamarine;
+    }
+    a:visited:not(.linkButton) {
+        color: plum;
+    }
+}
+

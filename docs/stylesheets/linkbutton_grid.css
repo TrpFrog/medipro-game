@@ -1,0 +1,66 @@
+.linkButtonGrid{
+  display: grid;
+  grid-template-areas: "l d";
+  grid-template-columns: 170px auto;
+  grid-template-rows: auto;
+  text-align: left;
+}
+
+.linkButton{
+    grid-area: l;
+    display: inline-block;
+    margin-bottom: 8px;
+    margin-right: 2em;
+    text-decoration: none; /*リンクの下線を消す*/
+    width:160px;
+    height: 14px;
+    font-weight:bold;
+    text-align:center;
+    padding:8px 0 15px;
+    background: #77bd36;
+    cursor: pointer;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    border-bottom: solid 4px #558d21;
+    font-weight: bold;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+
+    /*ボタン上のテキストの選択をさせない*/
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    /*リンク以外でもカーソルを指の形にする*/
+    cursor: pointer;
+    vertical-align: middle;
+}
+.linkButton:hover{
+    background: #90e200;
+}
+.linkButton:active{
+    -webkit-transform: translateY(1px);
+    transform: translateY(2px);
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
+    border-bottom: none;
+}
+
+@media (prefers-color-scheme: dark){
+    .linkButton {
+        background: #558d21;
+        text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+        border-bottom: solid 4px #406919;
+    }
+    .linkButton:hover{
+        background: #7fc900;
+    }
+    .linkButton:active{
+        box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.linkDescription{
+    grid-area: d;
+    vertical-align: middle;
+    text-align: left;
+}

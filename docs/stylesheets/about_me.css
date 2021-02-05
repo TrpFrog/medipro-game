@@ -1,0 +1,52 @@
+@import "about_me_sp.css";
+
+#about_me {
+    text-align: center;
+    color: white;
+
+    margin-bottom: 150px;
+}
+
+#about_me h2 {
+    font-size: 5em;
+    margin-bottom: 0;
+    text-shadow: none;
+}
+
+#about_me h2::before {
+    content: none;
+    margin: 0;
+}
+
+#about_me p {
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'M PLUS Rounded 1c';
+    margin-bottom: 100px;
+}
+
+#about_me .btn-circle-flat {
+    display: inline-block;
+    text-decoration: none;
+    color:white;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    background-color: rgba(255,255,255, 0.2);
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+    border: 2px rgba(255,255,255,0.4) solid;
+    border-bottom: 2px rgba(40,40,40,0.35) solid;
+    border-right: 2px rgba(40,40,40,0.35) solid;
+    font-family: 'M PLUS Rounded 1c';
+    width: 200px;
+    height: 200px;
+    font-size: 100px;
+    line-height: 190px;
+    border-radius: 50%;
+    text-align: center;
+    overflow: hidden;
+    transition: .4s;
+}
+
+#about_me .btn-circle-flat:hover {
+    background: #4951c983;
+}
