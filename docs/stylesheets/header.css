@@ -16,13 +16,6 @@ header{
     transition: 1s;
 }
 
-@media (prefers-color-scheme: dark){
-    header {
-        background: #4f831fd3;
-        filter: drop-shadow(0em 0.1em 1em rgba(251, 255, 4, 0.4));
-    }
-}
-
 header h1 a{
     text-decoration: none;
     color: white !important;
@@ -106,7 +99,7 @@ header h1 a{
     display: none;
 }
 
-@media screen and (max-width:800px) {
+@media screen and (max-width:1000px) {
     header{
         z-index: 99;
         height: 4em;

@@ -2,7 +2,7 @@ let homedir = "https://www.trpfrog.net";
 let headElement = document.getElementsByTagName('head')[0];
 
 document.addEventListener("DOMContentLoaded", function () {
-    fontLoader();
+    loadFonts();
     buildHeader();
     buildHamburger();
     buildFooter();
@@ -23,7 +23,7 @@ function setFavicon() {
     headElement.insertAdjacentHTML('beforeend', html);
 }
 
-function fontLoader() {
+function loadFonts() {
     let html = `
         <link href="https://fonts.googleapis.com/css?family=Comfortaa|M+PLUS+Rounded+1c:400,800|Questrial|Noto+Sans+JP&display=swap&subset=japanese" rel="stylesheet">
     `;
@@ -38,13 +38,11 @@ function buildHamburger() {
             <aside id="side_menu">
                 <div id="side_header"></div>
                 <div id="side_links">
-                    <a href="`+ homedir +`index.html"><div class="sidemenu_link">Home      </div></a>
-                    <a href="`+ homedir +`icon_gallery/index.html"><div class="sidemenu_link">Icon      </div></a>
-                    <a href="`+ homedir +`balloon/index.html"><div class="sidemenu_link">Balloon   </div></a>
-                    <a href="`+ homedir +`sticker_gallery/index.html"><div class="sidemenu_link">Sticker   </div></a>
-                    <a href="`+ homedir +`works/index.html"><div class="sidemenu_link">Works     </div></a>
-                    <a href="`+ homedir +`download/index.html"><div class="sidemenu_link">Download  </div></a>
-                    <a href="`+ homedir +`iconmaker/index.html"><div class="sidemenu_link">Icon Maker</div></a>
+                    <a href="#howtoplay"><div class="sidemenu_link">How To Play</div></a>
+                    <a href="#gallery"><div class="sidemenu_link">Gallery</div></a>
+                    <a href="#demo"><div class="sidemenu_link">Demo Video</div></a>
+                    <a href="#trouble"><div class="sidemenu_link">Q & A</div></a>
+                    <a href="#credit"><div class="sidemenu_link">Credit</div></a>
                 </div>
             </aside>
         </section>
@@ -58,8 +56,9 @@ function buildHeader() {
                 <h1><a href="https://www.trpfrog.net/medipro-game">Space Wandering</a></h1>
                 <nav>
                     <ul>
-                        <li><a href="https://github.com/trpfrog/medipro-game/releases" class="headerButton">Download</a></li>
+                        <li><a href="https://github.com/trpfrog/medipro-game/releases" class="headerButton">Releases</a></li>
                         <li><a href="https://github.com/trpfrog/medipro-game" class="headerButton">GitHub</a></li>
+                        <li><a href="https://www.trpfrog.net/medipro-game/javadoc" class="headerButton">Javadoc</a></li>
                     </ul>
                 </nav>
                 <div id="hamburger_menu" onclick="toggleSideMenu();">
@@ -173,34 +172,4 @@ function getLineUrl() {
     let url = "https://social-plugins.line.me/lineit/share?url=";
     url += location.href;
     return url;
-}
-
-var isSupportedLocalStorage;
-function initIsSupportedLocalStorage() {
-    isSupportedLocalStorage = storageAvailable('localStorage');
-}
-
-function storageAvailable(type) {
-    var storage;
-    try {
-        storage = window[type];
-        var x = '__storage_test__';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
-    }
-    catch (e) {
-        return e instanceof DOMException && (
-            // everything except Firefox
-            e.code === 22 ||
-            // Firefox
-            e.code === 1014 ||
-            // test name field too, because code might not be present
-            // everything except Firefox
-            e.name === 'QuotaExceededError' ||
-            // Firefox
-            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-            // acknowledge QuotaExceededError only if there's something already stored
-            (storage && storage.length !== 0);
-    }
 }

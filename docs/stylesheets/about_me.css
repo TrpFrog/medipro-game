@@ -11,6 +11,18 @@
     font-size: 5em;
     margin-bottom: 0;
     text-shadow: none;
+    background: -webkit-linear-gradient(0deg, #00E8FF,#FF00F7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-filter: drop-shadow(0em 2px 2px rgba(0, 0, 0, 0.4));
+    -webkit-filter: drop-shadow(0em 2px 2px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0em 3px 5px rgba(0, 0, 0, 0.4));
+}
+
+@media screen and (max-width:500px) {
+    #about_me #download_area {
+        display: none;
+    }
 }
 
 #about_me h2::before {
@@ -49,4 +61,16 @@
 
 #about_me .btn-circle-flat:hover {
     background: #4951c983;
+}
+
+@media screen and (max-width:1000px) {
+    #about_me p {
+        margin-bottom: 2em;
+    }
+
+    #about_me {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 2em;
+    }
 }

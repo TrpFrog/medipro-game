@@ -14,12 +14,6 @@
     transition: .5s;
 }
 
-@media (prefers-color-scheme: dark){
-    .main_window {
-        background-color: rgba(50, 75, 0, 0.67);
-    }
-}
-
 main #main_wrapper {
     display: inline-grid;
 }
@@ -53,7 +47,7 @@ main #main_wrapper {
 
     .main_window {
         margin: 1em;
-        margin-bottom: 60px;
+        /* margin-bottom: 60px; */
         border-radius: 33px;
         padding: 40px 40px 40px 40px;
         text-align: left;

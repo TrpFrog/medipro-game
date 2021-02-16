@@ -17,13 +17,13 @@
     font-weight:bold;
     text-align:center;
     padding:8px 0 15px;
-    background: #77bd36;
+    background: #558d21;
     cursor: pointer;
     border: 0;
     border-radius: 5px;
     color: white;
     text-shadow: 0 1px 0 rgba(0,0,0,0.2);
-    border-bottom: solid 4px #558d21;
+    border-bottom: solid 4px #406919;
     font-weight: bold;
     font-family: 'M PLUS Rounded 1c', sans-serif;
 
@@ -35,9 +35,7 @@
     cursor: pointer;
     vertical-align: middle;
 }
-.linkButton:hover{
-    background: #90e200;
-}
+
 .linkButton:active{
     -webkit-transform: translateY(1px);
     transform: translateY(2px);
@@ -45,18 +43,8 @@
     border-bottom: none;
 }
 
-@media (prefers-color-scheme: dark){
-    .linkButton {
-        background: #558d21;
-        text-shadow: 0 1px 0 rgba(0,0,0,0.2);
-        border-bottom: solid 4px #406919;
-    }
-    .linkButton:hover{
-        background: #7fc900;
-    }
-    .linkButton:active{
-        box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
-    }
+.linkButton:hover{
+    background: #7fc900;
 }
 
 .linkDescription{

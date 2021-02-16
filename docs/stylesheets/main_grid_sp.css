@@ -1,13 +1,7 @@
-@media screen and (max-width:800px) {
+@media screen and (max-width:1000px) {
     main {
         padding: 0;
         text-align: center;
-    }
-
-    @media screen and (max-width:500px) {
-        main {
-            margin: 0.5em;
-        }
     }
 
         main #main_wrapper {
@@ -18,6 +12,7 @@
     .main_window {
         margin: 0.5em;
         border-radius: 22px;
+        padding: 1em;
         text-align: left;
     }
     .main_window h2 {

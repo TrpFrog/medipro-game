@@ -1,0 +1,76 @@
+.cp_qa {
+    color: rgb(44,44,44)
+}
+
+.cp_qa *, .cp_qa *:after, .cp_qa *:before {
+	font-family: 'FontAwesome', sans-serif;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+.cp_qa dt,.cp_qa dd {
+	position: relative;
+	padding: 0.5em;
+	box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+	border-radius: 0.3em;
+}
+.cp_qa dt {
+	margin: 0 3em 1em 3em;
+	background: #ffe0b2;
+    font-weight: bold;
+}
+.cp_qa dd {
+	margin: 0 3em 3em 3em;
+	background: #b2ebf2;
+}
+/* 吹き出し▶︎ */
+.cp_qa dt::before,.cp_qa dd::before{
+	position: absolute;
+	z-index: 99;
+	top: 0.5em;
+	display: inline-block;
+	width: 0;
+	height: 0;
+	content: '';
+	border-style: solid;
+}
+/* 質問吹き出し▶︎ */
+.cp_qa dt::before {
+	left: -0.5em;
+	border-width: 5px 8.7px 5px 0;
+	border-color: transparent #ffe0b2 transparent transparent;
+}
+/* 答え吹き出し▶︎ */
+.cp_qa dd::before {
+	right: -0.5em;
+	border-width: 5px 0 5px 8.7px;
+	border-color: transparent transparent transparent #b2ebf2;
+}
+/* ?!アイコン */
+.cp_qa dt::after,.cp_qa dd::after {
+	font-size: 1.2em;
+	position: absolute;
+	top: 0;
+	color: #ffffff;
+	border-radius: 50%;
+	display: inline-block;
+	width: 1.5em;
+	height: 1.5em;
+	line-height: 1.2em;
+}
+/* ?アイコン */
+.cp_qa dt::after {
+	left: -2.5em;
+	margin: 0 0.5em 0 0;
+	padding: 0.2em 0.4em;
+	content: '?';
+	background: #f57c00;
+}
+/* !アイコン */
+.cp_qa dd::after {
+	right: -2.5em;
+	margin: 0 0 0 0.5em;
+	padding: 0.2em 0.55em;
+	content: '!';
+    font-weight: bold;
+	background: #0097a7;
+}

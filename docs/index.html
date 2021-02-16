@@ -10,19 +10,6 @@
     <script type="text/javascript" src="trpfrogsvg.js"></script>
     <script type="text/javascript" src="balloon/balloon_script.js"></script>
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-    <style>
-        ul.rating_list li {
-            margin-bottom: 0.5em;
-        }
-
-        #links .linkButton {
-            width: 180px;
-        }
-
-        #music .linkButton {
-            width: 180px;
-        }
-    </style>
     <script>
         onload = function() {
             initIsSupportedLocalStorage();
@@ -48,17 +35,35 @@
     <div class="grid">
         <header></header>
         <main>
+            <div class="ribbon-content">
+                <div class="ribbon">
+                    <div style="margin-bottom: 5px; font-weight: bold">
+                        <p style="margin:0;">2020年度</p>
+                        <p style="margin:0; font-size: 0.6em;">メディア情報学プログラミング演習</p>
+                    </div>
+                    <span style="font-size: 1.5em; font-weight: bold">1日目 優秀賞!!</span>
+                </div>
+            </div>
             <div id="main_wrapper">
                 <div id="about_me">
                     <h2>Space Wandering</h2>
-                    <p>宇宙を旅してコインを集めよう</p>
-                    <a href="https://github.com/trpfrog/medipro-game/releases" class="btn-circle-flat">↓</a>
-                    <p style="margin-bottom: 120px">
-                        Download latest release
+                    <p>
+                        <span style="display: inline-block">宇宙を旅して</span><span style="display: inline-block">メダルを集めよう</span>
                     </p>
+                    <div id="download_area">
+                        <a href="#" class="btn-circle-flat" style="font-size: 1.5em;">Coming soon...</a>
+                        <p style="margin-bottom: 120px">
+                            <!-- Download latest release -->
+                            ///Under Construction...///
+                        </p>
+                    </div>
                     <h3 style="margin-bottom: 5px">Requirements</h3>
-                    <p style="font-size: 1em; margin-bottom: 5px">
+                    <p style="font-size: 1em; margin-bottom: 25px">
                         Java 15
+                    </p>
+                    <h3 style="margin-bottom: 5px">Available on</h3>
+                    <p style="font-size: 1em; margin-bottom: 5px">
+                        macOS / Windows / Linux
                     </p>
                 </div>
                 <div id="download" class="main_window">
@@ -67,13 +72,19 @@
                         これは大学の授業で作成したゲームです。
                     </p>
                 </div>
+                <div id="howtoplay" class="main_window">
+                    <h2>How to Play</h2>
+                    <p>
+                        遊び方です
+                    </p>
+                </div>
                 <div id="gallery" class="main_window">
                     <h2>Gallery</h2>
                     <p>
                         画像です
                     </p>
                 </div>
-                <!-- <div id="demo" class="main_window">
+                <div id="demo" class="main_window">
                     <h2>Demo Movie</h2>
                     <p>
                         プレイ動画です。
@@ -81,7 +92,75 @@
                     <div class="youtube-outer">
                         <iframe src="https://www.youtube.com/embed/h5C_yiBEAMg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
                     </div>
-                </div> -->
+                </div>
+                <div id="trouble" class="main_window">
+                    <h2>Trouble Shooting</h2>
+                    <dl class="cp_qa">
+                        <dt>動かないんだけど？</dt>
+                        <dd>困った……</dd>
+                        <dt>なんか変なエラー吐くが……</dt>
+                        <dd>
+                            もしかすると未知のバグかもしれません。<br> Issueを読み、該当する事例がなければIssueを投げてください！
+                        </dd>
+                        <dt>Error: Unable to access jarfile と出ます</dt>
+                        <dd>パスやファイル名が間違えている可能性が高いです。</dd>
+                        <dt>Java 15を持っていません！</dt>
+                        <dd>導入が難しい方はこちらのリンクから小さなJREをDLしてください</dd>
+                    </dl>
+                </div>
+                <div id="credit" class="main_window">
+                    <h2>Credit</h2>
+                    <h3 style="margin-top: 1em">Programmer</h3>
+                    <ul>
+                        <li>アタマつくり部 (淵野アタリ + つまみ + ちくわぶ)</li>
+                        <ul>
+                            <li>淵野アタリ (<a href="https://twitter.com/ebioishii_u">@ebioishii_u</a>)</li>
+                            <li>つまみ　　 (<a href="https://twitter.com/TrpFrog">@TrpFrog</a>)</li>
+                            <li>ちくわぶ　 (<a href="https://twitter.com/chikuwabu_uec">@chikuwabu_uec</a>)</li>
+                        </ul>
+                    </ul>
+                    <h3>Web Designer</h3>
+                    <ul>
+                        <li>つまみ (<a href="https://twitter.com/TrpFrog">@TrpFrog</a>)</li>
+                    </ul>
+                    <h3>Sound Creator</h3>
+                    <ul>
+                        <li>ねぎ一世 (<a href="https://twitter.com/negiissei">@negiissei</a>)</li>
+                    </ul>
+                    <h3>Special Thanks</h3>
+                    <ul>
+                        <li><b>ねぎ一世さん</b> (<a href="https://twitter.com/negiissei">@negiissei</a>)</li>
+                        <ul>
+                            <li>楽曲制作に加え、デバッグ、マッチョをして頂きました。</li>
+                        </ul>
+                        <li><b>きゅ〜さん</b> (<a href="https://twitter.com/kyu_099">@kyu_099</a>)</li>
+                        <ul>
+                            <li>なぜか一緒に別のゲームを作っていました。なんで？</li>
+                        </ul>
+                        <li><b>gottiさん</b> (<a href="https://twitter.com/gotti_sec">@gotti_sec</a>)</li>
+                        <ul>
+                            <li>マップの構造のアイデアを頂きました。ねこ</li>
+                            <!--♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡
+                                ♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡
+                                ♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡
+                                ♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡
+                                ♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡
+                                ♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡-->
+                        </ul>
+                        <li><b>あすなろわさびさん</b> (<a href="https://twitter.com/Asunarowasabi_U">@Asunarowasabi_U</a>)</li>
+                        <ul>
+                            <li>電話ボックスの写真を快く受け取って頂きました。</li>
+                        </ul>
+                        <li><b>メディア情報学プログラムのみなさん</b></li>
+                        <ul>
+                            <li>優秀賞ありがとう！<br>あと君たちの作るソフトウェアも全部強すぎる、どうなってんだ</li>
+                        </ul>
+                        <li><b>電気通信大学</b> (<a href="https://twitter.com/uectokyo">@uectokyo</a>)</li>
+                        <ul>
+                            <li>1単位を頂きました。うれし〜！電通大最強！</li>
+                        </ul>
+                    </ul>
+                </div>
             </div>
         </main>
         <footer></footer>

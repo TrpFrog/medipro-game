@@ -7,23 +7,21 @@
 @import "linkbutton_grid.css";
 @import "blocks.css";
 @import "main_grid.css";
-
-body{
+@import "qa.css";
+@import "ribbon.css";
+body {
     margin: 0;
     transition: .5s;
     color: white;
+    background-image: url("../images/bkg1.jpg");
+    background-repeat: repeat;
+    background-attachment: fixed;
 }
 
-@media (prefers-color-scheme: dark){
-    body {
-        background: #061300;
-        color: white;
-    }
-    a:link:not(.linkButton) {
-        color: aquamarine;
-    }
-    a:visited:not(.linkButton) {
-        color: plum;
-    }
+a:link:not(.linkButton) {
+    color: aquamarine;
 }
 
+a:visited:not(.linkButton) {
+    color: plum;
+}
