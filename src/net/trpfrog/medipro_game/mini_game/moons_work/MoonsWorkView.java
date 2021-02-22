@@ -47,10 +47,10 @@ public class MoonsWorkView extends GameView {
         drawCircleOrbital(g2);
 
         // ロケットを描画
-        model.getMeteoriteManager().getRockets().forEach(e -> e.getDrawer().draw(g2));
+        model.getRocketManager().forEach(e -> e.getDrawer().draw(g2));
 
         // 隕石を描画
-        model.getMeteoriteManager().getObstacles().forEach(e -> e.getDrawer().draw(g2));
+        model.getMeteoriteManager().forEach(e -> e.getDrawer().draw(g2));
 
         // シンボルリストにあるシンボルを全て描画
         model.getSymbolsList().forEach(e -> e.getDrawer().draw(g2));
@@ -60,6 +60,7 @@ public class MoonsWorkView extends GameView {
 
         // 爆発アニメーションを描画
         model.getMeteoriteManager().getExplosionAnimations().forEach(e -> e.getDrawer().draw(g2));
+        model.getRocketManager().getExplosionAnimations().forEach(e -> e.getDrawer().draw(g2));
 
         model.getEarth().getExplosionAnimation().draw(g2);
     }
