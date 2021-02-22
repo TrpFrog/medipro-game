@@ -13,15 +13,16 @@ import java.awt.*;
 
 public class MoonsWorkModel extends GameModel {
 
-    private Point centerPoint;
-    private Background background;
-    private Rectangle circleDrawArea;
-    private Moon moon;
-    private Earth earth;
-    private DefenceCounter counter;
-    private RocketLiveCount rocketLiveCount;
-    private MeteoriteManager meteoriteManager;
-    private Alert alert;
+    private final Point centerPoint;
+    private final Background background;
+    private final Rectangle circleDrawArea;
+    private final Moon moon;
+    private final Earth earth;
+    private final DefenceCounter counter;
+    private final RocketLiveCount rocketLiveCount;
+    private final MeteoriteManager meteoriteManager;
+    private final RocketManager rocketManager;
+    private final Alert alert;
 
     private boolean playing = true;
 
@@ -37,6 +38,7 @@ public class MoonsWorkModel extends GameModel {
         moon             = new Moon(this);
         earth            = new Earth(this);
         meteoriteManager = new MeteoriteManager(this);
+        rocketManager    = new RocketManager(this);
         counter          = new DefenceCounter(earth.getAbsoluteHitBox().getBounds());
         rocketLiveCount  = new RocketLiveCount(this);
         alert            = new Alert();
@@ -61,6 +63,10 @@ public class MoonsWorkModel extends GameModel {
 
     public MeteoriteManager getMeteoriteManager() {
         return meteoriteManager;
+    }
+
+    public RocketManager getRocketManager() {
+        return rocketManager;
     }
 
     public Point getCenterPoint() {
@@ -102,12 +108,14 @@ public class MoonsWorkModel extends GameModel {
     @Override
     public void suspend() {
         meteoriteManager.suspend();
+        rocketManager.suspend();
         earth.suspend();
     }
 
     @Override
     public void resume() {
         meteoriteManager.resume();
+        rocketManager.resume();
         earth.resume();
     }
 }
