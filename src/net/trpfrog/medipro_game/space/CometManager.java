@@ -79,13 +79,13 @@ public class CometManager extends Symbol implements Suspendable {
 
     @Override
     public void suspend() {
-        moveCometsTimer.stop();
-        addCometsTimer.stop();
+        //moveCometsTimer.stop();
+        //addCometsTimer.stop();
     }
 
     @Override
     public void resume() {
-        moveCometsTimer.start();
-        addCometsTimer.start();
+        //moveCometsTimer.start();
+        //addCometsTimer.start();
     }
 }
