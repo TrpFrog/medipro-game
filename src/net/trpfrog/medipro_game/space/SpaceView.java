@@ -71,11 +71,11 @@ public class SpaceView extends GameView{
         rocket.setRelativeHitBox(hitbox);
 
         // EventStarの作成
-        moonWorkStar      = new MiniGameStar(100, MoonsWorkScene.class);
-        raceGameStar      = new MiniGameStar(100, RaceGameScene.class);
-        shootingStarStar  = new MiniGameStar(100, ShootingStarScene.class);
-        galaxyExpressStar = new MiniGameStar(100, GalaxyExpressScene.class);
-        blackhole = new BlackHole(500);
+        moonWorkStar      = new MiniGameStar(50, MoonsWorkScene.class);
+        raceGameStar      = new MiniGameStar(50, RaceGameScene.class);
+        shootingStarStar  = new MiniGameStar(50, ShootingStarScene.class);
+        galaxyExpressStar = new MiniGameStar(50, GalaxyExpressScene.class);
+//        blackhole = new BlackHole(500);
         ZodiacSign.buildAndRegister(new Rectangle(500, 500, 2000, 2000),
                 5, model.get3DMap().get2DMap(1));
 
@@ -86,7 +86,7 @@ public class SpaceView extends GameView{
         spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY-rY,raceGameStar);
         spaceMap2D.addSymbol(mapCenterX+rX,mapCenterY+rY,shootingStarStar);
         spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY+rX,galaxyExpressStar);
-        spaceMap2D.addSymbol(300, 300, blackhole);
+//        spaceMap2D.addSymbol(300, 300, blackhole);
 
         miniMap = new MiniMapUI(model, 7, MiniMapUI.LOWER_RIGHT);
         speedIndicator = new SpeedIndicatorUI(model.getRocket(), SpeedIndicatorUI.LOWER_LEFT);

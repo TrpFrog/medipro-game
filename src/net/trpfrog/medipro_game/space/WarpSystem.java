@@ -34,7 +34,7 @@ public class WarpSystem implements Drawable {
         return warping;
     }
 
-    private void faceToWarpPoint() {
+    private void faceToWarpPoint(Graphics2D g) {
         rocket.setAngleDegrees(angle);
         if (turned) return;
 
@@ -50,7 +50,7 @@ public class WarpSystem implements Drawable {
             rocket.faceTo(x, y);
             angle = rocket.getAngleDegrees();
             turned = true;
-            return;
+            drawLineStar(g);
         }
 
         if (rocketToOtherAngleDegrees > 180) {
@@ -76,37 +76,19 @@ public class WarpSystem implements Drawable {
         return line;
     }
 
-    public WarpSystem setDestination(int x, int y) {
-        this.x = x;
-        this.y = y;
-        return this;
-    }
-
-    public void warp() {
-        if (warping) return;
+    private void drawLineStar(Graphics2D g) {
+        System.err.println("Warp Star Length:" + warpStarLength);
         if (warpStarLength > 10000) {
             warping = false;
             model.resume();
-        } else {
-            warping = true;
-            angle = rocket.getAngleDegrees();
-            model.suspend();
+            System.err.println("Exit from drawLineStar with return statement 1");
+            return;
         }
-    }
 
-    @Override
-    public void draw(Graphics2D g) {
-        if (!warping) return;
-        var mv = MainView.getInstance();
-        var gStar = (Graphics2D) g.create();
-
-        gStar.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-        gStar.setColor(Color.BLACK);
-        gStar.fillRect(0, 0, mv.getWidth(), mv.getHeight());
-
-        faceToWarpPoint();
         rocket.setLocation(x, y);
         alpha = Math.max(0, alpha - 1 / 400f);
+
+        MainView mv = MainView.getInstance();
 
         if (alpha <= 2 / 10000f) {
             warping = false;
@@ -123,13 +105,42 @@ public class WarpSystem implements Drawable {
                 mv.getHeight() * 3
         );
 
-        gStar.setStroke(new BasicStroke(5));
-        gStar.setColor(Color.WHITE);
+        g.setStroke(new BasicStroke(5));
+        g.setColor(Color.WHITE);
         model.getRocketFloorMap()
                 .rangeSymbolStream(range)
                 .map(this::createLineStar)
-                .forEach(gStar::draw);
+                .forEach(g::draw);
 
         warpStarLength += 5;
+        System.err.println("Exit from drawLineStar");
+    }
+
+    public WarpSystem setDestination(int x, int y) {
+        this.x = x;
+        this.y = y;
+        return this;
+    }
+
+    public void warp() {
+        if (warping) return;
+        if (warpStarLength < 10000) {
+            warping = true;
+            angle = rocket.getAngleDegrees();
+            model.suspend();
+        }
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        if (!warping) return;
+        var mv = MainView.getInstance();
+        var gStar = (Graphics2D) g.create();
+
+        gStar.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        gStar.setColor(Color.BLACK);
+        gStar.fillRect(0, 0, mv.getWidth(), mv.getHeight());
+
+        faceToWarpPoint(gStar);
     }
 }
