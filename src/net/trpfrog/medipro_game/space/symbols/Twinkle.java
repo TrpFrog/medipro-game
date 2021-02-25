@@ -4,11 +4,11 @@ import net.trpfrog.medipro_game.symbol.Symbol;
 import net.trpfrog.medipro_game.util.TimeLimited;
 
 import java.awt.*;
+import java.util.function.UnaryOperator;
 
 public class Twinkle extends Symbol implements TimeLimited {
 
-    private int dx, dy;
-    private TimeLimited.Impl limit;
+    private final TimeLimited.Impl limit;
 
     private Color randWhiterRGB() {
         return new Color(
@@ -18,27 +18,33 @@ public class Twinkle extends Symbol implements TimeLimited {
         );
     }
 
-    public Twinkle(double x, double y, int duringMillis) {
+    /**
+     * キラキラのオブジェクトを生成します。
+     * @param x 生成するマップ上のx座標
+     * @param y 生成するマップ上のy座標
+     * @param duringMillis 画面上に滞在する時間
+     * @param shineFunction 画面上に現れてから消えるまでを [0, 1] で表した値を受け取り、
+     *                      それをもとにキラキラの大きさを決定する関数。
+     *                      デフォルトは 10sin(t * 2pi)
+     */
+    public Twinkle(double x, double y, int duringMillis, UnaryOperator<Double> shineFunction) {
         super(x, y);
-
-        int range = 20;
-        dx = (int)(- range + range * 2 * Math.random());
-        dy = (int)(- range + range * 2 * Math.random());
-
         limit = new TimeLimited.Impl(duringMillis);
 
         setDrawer(g -> {
             if(isOutdated()) return;
 
-            double passedTimeRatio = (getDeadline() - System.currentTimeMillis()) / (double)duringMillis;
-            int l = (int)(10 * Math.sin(passedTimeRatio * Math.PI));
+            double passedTimeRatio = 1 - (getDeadline() - System.currentTimeMillis()) / (double)duringMillis;
+            int l = shineFunction.apply(passedTimeRatio).intValue();
             g.setColor(randWhiterRGB());
 
-            g.drawLine((int)getX() + dx - l,(int)getY() + dy,
-                    (int)getX() + dx + l, (int)getY() + dy);
-            g.drawLine((int)getX() + dx, (int)getY() + dy - l,
-                    (int)getX() + dx, (int)getY() + dy + l);
+            g.drawLine((int)getX() - l, (int)getY(), (int)getX() + l, (int)getY());
+            g.drawLine((int)getX(), (int)getY() - l, (int)getX(), (int)getY() + l);
         });
+    }
+
+    public Twinkle(double x, double y, int duringMillis) {
+        this(x, y, duringMillis, timeRatio -> (10 * Math.sin(timeRatio * Math.PI)));
     }
 
     @Override

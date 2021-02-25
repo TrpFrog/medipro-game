@@ -1,4 +1,4 @@
-package net.trpfrog.medipro_game.space.symbols.zodiac;
+package net.trpfrog.medipro_game.space.field_mini_game.zodiac;
 
 import net.trpfrog.medipro_game.symbol.Symbol;
 

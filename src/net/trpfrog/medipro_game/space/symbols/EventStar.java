@@ -29,25 +29,6 @@ public class EventStar extends Star {
         return event;
     }
 
-    public static EventStar createSceneTransitionStar(int radius, Class<? extends MiniGameScene> sceneClass) {
-        Image starImage = null;
-        try {
-            starImage = sceneClass.getConstructor().newInstance().getStarImage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        RocketEvent event = (rocket, star) -> {
-            try {
-                var scene = sceneClass.getDeclaredConstructor().newInstance();
-                SceneManager.getInstance().push(scene, true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        };
-        return new EventStar(starImage, radius, event);
-    }
 
-    public interface RocketEvent {
-        void run(Rocket rocket, Star star);
-    }
+
 }

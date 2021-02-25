@@ -1,18 +1,17 @@
-package net.trpfrog.medipro_game.space.symbols.zodiac;
+package net.trpfrog.medipro_game.space.field_mini_game.zodiac;
 
 import net.trpfrog.medipro_game.player.Medal;
 import net.trpfrog.medipro_game.player.MedalWindow;
 import net.trpfrog.medipro_game.space.symbols.EventStar;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
+import net.trpfrog.medipro_game.space.symbols.RocketEvent;
 import net.trpfrog.medipro_game.space.symbols.Star;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 
 import java.awt.*;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.stream.IntStream;
 
-public class ZodiacSignStar extends EventStar implements EventStar.RocketEvent {
+public class ZodiacSignStar extends EventStar implements RocketEvent {
     private final ZodiacSign zodiacSign;
     private boolean touchedByRocket = false;
 
