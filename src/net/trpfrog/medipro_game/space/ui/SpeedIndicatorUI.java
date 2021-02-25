@@ -5,6 +5,7 @@ import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class SpeedIndicatorUI implements Drawable {
 
@@ -36,6 +37,8 @@ public class SpeedIndicatorUI implements Drawable {
 
     private final int margin = 10;
 
+    private BufferedImage backgroundImage;
+
     /**
      * 速度計を初期化します。
      * @param movingSymbol 速度を見たい {@link MovableSymbol}
@@ -57,6 +60,15 @@ public class SpeedIndicatorUI implements Drawable {
         if((position >> 1 & 1) == 1){
             drawRange.translate(0, contentPane.getHeight() - margin * 2);
         }
+
+        var mv = MainView.getInstance();
+        backgroundImage = new BufferedImage(
+                mv.getWidth(), mv.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = backgroundImage.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setColor(new Color(0xCC111010, true));
+        g.fillOval(drawRange.x, drawRange.y, drawRange.width, drawRange.height);
+        drawScale(g);
     }
 
     /**
@@ -137,12 +149,7 @@ public class SpeedIndicatorUI implements Drawable {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.8f));
-        g.setColor(new Color(0x111010));
-        g.fillOval(drawRange.x, drawRange.y, drawRange.width, drawRange.height);
-        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1));
-        drawScale(g);
-//        drawCoordinate(g);
+        g.drawImage(backgroundImage, null, 0, 0);
         drawNeedle(g);
     }
 }

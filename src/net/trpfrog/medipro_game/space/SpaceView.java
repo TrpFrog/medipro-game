@@ -19,6 +19,7 @@ import net.trpfrog.medipro_game.space.ui.MiniMapUI;
 import net.trpfrog.medipro_game.space.ui.SpeedIndicatorUI;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.util.MusicPlayer;
+import net.trpfrog.medipro_game.util.SparsePointsBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,8 +77,10 @@ public class SpaceView extends GameView{
         shootingStarStar  = new MiniGameStar(50, ShootingStarScene.class);
         galaxyExpressStar = new MiniGameStar(50, GalaxyExpressScene.class);
 //        blackhole = new BlackHole(500);
+
+        // 星座の登録
         ZodiacSign.buildAndRegister(new Rectangle(500, 500, 2000, 2000),
-                5, model.get3DMap().get2DMap(1));
+                12, model.get3DMap().get2DMap(1));
 
         // マップにEventStarのSymbolを追加
         int rX = (int)(Math.random()*mapCenterX)+1;
@@ -102,15 +105,11 @@ public class SpaceView extends GameView{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
         spaceMapDrawer.draw(g2);
-
-        rocket.accessToWarpSystem().draw(g2);
-
-        miniMap.draw(g2);
-//        rocket.getDrawer().draw(g2);
-        speedIndicator.draw(g2);
+        rocket.getDrawer().draw(g2);
         mouseTwinkleManager.draw(g2);
+        miniMap.draw(g2);
+        speedIndicator.draw(g2);
         indicator.draw(g2);
     }
 

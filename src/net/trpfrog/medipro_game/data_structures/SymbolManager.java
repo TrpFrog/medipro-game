@@ -4,6 +4,7 @@ import net.trpfrog.medipro_game.symbol.Symbol;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -12,7 +13,8 @@ import java.util.function.Predicate;
  */
 public class SymbolManager<T extends Symbol> extends LinkedList<T> {
 
-    private List<Predicate<T>> removeConditions = new LinkedList<>();
+    private final List<Predicate<T>> removeConditions = new LinkedList<>();
+    private final List<Consumer<T>>  removingHooks    = new LinkedList<>();
 
     /**
      * {@link SymbolManager#cleanup()} が呼ばれたときに適用する {@code Symbol} の削除条件を追加します。
@@ -31,9 +33,28 @@ public class SymbolManager<T extends Symbol> extends LinkedList<T> {
     }
 
     /**
+     * {@link SymbolManager#cleanup()} により削除されたときの挙動を追加します。
+     * @param hook 削除時の挙動
+     */
+    public void addRemovingHook(Consumer<T> hook) {
+        removingHooks.add(hook);
+    }
+
+    /**
+     * {@link SymbolManager#cleanup()} により削除されたときの挙動を削除します。
+     * @param hook 削除する削除時の挙動
+     */
+    public void removeRemovingHook(Consumer<T> hook) {
+        removingHooks.remove(hook);
+    }
+
+
+    /**
      * {@link SymbolManager#addRemoveCondition} で追加した条件に合う {@code Symbol} を削除します。
      */
     public void cleanup() {
+        stream().filter(e -> removeConditions.stream().anyMatch(cd -> cd.test(e)))
+                .forEach(e -> removingHooks.forEach(hook -> hook.accept(e)));
         removeIf(e -> removeConditions.stream().anyMatch(cd -> cd.test(e)));
     }
 }

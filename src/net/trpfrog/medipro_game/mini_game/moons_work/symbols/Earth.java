@@ -37,7 +37,7 @@ public class Earth extends Symbol implements Suspendable {
         Point p = model.getCenterPoint();
         setLocation(p.x, p.y);
 
-        int radius = 50;
+        int radius = 70;
         setRelativeHitBox(RelativeHitBox.makeCircle(radius));
 
         Rectangle rect = new Rectangle((int)getX(), (int)getY(), 0, 0);
@@ -72,14 +72,12 @@ public class Earth extends Symbol implements Suspendable {
 
         int lessRocketCount = model.getRocketLiveCount().getCount() <= 1 ? 1 : 0;
 
-        int meteoriteApproaching = model.getMeteoriteManager().getObstacles().stream()
-                .filter(e -> e instanceof Meteorite)
+        int meteoriteApproaching = model.getMeteoriteManager().stream()
                 .filter(e -> e.getPoint2D().distance(cx, cy) < model.getCircleDrawArea().width / 2.0 + 100)
                 .anyMatch(e -> e.getPoint2D().distance(model.getMoon().getPoint2D()) > model.getCircleDrawArea().width
                         || e.getPoint2D().distance(cx, cy) < model.getCircleDrawArea().width / 2.0) ? 1 : 0;
 
-        int goesToGameOver = model.getMeteoriteManager().getObstacles().stream()
-                .filter(e -> e instanceof Meteorite)
+        int goesToGameOver = model.getMeteoriteManager().stream()
                 .anyMatch(e -> e.getPoint2D().distance(cx, cy) < model.getCircleDrawArea().width / 2.0) ? 3 : 0;
 
         return Math.max(lessRocketCount + meteoriteApproaching, goesToGameOver);

@@ -16,6 +16,7 @@ public class Rocket extends MovableSymbol implements Drawable {
     }
 
     private boolean returnedToEarth = false;
+    private boolean leavingEarth = false;
 
     public boolean isReturnedToEarth() {
         return returnedToEarth;
@@ -23,6 +24,14 @@ public class Rocket extends MovableSymbol implements Drawable {
 
     public void setReturnedToEarth(boolean returnedToEarth) {
         this.returnedToEarth = returnedToEarth;
+    }
+
+    public boolean isLeavingEarth() {
+        return leavingEarth;
+    }
+
+    public void setLeavingEarth(boolean leavingEarth) {
+        this.leavingEarth = leavingEarth;
     }
 
     public Rocket(int x, int y) {

@@ -2,6 +2,7 @@ package net.trpfrog.medipro_game;
 
 import net.trpfrog.medipro_game.scene.GameScene;
 import net.trpfrog.medipro_game.scene.GameView;
+import net.trpfrog.medipro_game.util.MusicPlayer;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -18,6 +19,7 @@ public class MainView extends JFrame implements SceneDequeListener {
     private static final MainView view = new MainView();
 
     private Clip runningBGM;
+    private double runningBGMGainLevel = 0.2;
 
     /**
      * MainViewの唯一のインスタンスを返します。
@@ -46,23 +48,46 @@ public class MainView extends JFrame implements SceneDequeListener {
         runningBGM = null;
     }
 
-    private void changeBGM(Deque<GameScene> changedDeque) {
-        for(var scene : changedDeque) {
-            var bgm = scene.getView().getBGM();
-            if(bgm != null) {
-                if(bgm.isRunning()) return;
-                stopBgmNowRunning();
-                bgm.setMicrosecondPosition(0);
-                bgm.loop(Clip.LOOP_CONTINUOUSLY);
-                runningBGM = bgm;
-                return;
-            }
-            if(!scene.getView().hasTransparency()) {
-                stopBgmNowRunning();
-                break;
-            }
-        }
+    private void changeBGM(Clip bgm) {
+        // don't make change
+        if(bgm != null && bgm.isRunning()) return;
+
         stopBgmNowRunning();
+
+        // Change to new BGM
+        if(bgm != null) {
+            bgm.setMicrosecondPosition(0);
+            MusicPlayer.setClipGain(bgm, runningBGMGainLevel);
+            bgm.loop(Clip.LOOP_CONTINUOUSLY);
+            runningBGM = bgm;
+        }
+    }
+
+    private void changeBGM(Deque<GameScene> changedDeque) {
+        var havingBGMScene = changedDeque.stream()
+                .filter(scene -> !(scene.getView().hasTransparency()
+                                    && scene.getView().getBGM() == null))
+                .findFirst();
+
+        Clip bgm = havingBGMScene.isEmpty() ? null
+                                            : havingBGMScene.get().getView().getBGM();
+        changeBGM(bgm);
+    }
+
+    /**
+     * BGMのゲインを設定します。
+     * @param level ゲインを表す0から1の値
+     */
+    public void setBGMGain(double level) {
+        this.runningBGMGainLevel = level;
+    }
+
+    /**
+     * BGMのゲインを返します。
+     * @return BGMのゲイン
+     */
+    public double getBGMGainLevel() {
+        return this.runningBGMGainLevel;
     }
 
     /**

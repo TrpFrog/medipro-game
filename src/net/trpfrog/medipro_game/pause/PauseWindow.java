@@ -11,32 +11,43 @@ public class PauseWindow extends JPanel {
     public PauseWindow(boolean hasBackToSpaceButton) {
         setSize(300, 200);
         setOpaque(false);
+        setLayout(new BorderLayout());
 
-        JButton backToMainMenuButton = new JButton("Back to Main Menu");
-        JButton resumeButton         = new JButton("Resume");
-        JButton spaceButton          = new JButton("Back to Space");
+        add(createResumeButton(), BorderLayout.NORTH);
 
-        backToMainMenuButton.addActionListener(e -> {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new BorderLayout());
+
+        buttonPanel.add(createBackToMenuButton(), BorderLayout.NORTH);
+        if(hasBackToSpaceButton) {
+            buttonPanel.add(createBackToSpaceButton(), BorderLayout.SOUTH);
+        }
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private static JButton createBackToMenuButton() {
+        JButton button = new JButton("Back to Main Menu");
+        button.addActionListener(e -> {
             SceneManager sm = SceneManager.getInstance();
             while(!(sm.top() instanceof MainMenuScene)) sm.pop();
         });
+        return button;
+    }
 
-        spaceButton.addActionListener(e -> {
+    private static JButton createBackToSpaceButton() {
+        JButton button = new JButton("Back to Space");
+        button.addActionListener(e -> {
             SceneManager sm = SceneManager.getInstance();
             while(!(sm.top() instanceof SpaceScene)) sm.pop();
         });
+        return button;
+    }
 
-        resumeButton.addActionListener(e -> SceneManager.getInstance().pop());
-
-        setLayout(new BorderLayout());
-        add(resumeButton, BorderLayout.NORTH);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BorderLayout());
-        buttonPanel.add(backToMainMenuButton, BorderLayout.NORTH);
-        if(hasBackToSpaceButton) buttonPanel.add(spaceButton, BorderLayout.SOUTH);
-        buttonPanel.setOpaque(false);
-        add(buttonPanel, BorderLayout.SOUTH);
+    private static JButton createResumeButton() {
+        JButton button = new JButton("Resume");
+        button.addActionListener(e -> SceneManager.getInstance().pop());
+        return button;
     }
 
     @Override
