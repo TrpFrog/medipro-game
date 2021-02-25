@@ -19,7 +19,7 @@ public class MeteoriteManager
         extends MoonsWorkCharactersManager<MovableSymbol> implements Suspendable {
 
     private final ExplosionManager explosionAnimations = new ExplosionManager();
-    private static final double CHANCE_OF_METEORITE = 0.1;
+    private static final double CHANCE_OF_METEORITE = 0.09;
     private final Timer spawnTimer;
 
     /**
