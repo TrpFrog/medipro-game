@@ -62,8 +62,7 @@ public class MoonsWorkCharactersManager<T extends MovableSymbol> extends Movable
      * @param obj 新たに追加するオブジェクト
      */
     public void leaveFromEarth(T obj) {
-        Point p = new Point((int)mainViewRect.getWidth() /2,
-                (int)mainViewRect.getHeight()/2);
+        obj.setLocation(mainViewRect.getCenterX(),mainViewRect.getCenterY());
         obj.setAngleDegrees(Math.random() * 360);
         add(obj);
     }

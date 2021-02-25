@@ -37,7 +37,7 @@ public class Earth extends Symbol implements Suspendable {
         Point p = model.getCenterPoint();
         setLocation(p.x, p.y);
 
-        int radius = 50;
+        int radius = 70;
         setRelativeHitBox(RelativeHitBox.makeCircle(radius));
 
         Rectangle rect = new Rectangle((int)getX(), (int)getY(), 0, 0);

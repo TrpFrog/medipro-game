@@ -19,7 +19,7 @@ public class RocketManager extends MoonsWorkCharactersManager<Rocket> implements
     private final ExplosionManager explosionAnimations = new ExplosionManager();
 
     private static final double CHANCE_OF_HEALING_ROCKET = 0.05;
-    private static final double CHANCE_OF_ROCKET = 0.1;
+    private static final double CHANCE_OF_ROCKET = 0.07;
 
     private final Timer spawnTimer;
 
@@ -47,7 +47,9 @@ public class RocketManager extends MoonsWorkCharactersManager<Rocket> implements
         addRemovingHook(healing);
         addRemovingHook(breakingRocket);
 
-        addRemoveCondition(obj -> model.getEarth().touches(obj));
+        addRemoveCondition(obj -> !((Rocket)obj).isLeavingEarth() &&
+                model.getEarth().getAbsoluteHitBox()
+                        .contains(obj.getAbsoluteHitBox().getBounds()));
         addRemoveCondition(obj -> model.getMoon().touches(obj));
         addRemoveCondition(super::isTooFarObject);
 
@@ -73,6 +75,8 @@ public class RocketManager extends MoonsWorkCharactersManager<Rocket> implements
             Rocket obj = new Rocket(-100, -100);
             obj.setRelativeHitBox(RelativeHitBox.makeRectangle(80, 50));
             obj.setSpeedPxPerSecond(100);
+            obj.setReturnedToEarth(true);
+            obj.setLeavingEarth(true);
             leaveFromEarth(obj);
         }
     }
