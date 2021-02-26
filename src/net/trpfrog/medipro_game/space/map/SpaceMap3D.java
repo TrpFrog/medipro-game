@@ -1,8 +1,8 @@
 package net.trpfrog.medipro_game.space.map;
 
+import net.trpfrog.medipro_game.util.ResourceLoader;
+
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +18,9 @@ public class SpaceMap3D {
     static {
         for(int i = 0; i < backgroundImages.length; i++) {
             String fileName = "bkg" + (i % backgroundImages.length) + ".jpg";
-            Path path = Paths.get(".", "resource", "space_game", "backgrounds", fileName);
-            backgroundImages[i] = Toolkit.getDefaultToolkit().getImage(path.toString());
+            backgroundImages[i] = ResourceLoader.readImage(
+                    ".", "resource", "space_game", "backgrounds", fileName
+            );
         }
     }
 

@@ -20,7 +20,7 @@ public class Symbol {
     private RelativeHitBox relativeHitBox;
     private double angleDegrees;
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     public Symbol() {
         point = new Point2D.Double();

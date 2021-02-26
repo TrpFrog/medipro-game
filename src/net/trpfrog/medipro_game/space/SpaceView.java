@@ -19,17 +19,17 @@ import net.trpfrog.medipro_game.space.ui.MiniMapUI;
 import net.trpfrog.medipro_game.space.ui.SpeedIndicatorUI;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.util.MusicPlayer;
-import net.trpfrog.medipro_game.util.SparsePointsBuilder;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.Paths;
 
 public class SpaceView extends GameView{
 
     private SpaceModel model;
-    private Image bkgImage = Toolkit.getDefaultToolkit().getImage(
-            Paths.get(".","resource","space_game","spaceMap.jpg").toString());
+    private Image bkgImage = ResourceLoader.readImage(
+            ".","resource","space_game","spaceMap.jpg"
+    );
     private final int imageWidth  = 500;
     private final int imageHeight = 500;
     private MainView mainView = MainView.getInstance();

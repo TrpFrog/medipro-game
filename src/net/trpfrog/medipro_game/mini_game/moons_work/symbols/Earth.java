@@ -7,6 +7,7 @@ import net.trpfrog.medipro_game.symbol.ImageAnimationSymbol;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
 import net.trpfrog.medipro_game.util.GifConverter;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,8 +32,8 @@ public class Earth extends Symbol implements Suspendable {
     public Earth(MoonsWorkModel model) {
         this.model = model;
 
-        Path imagePath = Paths.get(".", "resource", "mini_game", "moons_work", "earth.png");
-        image = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
+        image = ResourceLoader
+                .readImage(".", "resource", "mini_game", "moons_work", "earth.png");
 
         Point p = model.getCenterPoint();
         setLocation(p.x, p.y);

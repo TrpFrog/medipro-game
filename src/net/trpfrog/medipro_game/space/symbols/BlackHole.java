@@ -1,14 +1,15 @@
 package net.trpfrog.medipro_game.space.symbols;
 
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
-import java.nio.file.Paths;
 
 public class BlackHole extends EventStar implements RocketEvent {
 
-    private static Image image = Toolkit.getDefaultToolkit().getImage(
-            Paths.get("resource", "space_game", "blackhole.png").toString());
+    private static Image image = ResourceLoader.readImage(
+            "resource", "space_game", "blackhole.png"
+    );
 
     private int radius;
 

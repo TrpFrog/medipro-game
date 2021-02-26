@@ -7,9 +7,9 @@ import net.trpfrog.medipro_game.space.symbols.Rocket;
 import net.trpfrog.medipro_game.space.symbols.RocketEvent;
 import net.trpfrog.medipro_game.space.symbols.Star;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
-import java.nio.file.Paths;
 
 public class ZodiacSignStar extends EventStar implements RocketEvent {
     private final ZodiacSign zodiacSign;
@@ -55,8 +55,8 @@ public class ZodiacSignStar extends EventStar implements RocketEvent {
 
         if (allTouched) {
             zodiacSign.lineColor = Color.WHITE;
-            MedalWindow.pushMedalWindow(new Medal("星座巡り", Toolkit.getDefaultToolkit().getImage(
-                    Paths.get(".", "resource", "space_game", "medal.png").toString()
+            MedalWindow.pushMedalWindow(new Medal("星座巡り", ResourceLoader.readImage(
+                    ".", "resource", "space_game", "medal.png"
             )));
         } else {
             zodiacSign.lineColor = new Color(0.7f, 0.7f, 0.7f,

@@ -2,18 +2,13 @@ package net.trpfrog.medipro_game.mini_game.moons_work.symbols;
 
 import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Rocket extends MovableSymbol implements Drawable {
-    public static final Image ROCKET_IMG =
-            getImage(Paths.get(".","resource","mini_game","moons_work","rocket.png"));
-
-    private static Image getImage(Path path) {
-        return Toolkit.getDefaultToolkit().getImage(path.toString());
-    }
+    public static final Image ROCKET_IMG = ResourceLoader
+                    .readImage(".","resource","mini_game","moons_work","rocket.png");
 
     private boolean returnedToEarth = false;
     private boolean leavingEarth = false;

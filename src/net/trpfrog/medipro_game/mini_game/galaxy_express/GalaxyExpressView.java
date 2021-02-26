@@ -1,24 +1,18 @@
 package net.trpfrog.medipro_game.mini_game.galaxy_express;
 
-import net.trpfrog.medipro_game.SceneManager;
-import net.trpfrog.medipro_game.dialog_background.DialogBackgroundScene;
-import net.trpfrog.medipro_game.mini_game.GameOverWindow;
-import net.trpfrog.medipro_game.mini_game.galaxy_express.symbols.Station;
-import net.trpfrog.medipro_game.mini_game.galaxy_express.symbols.Train;
 import net.trpfrog.medipro_game.scene.GameView;
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class GalaxyExpressView extends GameView {
 
     private GalaxyExpressModel model;
-    private Timer paintTimer = new Timer(100, g->repaint());
-    private Path path = Paths.get(".","resource","mini_game","galaxy_express","bkg1.jpg");
-    private Image bgImage = Toolkit.getDefaultToolkit().getImage(path.toString());
+    private final Timer paintTimer = new Timer(100, g->repaint());
+    private final Image bgImage = ResourceLoader
+            .readImage(".","resource","mini_game","galaxy_express","bkg1.jpg");
 
     public GalaxyExpressView(GalaxyExpressModel model) {
         super(model);

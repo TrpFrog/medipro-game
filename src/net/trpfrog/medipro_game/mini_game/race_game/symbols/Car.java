@@ -4,11 +4,10 @@ import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.Suspendable;
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Car extends MovableSymbol implements Drawable, Suspendable {
     private Image image;
@@ -28,8 +27,9 @@ public class Car extends MovableSymbol implements Drawable, Suspendable {
     public Car() {
 
         // 画像の設定
-        Path imagePath = Paths.get(".", "resource", "mini_game", "race_game", "car.png");
-        image = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
+        image = ResourceLoader.readImage(
+                ".", "resource", "mini_game", "race_game", "car.png"
+        );
 
         // 初期位置の設定
         setLocation(100, 100);

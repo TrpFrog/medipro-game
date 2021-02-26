@@ -6,17 +6,16 @@ import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.dialog_background.DialogBackgroundScene;
 import net.trpfrog.medipro_game.mini_game.GameOverWindow;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class GalaxyExpressAnswerPanel extends JPanel {
-    private Path path = Paths.get(".","resource","mini_game","galaxy_express","bkg1.jpg");
-    private Image bgImage = Toolkit.getDefaultToolkit().getImage(path.toString());
-    private MainView mainView = MainView.getInstance();
-    private int correctAnswer;
+    private final Image bgImage = ResourceLoader
+            .readImage(".", "resource","mini_game","galaxy_express","bkg1.jpg");
+    private final MainView mainView = MainView.getInstance();
+    private final int correctAnswer;
     private GalaxyExpressModel model;
     private int score;
 
