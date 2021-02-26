@@ -1,18 +1,15 @@
 package net.trpfrog.medipro_game.space.symbols;
 
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Comet extends MovableSymbol {
 
-    public static final Image cometImage = getImage(Paths.get(".","resource","space_game","comet.png"));
-
-    private static Image getImage(Path path){
-        return Toolkit.getDefaultToolkit().getImage(path.toString());
-    }
+    public static final Image cometImage = ResourceLoader.readImage(
+            ".","resource","space_game","comet.png"
+    );
 
     public Comet(int x, int y){
         super(x,y);

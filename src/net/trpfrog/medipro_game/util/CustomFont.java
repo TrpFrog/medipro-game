@@ -1,7 +1,6 @@
 package net.trpfrog.medipro_game.util;
 
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,8 +41,8 @@ public class CustomFont {
      */
     public static Font load(Path fontPath) throws FontFormatException, IOException {
         assert(fontPath.toString().toLowerCase().endsWith(".ttf"));
-        File fontFile = new File(fontPath.toString());
-        Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        var fontInputStream = ResourceLoader.getInputStream(fontPath);
+        Font font = Font.createFont(Font.TRUETYPE_FONT, fontInputStream);
         register(font);
         return font;
     }

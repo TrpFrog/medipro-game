@@ -9,13 +9,12 @@ import net.trpfrog.medipro_game.symbol.MovableSymbol;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
 import net.trpfrog.medipro_game.util.MusicPlayer;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
@@ -29,7 +28,9 @@ public class Rocket extends MovableSymbol implements Suspendable{
     private RocketAnimation animation;
     private SpaceModel model;
     private Timer astronautTimer;
-    private Image rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
+    private Image rocketImage = ResourceLoader.readImage(
+            ".","resource","space_game","rocket.png"
+    );
     private WarpSystem warpSystem;
 
     private int imageWidth = 120;
@@ -60,9 +61,6 @@ public class Rocket extends MovableSymbol implements Suspendable{
         setRelativeHitBox(hitBox);
     }
 
-    private Image getImagePath(Path path) {
-        return Toolkit.getDefaultToolkit().getImage(path.toString());
-    }
     public int getImageWidth(){ return this.imageWidth;}
     public int getImageHeight(){ return this.imageHeight; }
 
@@ -165,11 +163,17 @@ public class Rocket extends MovableSymbol implements Suspendable{
         private Timer damageTimer;
         private int damageCounter;
         private Image rocketNow;
-        private Image rocketImage = getImagePath(Paths.get(".","resource","space_game","rocket.png"));
-        private Image invincibleImage = getImagePath(Paths.get(".","resource","space_game","invincibleRocket.png"));
-        private Image damagedImage = getImagePath(Paths.get(".","resource","space_game","rocket_damaged.png"));
-        private Image rocketStopImage = getImagePath(Paths.get(".","resource","space_game","rocket_stop.png"));
-        private Image invincibleStopImage = getImagePath(Paths.get(".","resource","space_game","invincibleRocketStop.png"));
+
+        private final Image rocketImage = ResourceLoader.readImage(
+                ".","resource","space_game","rocket.png");
+        private final Image invincibleImage = ResourceLoader.readImage(
+                ".","resource","space_game","invincibleRocket.png");
+        private final Image damagedImage = ResourceLoader.readImage(
+                ".","resource","space_game","rocket_damaged.png");
+        private final Image rocketStopImage = ResourceLoader.readImage(
+                ".","resource","space_game","rocket_stop.png");
+        private final Image invincibleStopImage = ResourceLoader.readImage(
+                ".","resource","space_game","invincibleRocketStop.png");
 
         public RocketAnimation(Rocket rocket) {
             this.rocket = rocket;

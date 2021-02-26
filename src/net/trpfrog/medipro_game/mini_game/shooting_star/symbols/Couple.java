@@ -4,9 +4,9 @@ import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.mini_game.shooting_star.ShootingStarModel;
 import net.trpfrog.medipro_game.symbol.Symbol;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
-import java.nio.file.Paths;
 
 public class Couple extends Symbol implements Drawable {
 
@@ -16,10 +16,12 @@ public class Couple extends Symbol implements Drawable {
     public static final Image HUGGING;
 
     static {
-        GAZING_STAR = Toolkit.getDefaultToolkit().getImage(Paths.get(
-                ".", "resource", "mini_game", "shooting_star", "looking.png").toString());
-        HUGGING = Toolkit.getDefaultToolkit().getImage(Paths.get(
-                ".", "resource", "mini_game", "shooting_star", "hug.png").toString());
+        GAZING_STAR = ResourceLoader.readImage(
+                ".", "resource", "mini_game", "shooting_star", "looking.png"
+        );
+        HUGGING = ResourceLoader.readImage(
+                ".", "resource", "mini_game", "shooting_star", "hug.png"
+        );
     }
 
     private ShootingStarModel model;

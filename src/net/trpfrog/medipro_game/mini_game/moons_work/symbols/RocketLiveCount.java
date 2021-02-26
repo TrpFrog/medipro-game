@@ -4,10 +4,9 @@ import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkModel;
 import net.trpfrog.medipro_game.symbol.Symbol;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class RocketLiveCount extends Symbol implements Drawable {
     private final int MAX_COUNT = 3;
@@ -16,14 +15,13 @@ public class RocketLiveCount extends Symbol implements Drawable {
     private MoonsWorkModel model;
     private Rectangle mainViewRect = MainView.getInstance().getBounds();
 
-    private static final Image LIVE_ROCKET, DIED_ROCKET;
-
-    static {
-        Path imagePath = Paths.get(".", "resource", "mini_game", "moons_work", "tilt_rocket.png");
-        LIVE_ROCKET = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
-        imagePath = Paths.get(".", "resource", "mini_game", "moons_work", "tilt_rocket_shadow.png");
-        DIED_ROCKET = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
-    }
+    private static final Image
+            LIVE_ROCKET = ResourceLoader.readImage(
+                    ".", "resource", "mini_game", "moons_work", "tilt_rocket.png"
+            ),
+            DIED_ROCKET = ResourceLoader.readImage(
+                    ".", "resource", "mini_game", "moons_work", "tilt_rocket_shadow.png"
+            );
 
     public RocketLiveCount(MoonsWorkModel model) {
         this.model = model;

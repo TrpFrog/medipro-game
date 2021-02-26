@@ -4,10 +4,10 @@ import net.trpfrog.medipro_game.dialog_background.DialogBackgroundScene;
 import net.trpfrog.medipro_game.scene.GameScene;
 import net.trpfrog.medipro_game.scene.GameView;
 import net.trpfrog.medipro_game.util.MusicPlayer;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class MiniGameScene extends GameScene {
 
@@ -17,8 +17,8 @@ public class MiniGameScene extends GameScene {
     private String creatorName = "";
 
     private Image starImage = null;
-    public final static Image DEFAULT_STAR_IMAGE = Toolkit.getDefaultToolkit().getImage(
-            Paths.get(".","resource","mini_game","defaultEventStar.png").toString());
+    public final static Image DEFAULT_STAR_IMAGE =
+            ResourceLoader.readImage(".","resource","mini_game","defaultEventStar.png");
 
     @Override
     protected void setView(GameView view) {
@@ -121,7 +121,7 @@ public class MiniGameScene extends GameScene {
     }
 
     protected void setStarImage(Path imagePath) {
-        starImage = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
+        starImage = ResourceLoader.readImage(imagePath);
     }
 
     /**

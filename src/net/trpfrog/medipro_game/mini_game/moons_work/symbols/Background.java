@@ -4,6 +4,7 @@ import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
 import java.nio.file.Path;
@@ -11,16 +12,15 @@ import java.nio.file.Paths;
 
 public class Background extends Symbol implements Drawable {
 
-    private Image image;
-    private Rectangle drawRange;
+    private final Image image;
+    private final Rectangle drawRange;
 
     public Background() {
         MainView mv = MainView.getInstance();
         setLocation(mv.getWidth()/2.0, mv.getHeight()/2.0);
         setRelativeHitBox(RelativeHitBox.makeRectangle(mv.getWidth(), mv.getHeight()));
-
-        Path imagePath = Paths.get(".", "resource", "mini_game", "moons_work", "background.jpg");
-        image = Toolkit.getDefaultToolkit().getImage(String.valueOf(imagePath));
+        image = ResourceLoader.readImage(".", "resource", "mini_game",
+                        "moons_work", "background.jpg");
 
         drawRange = getAbsoluteHitBox().getBounds();
         setDrawer(this);

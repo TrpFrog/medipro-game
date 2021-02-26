@@ -5,6 +5,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,7 +28,8 @@ public class MusicPlayer {
         assert(path.toString().toLowerCase().endsWith("wav"));
         Clip clip;
         try {
-            var stream = AudioSystem.getAudioInputStream(new File(path.toString()));
+            var bufferedStream = new BufferedInputStream(ResourceLoader.getInputStream(path));
+            var stream = AudioSystem.getAudioInputStream(bufferedStream);
             var info = new DataLine.Info(Clip.class, stream.getFormat());
             clip = (Clip) AudioSystem.getLine(info);
             clip.open(stream);

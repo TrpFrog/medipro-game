@@ -8,6 +8,7 @@ import net.trpfrog.medipro_game.space.SpaceScene;
 import net.trpfrog.medipro_game.space.symbols.Star;
 import net.trpfrog.medipro_game.util.CustomFont;
 import net.trpfrog.medipro_game.util.MusicPlayer;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +30,7 @@ public class MainMenuView extends GameView {
                 Paths.get(".","resource","main_menu","main_menu4.jpg")
             };
     private Path mainMenuImagePath = imagePath[(int)(Math.random()*imagePath.length)];
-    private Image mainMenuImage = Toolkit.getDefaultToolkit().getImage(mainMenuImagePath.toString());
+    private Image mainMenuImage = ResourceLoader.readImage(mainMenuImagePath);
     private Font titleFont = new Font(CustomFont.BUNGEE_SHADE, Font.BOLD, 50);
 
     public MainMenuView(GameModel model) {

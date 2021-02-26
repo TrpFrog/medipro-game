@@ -1,6 +1,7 @@
 package net.trpfrog.medipro_game.mini_game.moons_work.symbols;
 
 import net.trpfrog.medipro_game.symbol.MovableSymbol;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
 import java.nio.file.Path;
@@ -11,12 +12,8 @@ import java.nio.file.Paths;
  */
 public class Meteorite extends MovableSymbol {
 
-    public static final Image ROCK_IMG =
-            getImage(Paths.get(".","resource","mini_game","moons_work","firerock.png"));
-
-    private static Image getImage(Path path) {
-        return Toolkit.getDefaultToolkit().getImage(path.toString());
-    }
+    public static final Image ROCK_IMG = ResourceLoader
+            .readImage(".","resource","mini_game","moons_work","firerock.png");
 
     /**
      * 指定したモデルに image の見た目の隕石を座標(x,y) に生成します。

@@ -2,15 +2,14 @@ package net.trpfrog.medipro_game.mini_game.galaxy_express.symbols;
 
 import net.trpfrog.medipro_game.Drawable;
 import net.trpfrog.medipro_game.symbol.Symbol;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Station extends Symbol implements Drawable {
-    private String stationName;
-    private Path path = Paths.get(".","resource","mini_game","galaxy_express","station.png");
-    private Image stationImage = Toolkit.getDefaultToolkit().getImage(path.toString());
+    private final String stationName;
+    private final Image stationImage = ResourceLoader
+            .readImage(".","resource","mini_game","galaxy_express","station.png");
     private final int imageWidth = 200;
     private final int imageHeight = 160;
 

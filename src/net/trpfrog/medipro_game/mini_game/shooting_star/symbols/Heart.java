@@ -1,18 +1,15 @@
 package net.trpfrog.medipro_game.mini_game.shooting_star.symbols;
 
 import net.trpfrog.medipro_game.symbol.Symbol;
+import net.trpfrog.medipro_game.util.ResourceLoader;
 
 import java.awt.*;
-import java.nio.file.Paths;
 
 public class Heart extends Symbol {
 
-    public static final Image HEART;
-
-    static {
-        HEART = Toolkit.getDefaultToolkit().getImage(Paths.get(
-                ".", "resource", "mini_game", "shooting_star", "heart.png").toString());
-    }
+    public static final Image HEART = ResourceLoader.readImage(
+            ".", "resource", "mini_game", "shooting_star", "heart.png"
+    );
 
     private float alpha = 1f;
 
