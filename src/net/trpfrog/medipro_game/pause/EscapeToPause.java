@@ -28,7 +28,9 @@ public class EscapeToPause extends KeyAdapter {
         int keyCode = e.getKeyCode();
         if(keyCode == prevKeyCode) return;
         if(keyCode == KeyEvent.VK_ESCAPE) {
-            SceneManager.getInstance().push(new PauseScene(hasBackToSpaceButton));
+            SceneManager.getInstance().push(
+                    new PauseScene(hasBackToSpaceButton)
+            );
             prevKeyPressedUNIXTime = System.currentTimeMillis();
             prevKeyCode = keyCode;
         }
