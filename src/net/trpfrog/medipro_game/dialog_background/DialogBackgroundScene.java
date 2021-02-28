@@ -39,7 +39,17 @@ public class DialogBackgroundScene extends GameScene {
         }
     }
 
+    public DialogBackgroundScene(JPanel dialogPanel, int w, int h,
+            boolean clickToClose, boolean richMode) {
+        this(dialogPanel, dialogPanel.getWidth(), dialogPanel.getHeight(), clickToClose);
+        view.setRichMode(richMode);
+    }
+
     public DialogBackgroundScene(JPanel dialogPanel, boolean clickToClose) {
         this(dialogPanel, dialogPanel.getWidth(), dialogPanel.getHeight(), clickToClose);
+    }
+
+    public DialogBackgroundScene(JPanel dialogPanel, boolean clickToClose, boolean richMode) {
+        this(dialogPanel, dialogPanel.getWidth(), dialogPanel.getHeight(), clickToClose, richMode);
     }
 }

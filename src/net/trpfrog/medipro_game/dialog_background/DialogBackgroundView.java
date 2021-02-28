@@ -13,7 +13,24 @@ import java.awt.*;
 public class DialogBackgroundView extends GameView {
 
     private MainView mainView = MainView.getInstance();
+    private Component mainContentPane = MainView.getInstance().getContentPane();
+    private DialogBackgroundModel model;
     private JPanel dialogPane;
+    private JLabel blurredBackground;
+    private boolean richMode = false;
+
+    protected void setRichMode(boolean richMode) {
+        this.richMode = richMode;
+        if(richMode) {
+            blurredBackground = new JLabel(new ImageIcon(
+                    model.shootBlurredBackground()
+            ));
+            blurredBackground.setBounds(0,0,mainContentPane.getWidth(), mainContentPane.getHeight());
+            add(blurredBackground);
+        } else {
+            remove(blurredBackground);
+        }
+    }
 
     protected DialogBackgroundView(DialogBackgroundModel model, JPanel dialogPane) {
         super(model);
@@ -33,9 +50,21 @@ public class DialogBackgroundView extends GameView {
         add(dialogPane);
 
         JPanel shadowPane = new JPanel();
-        shadowPane.setBounds(0,0,mainView.getWidth(), mainView.getHeight());
+        shadowPane.setBounds(0,0,mainContentPane.getWidth(), mainContentPane.getHeight());
         shadowPane.setBackground(new Color(0, 0, 0, 0.6f));
         add(shadowPane);
+
+        blurredBackground = new JLabel(new ImageIcon(
+                model.shootBlurredBackground()
+        ));
+        blurredBackground.setBounds(0,0,mainContentPane.getWidth(), mainContentPane.getHeight());
+
+        if(richMode) {
+            add(blurredBackground);
+        }
+
+        this.model = model;
+        repaint();
     }
 
     @Override
