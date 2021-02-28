@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 
 public class PauseScene extends DialogBackgroundScene {
     public PauseScene(boolean hasBackToSpaceButton) {
-        super(new PauseWindow(hasBackToSpaceButton), true);
+        super(new PauseWindow(hasBackToSpaceButton), true, true);
 
         getView().addKeyListener(new KeyAdapter() {
             @Override

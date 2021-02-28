@@ -3,6 +3,7 @@ package net.trpfrog.medipro_game;
 import net.trpfrog.medipro_game.animation.TransitionScene;
 import net.trpfrog.medipro_game.scene.GameMVC;
 import net.trpfrog.medipro_game.scene.GameScene;
+import net.trpfrog.medipro_game.scene.GameView;
 
 import java.util.*;
 import java.util.List;
@@ -127,6 +128,21 @@ public class SceneManager {
             push(TransitionScene.createPopTransition(top()));
             return ret;
         }
+    }
+
+    /**
+     * 現在見えているシーンのリストを返します。
+     * より厳密には {@link GameView#hasTransparency} が {@code false} であるもののうち、
+     * スタックの一番上にあるシーンを選び、それより上のシーン全てを返します。
+     * @return 現在見えているシーンのリスト
+     */
+    public List<GameScene> getCurrentVisibleScenes() {
+        List<GameScene> list = new ArrayList<>();
+        for(var scene : deque) {
+            list.add(scene);
+            if(!scene.getView().hasTransparency()) break;
+        }
+        return list;
     }
 
     /**
