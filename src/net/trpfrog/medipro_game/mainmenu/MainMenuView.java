@@ -4,6 +4,7 @@ import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.scene.GameModel;
 import net.trpfrog.medipro_game.scene.GameView;
+import net.trpfrog.medipro_game.settings.SettingScene;
 import net.trpfrog.medipro_game.space.SpaceScene;
 import net.trpfrog.medipro_game.space.symbols.Star;
 import net.trpfrog.medipro_game.util.CustomFont;
@@ -17,7 +18,7 @@ import java.nio.file.Paths;
 
 public class MainMenuView extends GameView {
 
-    private JButton start, quit;
+    private JButton start, quit, settings;
     private String loadingMessage = "Now loading";
     private Timer mainMenuTimer = new Timer(50, e ->{ repaint(); loadingMessage += "."; });
     private Font strFont = new Font("",Font.BOLD,30);
@@ -37,7 +38,7 @@ public class MainMenuView extends GameView {
         super(model);
         setBGM(MusicPlayer.MENU_THEME);
 
-        Rectangle buttonArea = new Rectangle(300, 100);
+        Rectangle buttonArea = new Rectangle(300, 150);
 
         int w = MainView.getInstance().getWidth();
         int h = MainView.getInstance().getHeight();
@@ -49,25 +50,28 @@ public class MainMenuView extends GameView {
                 (w - buttonArea.width)/2
         ));
 
-        start = new JButton("START");
-        quit  = new JButton("QUIT");
-        start.setPreferredSize(new Dimension(50,50));
-        quit.setPreferredSize(new Dimension(50,50));
+        start    = new JButton("START");
+        quit     = new JButton("QUIT");
+        settings = new JButton("SETTINGS");
 
-        start.addActionListener(e -> SceneManager.getInstance().push(new SpaceScene()));
-        quit .addActionListener(e -> SceneManager.getInstance().pop());
+        start   .setPreferredSize(new Dimension(50,50));
+        quit    .setPreferredSize(new Dimension(50,50));
+        settings.setPreferredSize(new Dimension(50, 50));
+
+        start   .addActionListener(e -> SceneManager.getInstance().push(new SpaceScene()));
+        quit    .addActionListener(e -> SceneManager.getInstance().pop());
+        settings.addActionListener(e -> SceneManager.getInstance().push(new SettingScene()));
 
         setLayout(new BorderLayout());
         add(start, BorderLayout.NORTH);
+        add(settings, BorderLayout.CENTER);
         add(quit, BorderLayout.SOUTH);
 
         mvWidth = mainView.getWidth();
         mvHeight = mainView.getHeight();
         setFont(strFont);
-
-        JLabel titleLabel = new JLabel("Space Wandering!!");
-        add(titleLabel);
     }
+
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);

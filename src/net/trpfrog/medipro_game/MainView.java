@@ -19,7 +19,6 @@ public class MainView extends JFrame implements SceneDequeListener {
     private static final MainView view = new MainView();
 
     private Clip runningBGM;
-    private double runningBGMGainLevel = 0.2;
 
     /**
      * MainViewの唯一のインスタンスを返します。
@@ -57,7 +56,6 @@ public class MainView extends JFrame implements SceneDequeListener {
         // Change to new BGM
         if(bgm != null) {
             bgm.setMicrosecondPosition(0);
-            MusicPlayer.setClipGain(bgm, runningBGMGainLevel);
             bgm.loop(Clip.LOOP_CONTINUOUSLY);
             runningBGM = bgm;
         }
@@ -72,22 +70,6 @@ public class MainView extends JFrame implements SceneDequeListener {
         Clip bgm = havingBGMScene.isEmpty() ? null
                                             : havingBGMScene.get().getView().getBGM();
         changeBGM(bgm);
-    }
-
-    /**
-     * BGMのゲインを設定します。
-     * @param level ゲインを表す0から1の値
-     */
-    public void setBGMGain(double level) {
-        this.runningBGMGainLevel = level;
-    }
-
-    /**
-     * BGMのゲインを返します。
-     * @return BGMのゲイン
-     */
-    public double getBGMGainLevel() {
-        return this.runningBGMGainLevel;
     }
 
     /**
