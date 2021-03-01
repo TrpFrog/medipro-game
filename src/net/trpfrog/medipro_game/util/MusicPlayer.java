@@ -6,22 +6,37 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MusicPlayer {
 
-    public static final Clip
-            SPACE_GAME_THEME = innerLoad("Lobby",       67776),
-            ROCKET_SE        = innerLoad("Rocket",      384000),
-            MINI_GAME_THEME  = innerLoad("MiniGame",    1016448),
-            MENU_THEME       = innerLoad("Menu",        0),
-            ACHIEVEMENT_SE   = innerLoad("Achievement", 0);
+    private static final List<Clip>
+            bgm = new LinkedList<>(),
+            se  = new LinkedList<>();
 
-    private static Clip innerLoad(String name, int repeatStart) {
+    private static float bgmGain = 0.2f, seGain = 0.2f;
+
+    public static final Clip
+            SPACE_GAME_THEME = innerLoad("Lobby",       67776,   true),
+            ROCKET_SE        = innerLoad("Rocket",      384000,  false),
+            MINI_GAME_THEME  = innerLoad("MiniGame",    1016448, true),
+            MENU_THEME       = innerLoad("Menu",        0,       true),
+            ACHIEVEMENT_SE   = innerLoad("Achievement", 0,       false);
+
+    private static Clip innerLoad(String name, int repeatStart, boolean isBGM) {
         Path path = Paths.get(".", "resource", "sound", name + ".wav");
-        return load(path, repeatStart);
+        Clip loaded = load(path, repeatStart);
+        if(isBGM) {
+            bgm.add(loaded);
+            setClipGain(loaded, bgmGain);
+        } else {
+            se.add(loaded);
+            setClipGain(loaded, seGain);
+        }
+        return loaded;
     }
 
     public static Clip load(Path path) {
@@ -63,6 +78,24 @@ public class MusicPlayer {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static float getBgmGain() {
+        return bgmGain;
+    }
+
+    public static void setBgmGain(float bgmGain) {
+        MusicPlayer.bgmGain = bgmGain;
+        bgm.forEach(e -> setClipGain(e, bgmGain));
+    }
+
+    public static float getSeGain() {
+        return seGain;
+    }
+
+    public static void setSeGain(float seGain) {
+        MusicPlayer.seGain = seGain;
+        se.forEach(e -> setClipGain(e, seGain));
     }
 
     private MusicPlayer() {}
