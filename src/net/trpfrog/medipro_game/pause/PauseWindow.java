@@ -2,6 +2,7 @@ package net.trpfrog.medipro_game.pause;
 
 import net.trpfrog.medipro_game.SceneManager;
 import net.trpfrog.medipro_game.mainmenu.MainMenuScene;
+import net.trpfrog.medipro_game.settings.SettingScene;
 import net.trpfrog.medipro_game.space.SpaceScene;
 import net.trpfrog.medipro_game.util.CustomFont;
 
@@ -22,13 +23,15 @@ public class PauseWindow extends JPanel {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
-        buttonPanel.setLayout(new BorderLayout());
 
-        buttonPanel.add(createResumeButton(), BorderLayout.NORTH);
-        buttonPanel.add(createBackToMenuButton(), BorderLayout.CENTER);
+        buttonPanel.add(createResumeButton());
+        buttonPanel.add(createSettingsButton());
+        buttonPanel.add(createBackToMenuButton());
         if(hasBackToSpaceButton) {
-            buttonPanel.add(createBackToSpaceButton(), BorderLayout.SOUTH);
+            buttonPanel.add(createBackToSpaceButton());
         }
+
+        buttonPanel.setLayout(new GridLayout(buttonPanel.getComponentCount(), 1));
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -50,6 +53,14 @@ public class PauseWindow extends JPanel {
         return button;
     }
 
+    private static JButton createSettingsButton() {
+        JButton button = new JButton("Settings");
+        button.addActionListener(e -> {
+            SceneManager.getInstance().push(new SettingScene());
+        });
+        return button;
+    }
+
     private static JButton createResumeButton() {
         JButton button = new JButton("Resume");
         button.addActionListener(e -> SceneManager.getInstance().pop());
@@ -58,7 +69,7 @@ public class PauseWindow extends JPanel {
 
     private static JLabel createPauseTextLabel() {
         JLabel label = new JLabel("Pause");
-        label.setFont(new Font(CustomFont.BUNGEE_SHADE, Font.PLAIN, 50));
+        label.setFont(new Font(CustomFont.BUNGEE_SHADE, Font.PLAIN, 40));
         label.setForeground(new Color(143, 221, 255));
         label.setHorizontalAlignment(JLabel.HORIZONTAL);
         return label;
