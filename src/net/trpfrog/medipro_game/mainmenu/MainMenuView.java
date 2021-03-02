@@ -2,6 +2,7 @@ package net.trpfrog.medipro_game.mainmenu;
 
 import net.trpfrog.medipro_game.MainView;
 import net.trpfrog.medipro_game.SceneManager;
+import net.trpfrog.medipro_game.player.MedalCollectionScene;
 import net.trpfrog.medipro_game.scene.GameModel;
 import net.trpfrog.medipro_game.scene.GameView;
 import net.trpfrog.medipro_game.settings.SettingScene;
@@ -18,7 +19,7 @@ import java.nio.file.Paths;
 
 public class MainMenuView extends GameView {
 
-    private JButton start, quit, settings;
+    private JButton start, quit, settings, medals;
     private String loadingMessage = "Now loading";
     private Timer mainMenuTimer = new Timer(50, e ->{ repaint(); loadingMessage += "."; });
     private Font strFont = new Font("",Font.BOLD,30);
@@ -38,7 +39,7 @@ public class MainMenuView extends GameView {
         super(model);
         setBGM(MusicPlayer.MENU_THEME);
 
-        Rectangle buttonArea = new Rectangle(300, 150);
+        Rectangle buttonArea = new Rectangle(300, 200);
 
         int w = MainView.getInstance().getWidth();
         int h = MainView.getInstance().getHeight();
@@ -53,19 +54,23 @@ public class MainMenuView extends GameView {
         start    = new JButton("START");
         quit     = new JButton("QUIT");
         settings = new JButton("SETTINGS");
+        medals   = new JButton("MEDALS");
 
         start   .setPreferredSize(new Dimension(50,50));
         quit    .setPreferredSize(new Dimension(50,50));
-        settings.setPreferredSize(new Dimension(50, 50));
+        settings.setPreferredSize(new Dimension(50,50));
+        medals  .setPreferredSize(new Dimension(50,50));
 
         start   .addActionListener(e -> SceneManager.getInstance().push(new SpaceScene()));
         quit    .addActionListener(e -> SceneManager.getInstance().pop());
         settings.addActionListener(e -> SceneManager.getInstance().push(new SettingScene()));
+        medals  .addActionListener(e -> SceneManager.getInstance().push(new MedalCollectionScene()));
 
-        setLayout(new BorderLayout());
-        add(start, BorderLayout.NORTH);
-        add(settings, BorderLayout.CENTER);
-        add(quit, BorderLayout.SOUTH);
+        add(start);
+        add(settings);
+        add(medals);
+        add(quit);
+        setLayout(new GridLayout(getComponentCount(), 1));
 
         mvWidth = mainView.getWidth();
         mvHeight = mainView.getHeight();
