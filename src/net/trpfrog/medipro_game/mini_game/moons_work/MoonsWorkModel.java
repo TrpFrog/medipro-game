@@ -24,6 +24,8 @@ public class MoonsWorkModel extends GameModel {
     private final RocketManager rocketManager;
     private final Alert alert;
 
+    public static int busyLevel = 1;
+
     private boolean playing = true;
 
     public MoonsWorkModel() {

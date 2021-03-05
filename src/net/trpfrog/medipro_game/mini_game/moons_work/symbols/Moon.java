@@ -15,8 +15,15 @@ public class Moon extends Symbol {
     public Moon(MoonsWorkModel model) {
         this.model = model;
         int size = 15;
+
+        Color c;
+        if(MoonsWorkModel.busyLevel == 2) {
+            c = Color.BLACK;
+        } else {
+            c = Color.YELLOW;
+        }
         setDrawer(g -> {
-            g.setColor(Color.YELLOW);
+            g.setColor(c);
             g.fillOval((int) getX() - size, (int) getY() - size, size * 2, size * 2);
         });
         setRelativeHitBox(RelativeHitBox.makeCircle(size));
