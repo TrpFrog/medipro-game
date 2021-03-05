@@ -24,7 +24,8 @@ public class MusicPlayer {
             ROCKET_SE        = innerLoad("Rocket",      384000,  false),
             MINI_GAME_THEME  = innerLoad("MiniGame",    1016448, true),
             MENU_THEME       = innerLoad("Menu",        0,       true),
-            ACHIEVEMENT_SE   = innerLoad("Achievement", 0,       false);
+            ACHIEVEMENT_SE   = innerLoad("Achievement", 0,       false),
+            EXPLOSION_SE     = innerLoad("explosion",   0,       false);
 
     private static Clip innerLoad(String name, int repeatStart, boolean isBGM) {
         Path path = Paths.get(".", "resource", "sound", name + ".wav");
