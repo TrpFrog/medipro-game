@@ -73,17 +73,16 @@ public class RocketManager extends MoonsWorkCharactersManager<Rocket> implements
     }
 
     private void spawn() {
-        var rand = ThreadLocalRandom.current();
-        if(rand.nextDouble() < CHANCE_OF_HEALING_ROCKET) {
+        if(ThreadLocalRandom.current().nextDouble() < CHANCE_OF_HEALING_ROCKET) {
             Rocket obj = new Rocket(-100, -100);
-            obj.setRelativeHitBox(RelativeHitBox.makeRectangle(80, 50));
-            obj.setSpeedPxPerSecond(ROCKET_SPEED + rand.nextInt(60) - 90);
+            obj.setSpeedPxPerSecond(ROCKET_SPEED - 20 +
+                    ThreadLocalRandom.current().nextInt(60) - 30);
             sendToEarth(obj);
         }
-        if(rand.nextDouble() < CHANCE_OF_ROCKET) {
+        if(ThreadLocalRandom.current().nextDouble() < CHANCE_OF_ROCKET) {
             Rocket obj = new Rocket(-100, -100);
-            obj.setRelativeHitBox(RelativeHitBox.makeRectangle(80, 50));
-            obj.setSpeedPxPerSecond(ROCKET_SPEED + rand.nextInt(60) - 30);
+            obj.setSpeedPxPerSecond(ROCKET_SPEED +
+                    ThreadLocalRandom.current().nextInt(60) - 30);
             obj.setReturnedToEarth(true);
             obj.setLeavingEarth(true);
             leaveFromEarth(obj);

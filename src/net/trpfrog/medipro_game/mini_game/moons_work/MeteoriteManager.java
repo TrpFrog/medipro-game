@@ -81,11 +81,12 @@ public class MeteoriteManager
     }
 
     private void spawn() {
-        var rand = ThreadLocalRandom.current();
-        if(rand.nextDouble() < CHANCE_OF_METEORITE * (1 + model.getCounter().getValue() / 100.0)) {
+        if(ThreadLocalRandom.current().nextDouble() <
+                CHANCE_OF_METEORITE * (1 + model.getCounter().getValue() / 50.0)) {
             MovableSymbol obj = new Meteorite(-100, -100);
             obj.setRelativeHitBox(RelativeHitBox.makeCircle(26));
-            obj.setSpeedPxPerSecond(METEORITE_SPEED + rand.nextInt(60) - 30);
+            obj.setSpeedPxPerSecond(METEORITE_SPEED +
+                    ThreadLocalRandom.current().nextInt(60) - 30);
             sendToEarth(obj);
         }
     }
