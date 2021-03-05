@@ -7,8 +7,10 @@ import net.trpfrog.medipro_game.symbol.ImageAnimationSymbol;
 import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import net.trpfrog.medipro_game.symbol.Symbol;
 import net.trpfrog.medipro_game.util.GifConverter;
+import net.trpfrog.medipro_game.util.MusicPlayer;
 import net.trpfrog.medipro_game.util.ResourceLoader;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Path;
@@ -26,7 +28,7 @@ public class Earth extends Symbol implements Suspendable {
 
     private final Image image;
     private ImageAnimationSymbol finalEarthExplosion;
-    private boolean exploded = false;
+    private static boolean exploded = false;
     private MoonsWorkModel model;
 
     public Earth(MoonsWorkModel model) {
@@ -64,7 +66,15 @@ public class Earth extends Symbol implements Suspendable {
             Timer t = new Timer(3000, e -> model.endGame());
             t.setRepeats(false);
             t.start();
+            Clip se = MusicPlayer.EXPLOSION_SE;
+            if(se.isRunning()) se.stop();
+            se.setFramePosition(0);
+            se.loop(10);
         }
+    }
+
+    public static boolean isExploded() {
+        return exploded;
     }
 
     public int dangerousLevel() {
