@@ -52,9 +52,16 @@ public class MeteoriteManager
             }
         };
 
+        Consumer<MovableSymbol> cleaning = obj -> {
+            if(explosionAnimations.size() > 10) {
+                explosionAnimations.cleanup();
+            }
+        };
+
         addRemovingHook(scoreAdder);
         addRemovingHook(explosionRegistration);
         addRemovingHook(gameOverCondition);
+        addRemovingHook(cleaning);
 
         addRemoveCondition(obj -> model.getEarth().touches(obj));
         addRemoveCondition(obj -> model.getMoon().touches(obj));

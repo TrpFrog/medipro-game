@@ -45,8 +45,15 @@ public class RocketManager extends MoonsWorkCharactersManager<Rocket> implements
             }
         };
 
+        Consumer<MovableSymbol> cleaning = obj -> {
+            if(explosionAnimations.size() > 10) {
+                explosionAnimations.cleanup();
+            }
+        };
+
         addRemovingHook(healing);
         addRemovingHook(breakingRocket);
+        addRemovingHook(cleaning);
 
         addRemoveCondition(obj -> !((Rocket)obj).isLeavingEarth() &&
                 model.getEarth().getAbsoluteHitBox()
