@@ -19,7 +19,7 @@ public class ExplosionManager extends SymbolManager<ExplosionAnimation> {
     public void add(Rectangle r) {
         r.grow(20, 20); // 実際よりアニメーションを大きくする
         var expAnime = new ExplosionAnimation();
-        expAnime.setLocation(r.x, r.y);
+        expAnime.setLocation(r.getCenterX(), r.getCenterY());
         expAnime.setFps(40);
         expAnime.setRelativeHitBox(RelativeHitBox.makeRectangle(r.width, r.height));
         expAnime.start();
