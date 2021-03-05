@@ -1,13 +1,21 @@
 package net.trpfrog.medipro_game.mini_game.shooting_star.symbols;
 
 import net.trpfrog.medipro_game.Drawable;
+import net.trpfrog.medipro_game.Suspendable;
 import net.trpfrog.medipro_game.mini_game.shooting_star.ShootingStarModel;
 
 import java.awt.*;
 
-public class GameTimer implements Drawable {
-    private long timerEnd = Long.MAX_VALUE;
+/**
+ * 残り時間の管理と描画を行うクラス
+ * @author つまみ
+ */
+public class GameTimer implements Drawable, Suspendable {
+
+    private static final long INFINITE_TIME = Long.MAX_VALUE;
+    private long timerEnd = INFINITE_TIME;
     private long duringMillis;
+    private boolean started = false;
     private Font font;
     private ShootingStarModel model;
 
@@ -18,17 +26,23 @@ public class GameTimer implements Drawable {
     }
 
     public void start() {
-        if(timerEnd != Long.MAX_VALUE) return;
+        started = true;
+        if(timerEnd != INFINITE_TIME) return;
         timerEnd = System.currentTimeMillis() + duringMillis;
     }
 
-    public boolean running() {
+    public void stop() {
+        duringMillis = remainingMillis();
+        timerEnd = INFINITE_TIME;
+    }
+
+    public boolean isRunning() {
         return System.currentTimeMillis() < timerEnd;
     }
 
     public long remainingMillis() {
-        if(timerEnd == Long.MAX_VALUE) return duringMillis;
-        if(!running()) return 0;
+        if(timerEnd == INFINITE_TIME) return duringMillis;
+        if(!isRunning()) return 0;
         return timerEnd - System.currentTimeMillis();
     }
 
@@ -47,5 +61,15 @@ public class GameTimer implements Drawable {
         if(remain == 0) {
             model.endGame();
         }
+    }
+
+    @Override
+    public void suspend() {
+        stop();
+    }
+
+    @Override
+    public void resume() {
+        if(started) start();
     }
 }
