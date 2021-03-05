@@ -9,6 +9,7 @@ import net.trpfrog.medipro_game.symbol.RelativeHitBox;
 import javax.swing.*;
 import java.awt.geom.Area;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 /**
@@ -20,7 +21,11 @@ public class MeteoriteManager
 
     private final ExplosionManager explosionAnimations = new ExplosionManager();
     private static final double CHANCE_OF_METEORITE = 0.09;
+    private static final int METEORITE_SPEED = 120 * MoonsWorkModel.busyLevel;
+    private static final int SPAWN_FREQUENCY = 100 / MoonsWorkModel.busyLevel;
     private final Timer spawnTimer;
+    private MoonsWorkModel model;
+
 
     /**
      * MoonsWorkModelからマネージャを作成します。
@@ -28,30 +33,43 @@ public class MeteoriteManager
      */
     public MeteoriteManager(MoonsWorkModel model) {
 
-        // 月が隕石を破壊したかどうかの判定関数
         Consumer<MovableSymbol> scoreAdder = obj -> {
             if(model.getMoon().touches(obj)) {
                 model.getCounter().increment();
+            }
+        };
+
+        Consumer<MovableSymbol> explosionRegistration = obj -> {
+            if(model.getMoon().touches(obj)) {
                 Area hitBox = obj.getAbsoluteHitBox();
                 explosionAnimations.add(hitBox.getBounds());
             }
         };
 
-        // ゲームオーバー判定関数
         Consumer<MovableSymbol> gameOverCondition = obj -> {
             if(obj instanceof Meteorite && model.getEarth().touches(obj)) {
                 model.getEarth().explode(true);
             }
         };
 
+        Consumer<MovableSymbol> cleaning = obj -> {
+            if(explosionAnimations.size() > 10) {
+                explosionAnimations.cleanup();
+            }
+        };
+
         addRemovingHook(scoreAdder);
+        addRemovingHook(explosionRegistration);
         addRemovingHook(gameOverCondition);
+        addRemovingHook(cleaning);
 
         addRemoveCondition(obj -> model.getEarth().touches(obj));
         addRemoveCondition(obj -> model.getMoon().touches(obj));
         addRemoveCondition(super::isTooFarObject);
 
-        spawnTimer = new Timer(100, e -> spawn());
+        spawnTimer = new Timer(SPAWN_FREQUENCY, e -> spawn());
+
+        this.model = model;
     }
 
     /**
@@ -63,10 +81,12 @@ public class MeteoriteManager
     }
 
     private void spawn() {
-        if(Math.random() < CHANCE_OF_METEORITE) {
+        if(ThreadLocalRandom.current().nextDouble() <
+                CHANCE_OF_METEORITE * (1 + model.getCounter().getValue() / 50.0)) {
             MovableSymbol obj = new Meteorite(-100, -100);
             obj.setRelativeHitBox(RelativeHitBox.makeCircle(26));
-            obj.setSpeedPxPerSecond(100);
+            obj.setSpeedPxPerSecond(METEORITE_SPEED +
+                    ThreadLocalRandom.current().nextInt(60) - 30);
             sendToEarth(obj);
         }
     }

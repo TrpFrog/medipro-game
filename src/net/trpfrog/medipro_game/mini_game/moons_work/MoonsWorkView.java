@@ -56,6 +56,7 @@ public class MoonsWorkView extends GameView {
         model.getSymbolsList().forEach(e -> e.getDrawer().draw(g2));
 
         // アラートを描画
+        model.getAlert().setAlertLevel(model.getEarth().dangerousLevel());
         model.getAlert().getDrawer().draw(g2);
 
         // 爆発アニメーションを描画

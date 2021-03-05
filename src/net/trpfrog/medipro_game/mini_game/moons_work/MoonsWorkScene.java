@@ -7,7 +7,8 @@ import java.nio.file.Paths;
 
 public class MoonsWorkScene extends MiniGameScene {
 
-    public MoonsWorkScene() {
+    public MoonsWorkScene(int level) {
+        MoonsWorkModel.busyLevel = level;
         setModel(new MoonsWorkModel());
         setView(new MoonsWorkView((MoonsWorkModel)getModel()));
         setController(new MoonsWorkController((MoonsWorkModel)getModel(), (MoonsWorkView)getView()));
@@ -25,7 +26,11 @@ public class MoonsWorkScene extends MiniGameScene {
         );
 
         setStarImage(Paths.get(".","resource","mini_game","moons_work","staricon.png"));
+    }
 
+    public MoonsWorkScene() {
+        this(1);
+        MoonsWorkModel.clearCondition = 50;
         makeDescriptionDialog();
     }
 
