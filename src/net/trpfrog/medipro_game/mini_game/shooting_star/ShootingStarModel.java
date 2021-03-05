@@ -90,10 +90,12 @@ public class ShootingStarModel extends GameModel {
     @Override
     public void suspend(){
         timer.stop();
+        gameTimer.suspend();
     }
 
     @Override
     public void resume() {
         timer.start();
+        gameTimer.resume();
     }
 }
