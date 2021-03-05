@@ -30,6 +30,7 @@ public class MoonsWorkScene extends MiniGameScene {
 
     public MoonsWorkScene() {
         this(1);
+        MoonsWorkModel.clearCondition = 50;
         makeDescriptionDialog();
     }
 

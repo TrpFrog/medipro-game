@@ -25,6 +25,7 @@ public class MoonsWorkModel extends GameModel {
     private final Alert alert;
 
     public static int busyLevel = 1;
+    public static int clearCondition = 50;
 
     private boolean playing = true;
 
@@ -58,9 +59,12 @@ public class MoonsWorkModel extends GameModel {
                 new Color(0xB5762200, true));
         var scene = new DialogBackgroundScene(window, false);
         SceneManager.getInstance().push(scene);
-        if(counter.getValue() < 30) return;
+
+        if(counter.getValue() < clearCondition) return;
+
         MedalWindow.pushMedalWindow(new Medal(
-                "Moon's work", new MoonsWorkScene().getStarImage()));
+                (busyLevel == 2 ? "BLACK " : "") + "Moon's work",
+                new MoonsWorkScene().getStarImage()));
     }
 
     public MeteoriteManager getMeteoriteManager() {
