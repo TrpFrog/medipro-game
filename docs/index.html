@@ -51,10 +51,9 @@
                         <span style="display: inline-block">宇宙を旅して</span><span style="display: inline-block">メダルを集めよう</span>
                     </p>
                     <div id="download_area">
-                        <a href="#" class="btn-circle-flat" style="font-size: 1.5em;">Coming soon...</a>
+                        <a href="https://github.com/TrpFrog/medipro-game/releases/download/v1.0-beta2/medipro-game.jar" class="btn-circle-flat" style="font-size: 5em;">↓</a>
                         <p style="margin-bottom: 120px">
-                            <!-- Download latest release -->
-                            ///Under Construction...///
+                            Download latest release (1.0 beta 2)
                         </p>
                     </div>
                     <h3 style="margin-bottom: 5px">Requirements</h3>
@@ -75,16 +74,21 @@
                 <div id="howtoplay" class="main_window">
                     <h2>How to Play</h2>
                     <p>
-                        遊び方です
+                        PDFファイルをご覧ください。
                     </p>
+                    <object data="users_manual.pdf" type="application/pdf" width="100%" height="850px">
+                        <iframe src="users_manual.pdf" width="100%" height="100%">
+                        <p><a href="users_manual.pdf">PDFをダウンロード</a></p>
+                        </iframe>
+                    </object>
                 </div>
-                <div id="gallery" class="main_window">
+                <!-- <div id="gallery" class="main_window">
                     <h2>Gallery</h2>
                     <p>
                         画像です
                     </p>
-                </div>
-                <div id="demo" class="main_window">
+                </div> -->
+                <!-- <div id="demo" class="main_window">
                     <h2>Demo Movie</h2>
                     <p>
                         プレイ動画です。
@@ -92,7 +96,7 @@
                     <div class="youtube-outer">
                         <iframe src="https://www.youtube.com/embed/h5C_yiBEAMg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
                     </div>
-                </div>
+                </div> -->
                 <div id="trouble" class="main_window">
                     <h2>Trouble Shooting</h2>
                     <dl class="cp_qa">
@@ -100,12 +104,24 @@
                         <dd>困った……</dd>
                         <dt>なんか変なエラー吐くが……</dt>
                         <dd>
-                            もしかすると未知のバグかもしれません。<br> Issueを読み、該当する事例がなければIssueを投げてください！
+                            もしかすると未知のバグかもしれません。<br>
+                            <a href="https://github.com/TrpFrog/medipro-game/issues">Issue</a>に投げてください。よろしくお願いします。
                         </dd>
                         <dt>Error: Unable to access jarfile と出ます</dt>
                         <dd>パスやファイル名が間違えている可能性が高いです。</dd>
                         <dt>Java 15を持っていません！</dt>
-                        <dd>導入が難しい方はこちらのリンクから小さなJREをDLしてください</dd>
+                        <dd>導入が難しい方は
+                            <a href="https://github.com/TrpFrog/medipro-game/releases/download/v1.0-beta2/jre-min.zip">こちらのリンク</a>
+                            から小さなJREをDLしてください。<br>
+                            例えばMacユーザーの方であれば 
+                            <pre>./jre-min/macOS/bin/java -jar SpaceWandering.jar</pre> で実行することができます。
+                        </dd>
+                        <dt>プレイデータがセーブされません！</dt>
+                        <dd>仕様です……(ごめんね) 余力があったらやりたかったけどもう力尽きた……(は？)</dd>
+                        <dt>メダルは合計何枚ありますか？</dt>
+                        <dd>確か4枚です。</dd>
+                        <dt>ボリューム少なくない？</dt>
+                        <dd>えーん</dd>
                     </dl>
                 </div>
                 <div id="credit" class="main_window">
@@ -137,7 +153,7 @@
                         <ul>
                             <li>なぜか一緒に別のゲームを作っていました。なんで？</li>
                         </ul>
-                        <li><b>gottiさん</b> (<a href="https://twitter.com/gotti_sec">@gotti_sec</a>)</li>
+                        <li><b>gottiさん</b> (<a href="https://twitter.com/gotti_sec">@gotti_sec</a>(リンク切れ))</li>
                         <ul>
                             <li>マップの構造のアイデアを頂きました。ねこ</li>
                             <!--♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡
@@ -160,6 +176,12 @@
                             <li>1単位を頂きました。うれし〜！電通大最強！</li>
                         </ul>
                     </ul>
+                </div>
+                <div id="disclaimer" class="main_window">
+                    <h2>免責事項</h2>
+                    <p>
+                        このソフトウェアの使用により発生したいかなる損害も作者(つまみ, ちくわぶ, 淵野アタリ)は一切の責任を負いません。自己責任の上で使用してください。
+                    </p>
                 </div>
             </div>
         </main>
