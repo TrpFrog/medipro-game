@@ -130,6 +130,10 @@ public class FieldMap {
         return symbolsTree.stream(range);
     }
 
+    public boolean contains(Symbol symbol) {
+        return symbolsTree.contains(symbol);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
