@@ -1,7 +1,8 @@
 package net.trpfrog.medipro_game.util;
 
 import java.awt.*;
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
@@ -10,32 +11,27 @@ import javax.imageio.ImageIO;
 
 public class ResourceLoader {
 
-    private static final String ROOT_FILE_PATH_IDE; // "../../../.."
-    private static final String ROOT_FILE_PATH_JAR = "";
-
-    static {
-        String tmp = "..";
-        for(int i = 0; i < 3; i++) {
-            tmp += File.separatorChar + "..";
-        }
-        ROOT_FILE_PATH_IDE = tmp;
-    }
-
-    private static String rootFilePath = ROOT_FILE_PATH_JAR;
+    private static boolean useOuterResourceFolder = false;
 
     private static String toClassLoaderReadablePath(String path) {
         if(path.startsWith(".")) {
-            path = rootFilePath + path.substring(1);
+            path = path.substring(1);
         }
+        System.err.println(path);
         return path;
     }
 
     public static Image readImage(String path) {
         try {
             return ImageIO.read(getInputStream(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+        } catch (IOException | IllegalArgumentException e) {
+            if(useOuterResourceFolder) {
+                e.printStackTrace();
+                return null;
+            } else {
+                useOuterResourceFolder = true;
+                return readImage(path);
+            }
         }
     }
 
@@ -48,19 +44,17 @@ public class ResourceLoader {
     }
 
     public static InputStream getInputStream(String path) {
-        path = toClassLoaderReadablePath(path);
-        try {
-            return ResourceLoader.class.getResourceAsStream(path);
-        } catch (IllegalArgumentException e) {
-            // change to IDE root path
-            if(rootFilePath.equals(ROOT_FILE_PATH_JAR)) {
-                rootFilePath = ROOT_FILE_PATH_IDE;
-                return getInputStream("." + path);
-            } else {
-                // file is really not found
-                throw e;
+        if(useOuterResourceFolder) {
+            try {
+                return new FileInputStream(path);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
+        } else {
+            path = toClassLoaderReadablePath(path);
+            return ResourceLoader.class.getResourceAsStream(path);
         }
+        return null;
     }
 
     public static InputStream getInputStream(Path path) {
