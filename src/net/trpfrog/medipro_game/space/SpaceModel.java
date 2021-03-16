@@ -120,5 +120,9 @@ public class SpaceModel extends GameModel {
     public void resume() {
         rocket.resume();
         cometManager.resume();
+        var popped = SceneManager.getInstance().getRecentlyPopped();
+        if(!(popped instanceof PauseScene)) {
+            redistributeMiniGameStars();
+        }
     }
 }
