@@ -18,12 +18,12 @@ public class SparsePointsBuilder {
     private static List<Point> createHexagonalSeparatedPoints(Rectangle range, int interval) {
         List<Point> ret = new ArrayList<>();
 
-        final int xLimit = range.x + range.width;
-        final int yLimit = range.y + range.height;
+        final int xLimit = range.x + range.width - interval / 2;
+        final int yLimit = range.y + range.height - interval / 2;
 
-        for(int rows = 0; range.y + rows * interval * sqrt2 / 2 < yLimit; rows++) {
-            double y = rows * interval * sqrt2 / 2;
-            for(int x = range.x + (rows % 2) * interval / 2; x < xLimit; x += interval) {
+        for(int rows = 0; range.y + interval / 2.0 + rows * interval * sqrt2 / 2 < yLimit; rows++) {
+            double y = range.y + interval / 2.0 + rows * interval * sqrt2 / 2;
+            for(int x = range.x + interval / 2 + (rows % 2) * interval / 2; x < xLimit; x += interval) {
                 ret.add(new Point(x, (int)Math.round(y)));
             }
         }

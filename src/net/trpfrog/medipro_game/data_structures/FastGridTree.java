@@ -81,6 +81,18 @@ public class FastGridTree<T> {
     }
 
     /**
+     * グリッド全体の要素をStreamとして取得します。
+     * @return グリッド上に存在する要素のリスト
+     */
+    public Stream<T> stream() {
+        return tree
+                .values()
+                .stream()
+                .flatMap(e -> e.values().stream())
+                .flatMap(Collection::stream);
+    }
+
+    /**
      * グリッド(x,y)の要素をStreamとして取得します。
      * @param x グリッドのx座標
      * @param y グリッドのy座標
@@ -110,6 +122,10 @@ public class FastGridTree<T> {
                 .flatMap(e -> e.values().stream())
                 // Stream上のLinkedListを全てStreamにしてフラット化
                 .flatMap(Collection::stream);
+    }
+
+    public boolean contains(T object) {
+        return stream().anyMatch(e -> e.equals(object));
     }
 
     /**

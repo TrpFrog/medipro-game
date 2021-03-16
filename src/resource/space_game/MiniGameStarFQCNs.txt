@@ -1,0 +1,9 @@
+// depth, FQCN
+0
+net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkScene
+0
+net.trpfrog.medipro_game.mini_game.race_game.RaceGameScene
+0
+net.trpfrog.medipro_game.mini_game.shooting_star.ShootingStarScene
+0
+net.trpfrog.medipro_game.mini_game.galaxy_express.GalaxyExpressScene

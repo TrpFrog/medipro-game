@@ -1,17 +1,10 @@
 package net.trpfrog.medipro_game.space;
 
 import net.trpfrog.medipro_game.MainView;
-import net.trpfrog.medipro_game.mini_game.galaxy_express.GalaxyExpressScene;
-import net.trpfrog.medipro_game.mini_game.moons_work.MoonsWorkScene;
-import net.trpfrog.medipro_game.mini_game.race_game.RaceGameScene;
-import net.trpfrog.medipro_game.mini_game.shooting_star.ShootingStarScene;
 import net.trpfrog.medipro_game.scene.GameView;
-import net.trpfrog.medipro_game.space.symbols.BlackHole;
-import net.trpfrog.medipro_game.space.symbols.MiniGameStar;
 import net.trpfrog.medipro_game.space.ui.MouseTwinkleManager;
 import net.trpfrog.medipro_game.space.map.SpaceMap2D;
 import net.trpfrog.medipro_game.space.map.SpaceMapDrawer;
-import net.trpfrog.medipro_game.space.symbols.EventStar;
 import net.trpfrog.medipro_game.space.symbols.Rocket;
 import net.trpfrog.medipro_game.space.field_mini_game.zodiac.ZodiacSign;
 import net.trpfrog.medipro_game.space.ui.IndicatorUI;
@@ -35,7 +28,6 @@ public class SpaceView extends GameView{
     private MainView mainView = MainView.getInstance();
     private Rocket rocket;
     private Timer timer = new Timer(10, e->repaint());
-    private EventStar moonWorkStar,raceGameStar,shootingStarStar,galaxyExpressStar,blackhole;
 
     private SpaceMap2D spaceMap2D;
     private SpaceMapDrawer spaceMapDrawer;
@@ -71,25 +63,10 @@ public class SpaceView extends GameView{
         var hitbox = new RelativeHitBox(shape);
         rocket.setRelativeHitBox(hitbox);
 
-        // EventStarの作成
-        moonWorkStar      = new MiniGameStar(50, MoonsWorkScene.class);
-        raceGameStar      = new MiniGameStar(50, RaceGameScene.class);
-        shootingStarStar  = new MiniGameStar(50, ShootingStarScene.class);
-        galaxyExpressStar = new MiniGameStar(50, GalaxyExpressScene.class);
-//        blackhole = new BlackHole(500);
-
         // 星座の登録
         ZodiacSign.buildAndRegister(new Rectangle(500, 500, 2000, 2000),
                 12, model.get3DMap().get2DMap(1));
 
-        // マップにEventStarのSymbolを追加
-        int rX = (int)(Math.random()*mapCenterX)+1;
-        int rY = (int)(Math.random()*mapCenterY)+1;
-        spaceMap2D.addSymbol(mapCenterX+rX,mapCenterY-rY,moonWorkStar);
-        spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY-rY,raceGameStar);
-        spaceMap2D.addSymbol(mapCenterX+rX,mapCenterY+rY,shootingStarStar);
-        spaceMap2D.addSymbol(mapCenterX-rX,mapCenterY+rX,galaxyExpressStar);
-//        spaceMap2D.addSymbol(300, 300, blackhole);
 
         miniMap = new MiniMapUI(model, 7, MiniMapUI.LOWER_RIGHT);
         speedIndicator = new SpeedIndicatorUI(model.getRocket(), SpeedIndicatorUI.LOWER_LEFT);

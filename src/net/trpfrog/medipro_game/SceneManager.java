@@ -15,6 +15,7 @@ import java.util.List;
 public class SceneManager {
     private Deque<GameScene> deque = new ArrayDeque<>();
     private static final SceneManager instance = new SceneManager();
+    private GameScene recentlyPopped = null;
 
     private SceneManager() {}
 
@@ -107,9 +108,11 @@ public class SceneManager {
         if(deque.isEmpty()) {
             System.exit(0);
         }
+        recentlyPopped = ret;
         deque.peekFirst().resume();
 
         notifyDequeChanged();
+
         return ret;
     }
 
@@ -128,6 +131,14 @@ public class SceneManager {
             push(TransitionScene.createPopTransition(top()));
             return ret;
         }
+    }
+
+    /**
+     * 最近popされたGameSceneを返します。
+     * @return 最近popされたGameScene
+     */
+    public GameScene getRecentlyPopped() {
+        return recentlyPopped;
     }
 
     /**
