@@ -49,10 +49,11 @@
     border-bottom: 2px rgba(40,40,40,0.35) solid;
     border-right: 2px rgba(40,40,40,0.35) solid;
     font-family: 'M PLUS Rounded 1c';
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     font-size: 100px;
-    line-height: 190px;
+    line-height: 150px;
+    margin-right: 30px;
     border-radius: 50%;
     text-align: center;
     overflow: hidden;
