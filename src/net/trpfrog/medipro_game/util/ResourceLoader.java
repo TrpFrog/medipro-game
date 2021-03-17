@@ -1,8 +1,7 @@
 package net.trpfrog.medipro_game.util;
 
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
@@ -11,27 +10,19 @@ import javax.imageio.ImageIO;
 
 public class ResourceLoader {
 
-    private static boolean useOuterResourceFolder = false;
-
     private static String toClassLoaderReadablePath(String path) {
         if(path.startsWith(".")) {
             path = path.substring(1);
         }
-        System.err.println(path);
-        return path;
+        return path.replace(File.separatorChar, '/');
     }
 
     public static Image readImage(String path) {
         try {
             return ImageIO.read(getInputStream(path));
         } catch (IOException | IllegalArgumentException e) {
-            if(useOuterResourceFolder) {
-                e.printStackTrace();
-                return null;
-            } else {
-                useOuterResourceFolder = true;
-                return readImage(path);
-            }
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -44,17 +35,8 @@ public class ResourceLoader {
     }
 
     public static InputStream getInputStream(String path) {
-        if(useOuterResourceFolder) {
-            try {
-                return new FileInputStream(path);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        } else {
-            path = toClassLoaderReadablePath(path);
-            return ResourceLoader.class.getResourceAsStream(path);
-        }
-        return null;
+        path = toClassLoaderReadablePath(path);
+        return ResourceLoader.class.getResourceAsStream(path);
     }
 
     public static InputStream getInputStream(Path path) {
