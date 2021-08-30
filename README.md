@@ -50,6 +50,15 @@ $ ./jre-min/macOS/bin/java -jar SpaceWandering.jar
 
 このソフトウェアの使用により発生したいかなる損害も作者(つまみ, ちくわぶ, 淵野アタリ)は一切の責任を負いません。自己責任の上で使用してください。
 
+## クレジット
+
+- Font "DSEG" by けしかん
+  - [HP](https://www.keshikan.net/fonts.html)
+  - [GitHub](https://github.com/keshikan/DSEG)
+  - [License](https://github.com/keshikan/DSEG/blob/master/DSEG-LICENSE.txt)
+- Font "Bungee Shade" by David Jonathan Ross
+  - [Google Fonts](https://fonts.google.com/specimen/Bungee+Shade)
+  - [License](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL)
 
 ## その他
 
